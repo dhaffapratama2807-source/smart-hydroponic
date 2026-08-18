@@ -1775,6 +1775,7 @@ const MQTT_PASSWORD = "dhaffa2807";
 
 const MQTT_TOPIC_SENSOR = "hydroponic/sensor";
 const MQTT_TOPIC_STATUS = "hydroponic/status";
+const MQTT_TOPIC_CMD = "hydroponic/control";
 
 let mqttClient = null;
 
@@ -1793,6 +1794,14 @@ function connectMQTT() {
     });
 
     mqttClient.on("connect", function () {
+
+        mqttClient.subscribe(MQTT_TOPIC_CMD, function(err) {
+    if (!err) {
+        console.log("[MQTT] Subscribed:", MQTT_TOPIC_CMD);
+    } else {
+        console.error("[MQTT] Subscribe error:", err);
+    }
+});
 
         console.log("================================");
         console.log("[MQTT] CONNECTED TO EMQX!");
@@ -2018,15 +2027,18 @@ function kontrolPompa(id, status) {
 
     // Kirim command ke ESP32
     if (command !== "") {
-        mqttClient.publish(
-            "hydroponic/control",
-            command
-        );
-
-        console.log(
-            "[MQTT CMD] Sent:",
-            command
-        );
+       mqttClient.publish(
+    MQTT_TOPIC_CMD,
+    command,
+    { qos: 1 },
+    function(err) {
+        if (err) {
+            console.error("[MQTT CMD] Publish ERROR:", err);
+        } else {
+            console.log("[MQTT CMD] Sent:", command);
+        }
+    }
+);
     }
 }
 </script>
