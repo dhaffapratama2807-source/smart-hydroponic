@@ -350,6 +350,58 @@ section{
 /* ========================================= */
 /* CARD */
 /* ========================================= */
+.mode-card{
+    background:white;
+    border-radius:20px;
+    padding:30px;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+    border-top:6px solid #43A047;
+    text-align:center;
+    max-width:400px;
+    margin:0 auto;
+}
+
+.mode-card h3{
+    color:#2E7D32;
+    font-size:24px;
+    margin-bottom:15px;
+}
+
+.mode-card h1{
+    color:#43A047;
+    font-size:38px;
+    margin:10px 0 25px;
+}
+
+.mode-buttons{
+    display:flex;
+    gap:15px;
+    justify-content:center;
+}
+
+.mode-buttons button{
+    border:none;
+    padding:12px 25px;
+    border-radius:10px;
+    font-weight:bold;
+    cursor:pointer;
+    font-size:16px;
+}
+
+.btn-mode-auto{
+    background:#43A047;
+    color:white;
+}
+
+.btn-mode-manual{
+    background:#607D8B;
+    color:white;
+}
+
+.btn-mode-auto:hover,
+.btn-mode-manual:hover{
+    opacity:.85;
+}
 
 .cards{
 
@@ -1692,6 +1744,25 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
 </section>
 
 <section class="dashboard-section">
+    <div class="mode-card">
+        <h3>⚙️ Mode Sistem</h3>
+
+        <h1 id="modeSystem">AUTO</h1>
+        <div id="modeNotification" class="mode-notification"></div>
+
+        <div class="mode-buttons">
+            <button class="btn-mode-auto" onclick="ubahMode('AUTO')">
+                AUTO
+            </button>
+
+            <button class="btn-mode-manual" onclick="ubahMode('MANUAL')">
+                MANUAL
+            </button>
+        </div>
+    </div>
+</section>
+
+<section class="dashboard-section">
     <h2>Status Pompa</h2>
     <div class="cards">
         <div class="card"><h3>🟢 Pompa Nutrisi A</h3><h1 id="pumpA" class="status-on">ON</h1></div>
@@ -1776,6 +1847,7 @@ const MQTT_PASSWORD = "dhaffa2807";
 const MQTT_TOPIC_SENSOR = "hydroponic/sensor";
 const MQTT_TOPIC_STATUS = "hydroponic/status";
 const MQTT_TOPIC_CMD = "hydroponic/control";
+const MQTT_TOPIC_RESULT = "hydroponic/result";
 
 let mqttClient = null;
 
@@ -1795,14 +1867,21 @@ function connectMQTT() {
 
     mqttClient.on("connect", function () {
 
-        mqttClient.subscribe(MQTT_TOPIC_CMD, function(err) {
-    if (!err) {
-        console.log("[MQTT] Subscribed:", MQTT_TOPIC_CMD);
-    } else {
-        console.error("[MQTT] Subscribe error:", err);
-    }
-});
+mqttClient.subscribe(MQTT_TOPIC_RESULT, function(err) {
 
+    if (!err) {
+        console.log(
+            "[MQTT] Subscribed:",
+            MQTT_TOPIC_RESULT
+        );
+    } else {
+        console.error(
+            "[MQTT] Subscribe error:",
+            err
+        );
+    }
+
+});
         console.log("================================");
         console.log("[MQTT] CONNECTED TO EMQX!");
         console.log("================================");
@@ -1878,8 +1957,162 @@ function connectMQTT() {
         }
 
     }
+    // ===================== COMMAND RESULT =====================
+if (topic === MQTT_TOPIC_RESULT) {
 
-});
+    try {
+
+        const data = JSON.parse(message.toString());
+
+        console.log(
+            "[MQTT] Command Result:",
+            data
+        );
+
+        if (data.result === "REJECTED") {
+
+            alert(
+                "⚠️ PERINTAH DITOLAK\n\n" +
+                data.pump +
+                "\n" +
+                data.reason
+            );
+
+        }
+
+        else if (data.result === "ACCEPTED") {
+
+            console.log(
+                "✅ Perintah diterima:",
+                data.pump
+            );
+
+        }
+
+    } catch (error) {
+
+        console.error(
+            "[MQTT] Result JSON Parse Error:",
+            error
+        );
+
+    }
+}
+// ===================== SYSTEM STATUS =====================
+if (topic === MQTT_TOPIC_STATUS) {
+
+    try {
+
+        const data = JSON.parse(message.toString());
+
+        console.log("[MQTT] Parsed status:", data);
+
+
+        // =================================================
+        // UPDATE MODE SYSTEM
+        // =================================================
+
+        if (data.mode !== undefined) {
+
+            currentMode = data.mode;
+
+            const modeElement =
+                document.getElementById("modeSystem");
+
+            if (modeElement) {
+
+                modeElement.textContent =
+                    data.mode;
+            }
+        }
+
+
+        // =================================================
+        // MANUAL PENDING
+        // =================================================
+
+        if (data.manual_pending === true) {
+
+            console.log(
+                "[MODE] MANUAL PENDING"
+            );
+
+
+            const modeElement =
+                document.getElementById("modeSystem");
+
+            if (modeElement) {
+
+                modeElement.textContent =
+                    "PENDING";
+            }
+
+
+            const notificationElement =
+                document.getElementById(
+                    "modeNotification"
+                );
+
+            if (notificationElement) {
+
+                const pump =
+                    data.dosing_pump ||
+                    "Nutrisi";
+
+                notificationElement.textContent =
+                    "🟡 MANUAL PENDING - " +
+                    pump +
+                    " sedang menyelesaikan siklus.";
+            }
+        }
+
+
+        // =================================================
+        // MANUAL AKTIF
+        // =================================================
+
+        if (
+            data.manual_pending === false &&
+            data.mode === "MANUAL"
+        ) {
+
+            console.log(
+                "[MODE] MANUAL AKTIF"
+            );
+
+
+            const modeElement =
+                document.getElementById(
+                    "modeSystem"
+                );
+
+            if (modeElement) {
+
+                modeElement.textContent =
+                    "MANUAL";
+            }
+
+
+            const notificationElement =
+                document.getElementById(
+                    "modeNotification"
+                );
+
+            if (notificationElement) {
+
+                notificationElement.textContent =
+                    "🟢 MANUAL AKTIF";
+            }
+        }
+
+    } catch (error) {
+
+        console.error(
+            "[MQTT] Status JSON Parse Error:",
+            error
+        );
+    }
+}
 
     mqttClient.on("error", function(error) {
 
@@ -2011,46 +2244,171 @@ function initDashboard() {
 
 function kontrolPompa(id, status) {
 
-    const el = document.getElementById(id);
+    // ================================
+    // KONFIRMASI
+    // ================================
 
-    if (el) {
-        el.textContent = status;
-        el.className = status === 'ON'
-            ? 'status-on'
-            : 'status-off';
+    const namaPompa = {
+        pumpA: "Pompa Nutrisi A",
+        pumpB: "Pompa Nutrisi B",
+        pumpUp: "Pompa pH Up",
+        pumpDown: "Pompa pH Down"
+    };
+
+    const nama = namaPompa[id] || "Pompa";
+
+    const yakin = confirm(
+        "Yakin ingin mengubah " +
+        nama +
+        " menjadi " +
+        status +
+        "?"
+    );
+
+    if (!yakin) {
+        return;
     }
 
-    // Pastikan MQTT terhubung
+
+    // ================================
+    // CEK MQTT
+    // ================================
+
     if (!mqttClient || !mqttClient.connected) {
+
+        alert("MQTT belum terhubung.");
         console.error("[MQTT] Belum terhubung!");
+
+        return;
+    }
+
+
+    // ================================
+    // TENTUKAN COMMAND
+    // ================================
+
+    let command = "";
+
+
+    if (id === "pumpA") {
+
+        command = status === "ON"
+            ? "nutrisi_a_on"
+            : "nutrisi_a_off";
+
+    }
+
+    else if (id === "pumpB") {
+
+        command = status === "ON"
+            ? "nutrisi_b_on"
+            : "nutrisi_b_off";
+
+    }
+
+    else if (id === "pumpUp") {
+
+        command = status === "ON"
+            ? "ph_up_on"
+            : "ph_up_off";
+
+    }
+
+    else if (id === "pumpDown") {
+
+        command = status === "ON"
+            ? "ph_down_on"
+            : "ph_down_off";
+
+    }
+
+
+    // ================================
+    // KIRIM MQTT
+    // ================================
+
+    if (command === "") {
+
+        console.error(
+            "[MQTT CMD] Command tidak dikenali:",
+            id
+        );
+
+        return;
+    }
+
+
+    mqttClient.publish(
+        MQTT_TOPIC_CMD,
+        command,
+        { qos: 1 },
+        function(err) {
+
+            if (err) {
+
+                console.error(
+                    "[MQTT CMD] Publish ERROR:",
+                    err
+                );
+
+                alert(
+                    "Perintah gagal dikirim."
+                );
+
+            } else {
+
+                console.log(
+                    "[MQTT CMD] Sent:",
+                    command
+                );
+
+            }
+
+        }
+    );
+}
+  let currentMode = "AUTO";
+
+function ubahMode(mode) {
+
+    if (mode === currentMode) {
+        return;
+    }
+
+    const pesan = mode === "AUTO"
+        ? "Yakin ingin mengaktifkan MODE AUTO?"
+        : "Yakin ingin mengaktifkan MODE MANUAL?";
+
+    if (!confirm(pesan)) {
+        return;
+    }
+
+    if (!mqttClient || !mqttClient.connected) {
         alert("MQTT belum terhubung.");
         return;
     }
 
-    let command = "";
+    const command = mode === "AUTO"
+        ? "auto_mode_on"
+        : "auto_mode_off";
 
-    // Pompa pH Up
-    if (id === "pumpUp") {
-        command = status === "ON"
-            ? "ph_up_on"
-            : "ph_up_off";
-    }
+    mqttClient.publish(
+        MQTT_TOPIC_CMD,
+        command,
+        { qos: 1 },
+        function(err) {
 
-    // Kirim command ke ESP32
-    if (command !== "") {
-       mqttClient.publish(
-    MQTT_TOPIC_CMD,
-    command,
-    { qos: 1 },
-    function(err) {
-        if (err) {
-            console.error("[MQTT CMD] Publish ERROR:", err);
-        } else {
-            console.log("[MQTT CMD] Sent:", command);
+            if (err) {
+                console.error("[MODE] Gagal mengirim:", err);
+                alert("Gagal mengubah mode.");
+                return;
+            }
+
+            console.log("[MODE] Command sent:", command);
+            console.log("[MODE] Menunggu konfirmasi dari ESP32...");
+
         }
-    }
-);
-    }
+    );
 }
 </script>
 
