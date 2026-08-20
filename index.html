@@ -1683,8 +1683,8 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
     <h2>Monitoring Sensor</h2>
     <div class="cards">
         <div class="card"><h3>🌊 Suhu Air</h3><h1 id="waterTemp">25.8°C</h1><p>DS18B20</p></div>
-        <div class="card"><h3>🌡️ Suhu Udara</h3><h1 id="airTemp">29.4°C</h1><p>DHT22</p></div>
-        <div class="card"><h3>💧 Kelembapan</h3><h1 id="humidity">72%</h1><p>DHT22</p></div>
+        <div class="card"><h3>🌡️ Suhu Udara</h3><h1 id="airTemp">29.4°C</h1><p>DHT11</p></div>
+        <div class="card"><h3>💧 Kelembapan</h3><h1 id="humidity">72%</h1><p>DHT11</p></div>
         <div class="card"><h3>🧪 pH Air</h3><h1 id="ph">6.25</h1><p>Normal</p></div>
         <div class="card"><h3>⚡ TDS</h3><h1 id="tds">960 ppm</h1><p>Nutrisi</p></div>
         <div class="card"><h3>🚰 Water Level</h3><h1 id="level">85%</h1><p>Aman</p></div>
@@ -1851,6 +1851,17 @@ function connectMQTT() {
                     Number(data.water_temp).toFixed(2) + "°C";
 
             }
+            // Suhu Udara DHT11
+            if (data.env_temp !== undefined) {
+                document.getElementById("airTemp").textContent =
+                    Number(data.env_temp).toFixed(1) + "°C";
+            }
+
+            // Kelembapan DHT11
+            if (data.humidity !== undefined) {
+                document.getElementById("humidity").textContent =
+                  Number(data.humidity).toFixed(0) + "%";
+}
 
             // TDS
             if (data.tds !== undefined) {
