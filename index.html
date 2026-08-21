@@ -1822,12 +1822,12 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
 <section class="dashboard-section">
     <h2>Monitoring Sensor</h2>
     <div class="cards">
-        <div class="card"><h3>🌊 Suhu Air</h3><h1 id="waterTemp">25.8°C</h1><p>DS18B20</p></div>
-        <div class="card"><h3>🌡️ Suhu Udara</h3><h1 id="airTemp">29.4°C</h1><p>DHT11</p></div>
-        <div class="card"><h3>💧 Kelembapan</h3><h1 id="humidity">72%</h1><p>DHT11</p></div>
-        <div class="card"><h3>🧪 pH Air</h3><h1 id="ph">6.25</h1><p>Normal</p></div>
-        <div class="card"><h3>⚡ TDS</h3><h1 id="tds">960 ppm</h1><p>Nutrisi</p></div>
-        <div class="card"><h3>🚰 Water Level</h3><h1 id="level">85%</h1><p>Aman</p></div>
+        <div class="card"><h3>🌊 Suhu Air</h3><h1 id="waterTemp">0°C</h1><p>DS18B20</p></div>
+<div class="card"><h3>🌡️ Suhu Udara</h3><h1 id="airTemp">0°C</h1><p>DHT11</p></div>
+<div class="card"><h3>💧 Kelembapan</h3><h1 id="humidity">0%</h1><p>DHT11</p></div>
+<div class="card"><h3>🧪 pH Air</h3><h1 id="ph">0</h1><p>Normal</p></div>
+<div class="card"><h3>⚡ TDS</h3><h1 id="tds">0 ppm</h1><p>Nutrisi</p></div>
+<div class="card"><h3>🚰 Water Level</h3><h1 id="level">0%</h1><p>Aman</p></div>
     </div>
 </section>
 
@@ -1954,6 +1954,7 @@ const MQTT_TOPIC_CMD = "hydroponic/control";
 const MQTT_TOPIC_RESULT = "hydroponic/result";
 
 let mqttClient = null;
+let sensorDataReceived = false;
 
 // ===================== MQTT CONNECT =====================
 function connectMQTT() {
@@ -2024,6 +2025,8 @@ mqttClient.subscribe(MQTT_TOPIC_RESULT, function(err) {
         try {
 
             const data = JSON.parse(message.toString());
+
+            sensorDataReceived = true;
 
             console.log("[MQTT] Parsed sensor data:", data);
 
@@ -2441,12 +2444,12 @@ document.querySelectorAll(".card").forEach(card => cardObserver.observe(card));
 
 // ===================== dashboard.js =====================
 function initDashboard() {
-    document.getElementById("waterTemp").innerHTML = "25.8°C";
-    document.getElementById("airTemp").innerHTML = "29.4°C";
-    document.getElementById("humidity").innerHTML = "72%";
-    document.getElementById("ph").innerHTML = "6.25";
-    document.getElementById("tds").innerHTML = "960 ppm";
-    document.getElementById("level").innerHTML = "85%";
+    document.getElementById("waterTemp").innerHTML = "0°C";
+    document.getElementById("airTemp").innerHTML = "0°C";
+    document.getElementById("humidity").innerHTML = "0%";
+    document.getElementById("ph").innerHTML = "0";
+    document.getElementById("tds").innerHTML = "0 ppm";
+    document.getElementById("level").innerHTML = "0%";
 
     document.getElementById("pumpA").className = "status-off";
     document.getElementById("pumpA").textContent = "OFF";
