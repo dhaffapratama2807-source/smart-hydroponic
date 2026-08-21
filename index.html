@@ -1954,7 +1954,6 @@ const MQTT_TOPIC_CMD = "hydroponic/control";
 const MQTT_TOPIC_RESULT = "hydroponic/result";
 
 let mqttClient = null;
-let sensorDataReceived = false;
 
 // ===================== MQTT CONNECT =====================
 function connectMQTT() {
@@ -2025,8 +2024,6 @@ mqttClient.subscribe(MQTT_TOPIC_RESULT, function(err) {
         try {
 
             const data = JSON.parse(message.toString());
-
-            sensorDataReceived = true;
 
             console.log("[MQTT] Parsed sensor data:", data);
 
