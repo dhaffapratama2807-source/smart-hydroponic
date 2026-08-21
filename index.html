@@ -412,7 +412,6 @@ section{
     position: fixed;
     top: 90px;
     right: 25px;
-    z-index: 9999;
 
     width: 360px;
     padding: 16px 20px;
@@ -426,11 +425,11 @@ section{
     text-align: left;
     font-size: 15px;
     font-weight: 600;
-    line-height: 1.5;
+    line-height: 1.45;
 
     border-left: 5px solid #B71C1C;
 
-    animation: notificationSlideIn 0.3s ease-out;
+    white-space: normal;
 }
 
 .mode-notification.show {
@@ -2378,8 +2377,8 @@ if (
 
             if (notificationElement) {
 
-                notificationElement.textContent =
-    "Pompa Nutrisi sedang menyelesaikan siklus.";
+                notificationElement.innerHTML =
+    "Pompa Nutrisi sedang<br>menyelesaikan siklus.";
 notificationElement.classList.add("show");
             }
         }
@@ -2879,4 +2878,3 @@ function ubahMode(mode) {
 
 </body>
 </html>
-s
