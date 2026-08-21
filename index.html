@@ -2470,7 +2470,15 @@ if (username === "admin" && password === "admin123") {
 
     localStorage.setItem("login", "true");
 
-    console.log("LOGIN:", localStorage.getItem("login"));
+    localStorage.setItem(
+        "lastActivity",
+        Date.now().toString()
+    );
+
+    console.log(
+        "LOGIN:",
+        localStorage.getItem("login")
+    );
 
     alert("Login berhasil!");
 
@@ -2491,16 +2499,96 @@ if (username === "admin" && password === "admin123") {
     });
 }
 
-function checkLogin() {
-    if (localStorage.getItem("login") !== "true") {
-        alert("Silakan login terlebih dahulu.");
-        showPage('login');
+// =========================================
+// SESSION LOGIN & AUTO LOGOUT 5 MENIT
+// =========================================
+
+const SESSION_TIMEOUT = 5 * 60 * 1000;
+
+function updateActivity() {
+    if (localStorage.getItem("login") === "true") {
+        localStorage.setItem(
+            "lastActivity",
+            Date.now().toString()
+        );
     }
 }
 
+function checkLogin() {
+
+    const loginStatus = localStorage.getItem("login");
+
+    const lastActivity = parseInt(
+        localStorage.getItem("lastActivity") || "0"
+    );
+
+    if (
+        loginStatus !== "true" ||
+        !lastActivity ||
+        (Date.now() - lastActivity) >= SESSION_TIMEOUT
+    ) {
+        localStorage.removeItem("login");
+        localStorage.removeItem("lastActivity");
+
+        return false;
+    }
+
+    return true;
+}
+
+// =========================================
+// DETEKSI AKTIVITAS USER
+// =========================================
+
+[
+    "click",
+    "keydown",
+    "touchstart",
+    "scroll"
+].forEach(function(eventName) {
+
+    document.addEventListener(
+        eventName,
+        updateActivity,
+        true
+    );
+
+});
+
+// =========================================
+// CEK SESSION SETIAP 1 DETIK
+// =========================================
+
+setInterval(function() {
+
+    if (localStorage.getItem("login") === "true") {
+
+        const lastActivity = parseInt(
+            localStorage.getItem("lastActivity") || "0"
+        );
+
+        if (
+            lastActivity &&
+            (Date.now() - lastActivity) >= SESSION_TIMEOUT
+        ) {
+
+            localStorage.removeItem("login");
+            localStorage.removeItem("lastActivity");
+
+            alert("Sesi telah berakhir. Silakan login kembali.");
+
+            showPage("login");
+        }
+    }
+
+}, 1000);
+
 function logout() {
+
     localStorage.removeItem("login");
-    showPage('home');
+    localStorage.removeItem("lastActivity");
+
+    showPage("home");
 }
 
 function cekDashboard() {
@@ -2515,6 +2603,23 @@ function cekDashboard() {
 function lihatFitur() {
     document.getElementById("fitur").scrollIntoView({ behavior: "smooth" });
 }
+
+// =========================================
+// RESTORE SESSION SETELAH REFRESH
+// =========================================
+
+window.addEventListener("load", function() {
+
+    if (checkLogin()) {
+
+        showPage("dashboard");
+
+        // Refresh dianggap sebagai aktivitas
+        updateActivity();
+
+    }
+
+});
 
 // ===================== main.js =====================
 document.addEventListener('click', function(e) {
