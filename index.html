@@ -2119,8 +2119,8 @@ if (data.pump_ph_down !== undefined) {
             }
             // Suhu Udara DHT11
             if (data.env_temp !== undefined) {
-                document.getElementById("airTemp").textContent =
-                    Number(data.env_temp).toFixed(1) + "°C";
+                document.getElementById("envTemp").textContent =
+    Math.round(data.env_temp) + "°C";
             }
 
             // Kelembapan DHT11
