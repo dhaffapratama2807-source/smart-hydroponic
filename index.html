@@ -1864,20 +1864,32 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
             <h4>🎛️ Kontrol Pompa (Admin Only)</h4>
             <div class="pump-control-card">
                 <h3>🟢 Pompa Nutrisi A</h3>
-                <div><button class="btn-on" onclick="kontrolPompa('pumpA','ON')">ON</button><button class="btn-off" onclick="kontrolPompa('pumpA','OFF')">OFF</button></div>
-            </div>
+                <div class="ios-switch"
+     id="switchPumpA"
+     onclick="togglePump('pumpA')">
+    <div class="ios-switch-knob"></div>
+</div>
             <div class="pump-control-card">
                 <h3>🟢 Pompa Nutrisi B</h3>
-                <div><button class="btn-on" onclick="kontrolPompa('pumpB','ON')">ON</button><button class="btn-off" onclick="kontrolPompa('pumpB','OFF')">OFF</button></div>
-            </div>
+                <div class="ios-switch"
+     id="switchPumpB"
+     onclick="togglePump('pumpB')">
+    <div class="ios-switch-knob"></div>
+</div>
             <div class="pump-control-card">
                 <h3>🧪 Pompa pH Up</h3>
-                <div><button class="btn-on" onclick="kontrolPompa('pumpUp','ON')">ON</button><button class="btn-off" onclick="kontrolPompa('pumpUp','OFF')">OFF</button></div>
-            </div>
+                <div class="ios-switch"
+     id="switchPumpUp"
+     onclick="togglePump('pumpUp')">
+    <div class="ios-switch-knob"></div>
+</div>
             <div class="pump-control-card">
                 <h3>🧪 Pompa pH Down</h3>
-                <div><button class="btn-on" onclick="kontrolPompa('pumpDown','ON')">ON</button><button class="btn-off" onclick="kontrolPompa('pumpDown','OFF')">OFF</button></div>
-            </div>
+                <div class="ios-switch"
+     id="switchPumpDown"
+     onclick="togglePump('pumpDown')">
+    <div class="ios-switch-knob"></div>
+</div>
         </div>
     </div>
 
@@ -2551,6 +2563,33 @@ function kontrolPompa(id, status) {
 
         }
     );
+}
+/* =========================================
+   iOS TOGGLE PUMP
+   ========================================= */
+
+function togglePump(id) {
+
+    const switchElement = {
+        pumpA: "switchPumpA",
+        pumpB: "switchPumpB",
+        pumpUp: "switchPumpUp",
+        pumpDown: "switchPumpDown"
+    };
+
+    const element = document.getElementById(switchElement[id]);
+
+    if (!element) {
+        console.error("[PUMP] Switch tidak ditemukan:", id);
+        return;
+    }
+
+    const statusBerikutnya =
+        element.classList.contains("active")
+            ? "OFF"
+            : "ON";
+
+    kontrolPompa(id, statusBerikutnya);
 }
   let currentMode = "AUTO";
 
