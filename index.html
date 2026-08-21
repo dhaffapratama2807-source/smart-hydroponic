@@ -2352,11 +2352,30 @@ if (
 connectMQTT();
 // ===================== ROUTER SPA =====================
 function showPage(name) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById('page-' + name).classList.add('active');
-    window.scrollTo({top:0, behavior:'instant'});
+
+    // Jika membuka dashboard, cek login terlebih dahulu
+    if (name === 'dashboard' &&
+        localStorage.getItem("login") !== "true") {
+
+        showPage('login');
+        return;
+    }
+
+    document.querySelectorAll('.page')
+        .forEach(p => p.classList.remove('active'));
+
+    const page = document.getElementById('page-' + name);
+
+    if (page) {
+        page.classList.add('active');
+    }
+
+    window.scrollTo({
+        top: 0,
+        behavior: 'instant'
+    });
+
     if (name === 'dashboard') {
-        checkLogin();
         initDashboard();
     }
 }
@@ -2370,13 +2389,19 @@ if (loginForm) {
         const username = document.getElementById("username").value;
         const password = document.getElementById("password").value;
 
-        if (username === "admin" && password === "admin123") {
-            localStorage.setItem("login", "true");
-            alert("Login berhasil!");
-            showPage('dashboard');
-        } else {
-            alert("Username atau Password salah!");
-        }
+ if (username === "admin" && password === "admin123") {
+
+    localStorage.setItem("login", "true");
+
+    // Pastikan status login benar-benar tersimpan
+    if (localStorage.getItem("login") === "true") {
+        alert("Login berhasil!");
+        showPage('dashboard');
+    } else {
+        alert("Status login gagal disimpan.");
+    }
+
+}
     });
 }
 
