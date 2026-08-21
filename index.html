@@ -1356,6 +1356,45 @@ section{
     color:#E53935;
 
 }
+/* ========================================= */
+/* ANIMASI POMPA AKTIF */
+/* ========================================= */
+
+.pump-active {
+    animation: pumpPulse 1s infinite;
+}
+
+@keyframes pumpPulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.08);
+        opacity: 0.65;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Card saat pompa sedang aktif */
+.card.pump-running {
+    animation: pumpCard 1.5s infinite;
+}
+
+@keyframes pumpCard {
+    0%, 100% {
+        box-shadow: 0 5px 20px rgba(76,175,80,0.15);
+    }
+
+    50% {
+        box-shadow: 0 5px 30px rgba(76,175,80,0.45);
+    }
+}
 
 /* ========================================= */
 /* STATUS POMPA */
@@ -1923,6 +1962,71 @@ mqttClient.subscribe(MQTT_TOPIC_RESULT, function(err) {
 
             console.log("[MQTT] Parsed sensor data:", data);
 
+            // =================================================
+// UPDATE STATUS REAL-TIME POMPA
+// =================================================
+
+function updatePumpStatus(id, isActive) {
+
+    const element = document.getElementById(id);
+
+    if (!element) return;
+
+    const card = element.closest(".card");
+
+    if (isActive) {
+
+        element.textContent = "ON";
+        element.className = "status-on pump-active";
+
+        if (card) {
+            card.classList.add("pump-running");
+        }
+
+    } else {
+
+        element.textContent = "OFF";
+        element.className = "status-off";
+
+        if (card) {
+            card.classList.remove("pump-running");
+        }
+    }
+}
+
+
+// Nutrisi A
+if (data.pump_nutrient_a !== undefined) {
+    updatePumpStatus(
+        "pumpA",
+        data.pump_nutrient_a === true
+    );
+}
+
+// Nutrisi B
+if (data.pump_nutrient_b !== undefined) {
+    updatePumpStatus(
+        "pumpB",
+        data.pump_nutrient_b === true
+    );
+}
+
+// pH Up
+if (data.pump_ph_up !== undefined) {
+    updatePumpStatus(
+        "pumpUp",
+        data.pump_ph_up === true
+    );
+}
+
+// pH Down
+if (data.pump_ph_down !== undefined) {
+    updatePumpStatus(
+        "pumpDown",
+        data.pump_ph_down === true
+    );
+}
+
             // Suhu Air DS18B20
             if (data.water_temp !== undefined) {
 
@@ -2233,14 +2337,17 @@ function initDashboard() {
     document.getElementById("tds").innerHTML = "960 ppm";
     document.getElementById("level").innerHTML = "85%";
 
-    document.getElementById("pumpA").className = "status-on";
-    document.getElementById("pumpA").textContent = "ON";
+    document.getElementById("pumpA").className = "status-off";
+    document.getElementById("pumpA").textContent = "OFF";
+
     document.getElementById("pumpB").className = "status-off";
     document.getElementById("pumpB").textContent = "OFF";
+
     document.getElementById("pumpUp").className = "status-off";
     document.getElementById("pumpUp").textContent = "OFF";
-    document.getElementById("pumpDown").className = "status-on";
-    document.getElementById("pumpDown").textContent = "ON";
+
+    document.getElementById("pumpDown").className = "status-off";
+    document.getElementById("pumpDown").textContent = "OFF";
 }
 
 function kontrolPompa(id, status) {
