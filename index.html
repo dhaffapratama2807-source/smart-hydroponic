@@ -403,6 +403,74 @@ section{
     opacity:.85;
 }
 
+/* =========================================
+   NOTIFIKASI MANUAL PENDING
+   ========================================= */
+
+.mode-notification {
+    display: none;
+    position: fixed;
+    top: 90px;
+    right: 25px;
+    z-index: 9999;
+
+    width: 360px;
+    padding: 16px 20px;
+
+    background: #E53935;
+    color: white;
+
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.20);
+
+    text-align: left;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.5;
+
+    border-left: 5px solid #B71C1C;
+
+    animation: notificationSlideIn 0.3s ease-out;
+}
+
+.mode-notification.show {
+    display: block;
+}
+
+.mode-notification::before {
+    content: "⚠";
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 28px;
+    height: 28px;
+
+    margin-right: 10px;
+
+    background: white;
+    color: #E53935;
+
+    border-radius: 50%;
+
+    font-size: 17px;
+    font-weight: bold;
+
+    vertical-align: middle;
+}
+
+@keyframes notificationSlideIn {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
 .cards{
 
     display:grid;
@@ -2277,6 +2345,7 @@ if (
 
     if (notificationElement) {
         notificationElement.textContent = "";
+        notificationElement.classList.remove("show");
     }
 }
 
@@ -2314,9 +2383,11 @@ if (
                     "Nutrisi";
 
                 notificationElement.textContent =
-                    " MANUAL PENDING - " +
-                    pump +
-                    " sedang menyelesaikan siklus.";
+    "MANUAL PENDING - " +
+    pump +
+    " sedang menyelesaikan siklus.";
+
+notificationElement.classList.add("show");
             }
         }
 
