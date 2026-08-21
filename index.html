@@ -2568,20 +2568,24 @@ function kontrolPompa(id, status) {
         }
     );
 }
+    );
+}
+
 /* =========================================
    iOS TOGGLE PUMP
    ========================================= */
 
 function togglePump(id) {
 
-    const switchElement = {
+    const switchIds = {
         pumpA: "switchPumpA",
         pumpB: "switchPumpB",
         pumpUp: "switchPumpUp",
         pumpDown: "switchPumpDown"
     };
 
-    const element = document.getElementById(switchElement[id]);
+    const element =
+        document.getElementById(switchIds[id]);
 
     if (!element) {
         console.error("[PUMP] Switch tidak ditemukan:", id);
@@ -2595,7 +2599,8 @@ function togglePump(id) {
 
     kontrolPompa(id, statusBerikutnya);
 }
-  let currentMode = "AUTO";
+
+let currentMode = "AUTO";
 
 function ubahMode(mode) {
 
