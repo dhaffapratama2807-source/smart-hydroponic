@@ -2218,48 +2218,9 @@ if (data.pump_ph_down !== undefined) {
                     "Nutrisi";
 
                 notificationElement.textContent =
-                    "🟡 MANUAL PENDING - " +
+                    " MANUAL PENDING - " +
                     pump +
                     " sedang menyelesaikan siklus.";
-            }
-        }
-
-
-        // =================================================
-        // MANUAL AKTIF
-        // =================================================
-
-        if (
-            data.manual_pending === false &&
-            data.mode === "MANUAL"
-        ) {
-
-            console.log(
-                "[MODE] MANUAL AKTIF"
-            );
-
-
-            const modeElement =
-                document.getElementById(
-                    "modeSystem"
-                );
-
-            if (modeElement) {
-
-                modeElement.textContent =
-                    "MANUAL";
-            }
-
-
-            const notificationElement =
-                document.getElementById(
-                    "modeNotification"
-                );
-
-            if (notificationElement) {
-
-                notificationElement.textContent =
-                    "🟢 MANUAL AKTIF";
             }
         }
 
