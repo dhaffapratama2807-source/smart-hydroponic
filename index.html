@@ -2353,29 +2353,35 @@ connectMQTT();
 // ===================== ROUTER SPA =====================
 function showPage(name) {
 
-    // Jika membuka dashboard, cek login terlebih dahulu
-    if (name === 'dashboard' &&
-        localStorage.getItem("login") !== "true") {
+    // Jika menuju dashboard, pastikan sudah login
+    if (name === "dashboard") {
+        if (localStorage.getItem("login") !== "true") {
+            name = "login";
+        }
+    }
 
-        showPage('login');
+    // Matikan semua halaman
+    document.querySelectorAll(".page").forEach(function(page) {
+        page.classList.remove("active");
+    });
+
+    // Aktifkan halaman yang dipilih
+    const targetPage = document.getElementById("page-" + name);
+
+    if (!targetPage) {
+        console.error("Halaman tidak ditemukan:", "page-" + name);
         return;
     }
 
-    document.querySelectorAll('.page')
-        .forEach(p => p.classList.remove('active'));
-
-    const page = document.getElementById('page-' + name);
-
-    if (page) {
-        page.classList.add('active');
-    }
+    targetPage.classList.add("active");
 
     window.scrollTo({
         top: 0,
-        behavior: 'instant'
+        behavior: "instant"
     });
 
-    if (name === 'dashboard') {
+    // Hanya inisialisasi dashboard kalau memang dashboard
+    if (name === "dashboard") {
         initDashboard();
     }
 }
@@ -2389,17 +2395,26 @@ if (loginForm) {
         const username = document.getElementById("username").value;
         const password = document.getElementById("password").value;
 
- if (username === "admin" && password === "admin123") {
+if (username === "admin" && password === "admin123") {
 
     localStorage.setItem("login", "true");
 
-    // Pastikan status login benar-benar tersimpan
-    if (localStorage.getItem("login") === "true") {
-        alert("Login berhasil!");
-        showPage('dashboard');
-    } else {
-        alert("Status login gagal disimpan.");
-    }
+    console.log("LOGIN:", localStorage.getItem("login"));
+
+    alert("Login berhasil!");
+
+    // Langsung tampilkan dashboard
+    document.querySelectorAll(".page").forEach(function(page) {
+        page.classList.remove("active");
+    });
+
+    document.getElementById("page-dashboard").classList.add("active");
+
+    initDashboard();
+
+} else {
+
+    alert("Username atau Password salah!");
 
 }
     });
