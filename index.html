@@ -1611,58 +1611,58 @@ body.login-page-active { background:#F5F7F5; }
 .control-section { background: #F9FBE7; border: 1px solid #C5E1A5; border-radius: 12px; padding: 20px; margin-top: 10px; }
 .control-section h4 { color: #33691E; margin-bottom: 14px; font-size: 16px; }
 
-/* ================================
-   iOS STYLE - PUMP BUTTON
-   ================================ */
+/* =========================================
+   iOS TOGGLE SWITCH - KONTROL POMPA
+   ========================================= */
 
-.btn-on,
-.btn-off {
-    min-width: 78px;
-    height: 42px;
+.ios-switch {
+    position: relative;
+    width: 58px;
+    height: 32px;
 
-    border: none;
-    border-radius: 14px;
-
-    color: white;
-    font-size: 14px;
-    font-weight: 700;
+    background: #D1D1D6;
+    border-radius: 32px;
 
     cursor: pointer;
 
-    padding: 0 18px;
-    margin-right: 8px;
-
-    transition:
-        transform 0.15s ease,
-        box-shadow 0.15s ease,
-        opacity 0.15s ease;
+    transition: background 0.2s ease,
+                box-shadow 0.2s ease;
 
     box-shadow:
-        0 3px 7px rgba(0, 0, 0, 0.15);
+        inset 0 0 0 1px rgba(0,0,0,0.08);
 }
 
-/* ON */
-.btn-on {
+.ios-switch-knob {
+    position: absolute;
+
+    width: 28px;
+    height: 28px;
+
+    top: 2px;
+    left: 2px;
+
+    background: #FFFFFF;
+
+    border-radius: 50%;
+
+    box-shadow:
+        0 2px 5px rgba(0,0,0,0.25);
+
+    transition: transform 0.2s ease;
+}
+
+/* SWITCH ON */
+.ios-switch.active {
     background: #34C759;
 }
 
-/* OFF */
-.btn-off {
-    background: #FF3B30;
+.ios-switch.active .ios-switch-knob {
+    transform: translateX(26px);
 }
 
-/* Hover */
-.btn-on:hover,
-.btn-off:hover {
-    opacity: 0.88;
-}
-
-/* Efek ditekan seperti iPhone */
-.btn-on:active,
-.btn-off:active {
-    transform: scale(0.94);
-    box-shadow:
-        0 1px 3px rgba(0, 0, 0, 0.18);
+/* EFEK KETIKA DITEKAN */
+.ios-switch:active {
+    transform: scale(0.95);
 }
 
 .pump-control-card { background: white; border-radius: 10px; padding: 16px; border: 1px solid #DCEDC8; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
