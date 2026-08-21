@@ -2037,6 +2037,16 @@ function updatePumpStatus(id, isActive) {
 
     if (!element) return;
 
+    const switchIds = {
+        pumpA: "switchPumpA",
+        pumpB: "switchPumpB",
+        pumpUp: "switchPumpUp",
+        pumpDown: "switchPumpDown"
+    };
+
+    const switchElement =
+        document.getElementById(switchIds[id]);
+
     const card = element.closest(".card");
 
     if (isActive) {
@@ -2048,6 +2058,10 @@ function updatePumpStatus(id, isActive) {
             card.classList.add("pump-running");
         }
 
+        if (switchElement) {
+            switchElement.classList.add("active");
+        }
+
     } else {
 
         element.textContent = "OFF";
@@ -2055,6 +2069,10 @@ function updatePumpStatus(id, isActive) {
 
         if (card) {
             card.classList.remove("pump-running");
+        }
+
+        if (switchElement) {
+            switchElement.classList.remove("active");
         }
     }
 }
