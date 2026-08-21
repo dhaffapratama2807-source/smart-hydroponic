@@ -2184,6 +2184,19 @@ if (data.pump_ph_down !== undefined) {
             }
         }
 
+        // Hapus notifikasi PENDING ketika MANUAL sudah aktif
+if (
+    data.mode === "MANUAL" &&
+    data.manual_pending === false
+) {
+    const notificationElement =
+        document.getElementById("modeNotification");
+
+    if (notificationElement) {
+        notificationElement.textContent = "";
+    }
+}
+
 
         // =================================================
         // MANUAL PENDING
