@@ -2595,6 +2595,13 @@ function togglePump(id) {
             ? "OFF"
             : "ON";
 
+    // Ubah tampilan switch
+    if (statusBerikutnya === "ON") {
+        element.classList.add("active");
+    } else {
+        element.classList.remove("active");
+    }
+
     kontrolPompa(id, statusBerikutnya);
 }
 
