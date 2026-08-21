@@ -412,9 +412,10 @@ section{
     position: fixed;
     top: 90px;
     right: 25px;
+    z-index: 9999;
 
     width: 360px;
-    padding: 16px 20px;
+    padding: 16px 20px 16px 78px;
 
     background: #E53935;
     color: white;
@@ -438,14 +439,17 @@ section{
 
 .mode-notification::before {
     content: "⚠";
-    display: inline-flex;
+
+    position: absolute;
+    left: 20px;
+    top: 16px;
+
+    display: flex;
     align-items: center;
     justify-content: center;
 
     width: 28px;
     height: 28px;
-
-    margin-right: 10px;
 
     background: white;
     color: #E53935;
@@ -454,8 +458,6 @@ section{
 
     font-size: 17px;
     font-weight: bold;
-
-    vertical-align: middle;
 }
 
 @keyframes notificationSlideIn {
