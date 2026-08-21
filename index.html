@@ -2111,6 +2111,60 @@ if (topic === MQTT_TOPIC_STATUS) {
 
         console.log("[MQTT] Parsed status:", data);
 
+        // =================================================
+// UPDATE STATUS REAL-TIME POMPA
+// =================================================
+
+function updatePumpStatus(id, isActive) {
+
+    const element = document.getElementById(id);
+
+    if (!element) return;
+
+    if (isActive) {
+
+        element.className = "status-on";
+        element.textContent = "ON";
+
+    } else {
+
+        element.className = "status-off";
+        element.textContent = "OFF";
+    }
+}
+
+
+// Nutrisi A
+if (data.pump_nutrient_a !== undefined) {
+    updatePumpStatus(
+        "pumpA",
+        data.pump_nutrient_a === true
+    );
+}
+
+// Nutrisi B
+if (data.pump_nutrient_b !== undefined) {
+    updatePumpStatus(
+        "pumpB",
+        data.pump_nutrient_b === true
+    );
+}
+
+// pH Up
+if (data.pump_ph_up !== undefined) {
+    updatePumpStatus(
+        "pumpUp",
+        data.pump_ph_up === true
+    );
+}
+
+// pH Down
+if (data.pump_ph_down !== undefined) {
+    updatePumpStatus(
+        "pumpDown",
+        data.pump_ph_down === true
+    );
+}
 
         // =================================================
         // UPDATE MODE SYSTEM
