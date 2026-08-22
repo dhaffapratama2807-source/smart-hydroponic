@@ -2330,22 +2330,22 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
 
                     <div class="card">
                         <h3>🟢 Pompa Nutrisi A</h3>
-                        <h1 id="pumpA" class="status-off">OFF</h1>
+                        <h1 id="pumpAControl" class="status-off">OFF</h1>
                     </div>
 
                     <div class="card">
                         <h3>🟢 Pompa Nutrisi B</h3>
-                        <h1 id="pumpB" class="status-off">OFF</h1>
+                        <h1 id="pumpBControl" class="status-off">OFF</h1>
                     </div>
 
                     <div class="card">
                         <h3>🧪 Pompa pH Up</h3>
-                        <h1 id="pumpUp" class="status-off">OFF</h1>
+                        <h1 id="pumpUpControl" class="status-off">OFF</h1>
                     </div>
 
                     <div class="card">
                         <h3>🧪 Pompa pH Down</h3>
-                        <h1 id="pumpDown" class="status-off">OFF</h1>
+                        <h1 id="pumpDownControl" class="status-off">OFF</h1>
                     </div>
 
                 </div>
@@ -2871,22 +2871,76 @@ if (topic === MQTT_TOPIC_STATUS) {
 
 function updatePumpStatus(id, isActive) {
 
+    // ==============================
+    // STATUS DASHBOARD
+    // ==============================
+
     const element = document.getElementById(id);
 
-    if (!element) return;
+    if (element) {
 
-    if (isActive) {
+        if (isActive) {
+            element.className = "status-on";
+            element.textContent = "ON";
+        } else {
+            element.className = "status-off";
+            element.textContent = "OFF";
+        }
 
-        element.className = "status-on";
-        element.textContent = "ON";
+    }
 
-    } else {
 
-        element.className = "status-off";
-        element.textContent = "OFF";
+    // ==============================
+    // STATUS DI TAB CONTROL
+    // ==============================
+
+    const controlIds = {
+        pumpA: "pumpAControl",
+        pumpB: "pumpBControl",
+        pumpUp: "pumpUpControl",
+        pumpDown: "pumpDownControl"
+    };
+
+    const controlElement =
+        document.getElementById(controlIds[id]);
+
+    if (controlElement) {
+
+        if (isActive) {
+            controlElement.className = "status-on";
+            controlElement.textContent = "ON";
+        } else {
+            controlElement.className = "status-off";
+            controlElement.textContent = "OFF";
+        }
+
+    }
+
+
+    // ==============================
+    // SWITCH KONTROL POMPA
+    // ==============================
+
+    const switchIds = {
+        pumpA: "switchPumpA",
+        pumpB: "switchPumpB",
+        pumpUp: "switchPumpUp",
+        pumpDown: "switchPumpDown"
+    };
+
+    const switchElement =
+        document.getElementById(switchIds[id]);
+
+    if (switchElement) {
+
+        if (isActive) {
+            switchElement.classList.add("active");
+        } else {
+            switchElement.classList.remove("active");
+        }
+
     }
 }
-
 
 // Nutrisi A
 if (data.pump_nutrient_a !== undefined) {
