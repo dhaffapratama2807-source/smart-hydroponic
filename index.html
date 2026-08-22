@@ -1810,7 +1810,8 @@ section{
 }
 
 .control-tab-card{
-    max-width:700px;
+    max-width:none;
+    width:100%;
     margin:0;
 }
 
@@ -1823,6 +1824,37 @@ section{
     grid-template-columns: 1fr 1fr;
     gap: 25px;
     align-items: stretch;
+}
+
+.control-top-grid .dashboard-section{
+    padding:0;
+    margin:0;
+    min-width:0;
+}
+
+.control-top-grid .dashboard-section h2{
+    text-align:center;
+    font-size:24px;
+    margin-bottom:20px;
+}
+
+.control-top-grid .cards{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:15px;
+}
+
+.control-top-grid .card{
+    padding:20px;
+    min-width:0;
+}
+
+.control-top-grid .card h3{
+    font-size:18px;
+}
+
+.control-top-grid .card h1{
+    font-size:30px;
 }
 
 .control-top-grid .mode-card {
