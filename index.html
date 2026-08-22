@@ -2418,6 +2418,54 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
     </div>
 </section>
 
+<!-- POMPA NUTRISI A -->
+<div class="pump-control-card">
+
+    <div class="pump-control-header">
+        <h3>🟢 Pompa Nutrisi A</h3>
+
+        <div class="ios-switch"
+             id="switchPumpA"
+             onclick="togglePump('pumpA')">
+            <div class="ios-switch-knob"></div>
+        </div>
+    </div>
+
+    <div class="pump-status-control">
+        <span class="status-label">Status</span>
+
+        <span id="pumpAControlStatus"
+              class="status-value status-off">
+            OFF
+        </span>
+    </div>
+
+</div>
+
+<!-- POMPA NUTRISI B -->
+<div class="pump-control-card">
+
+    <div class="pump-control-header">
+        <h3>🟢 Pompa Nutrisi B</h3>
+
+        <div class="ios-switch"
+             id="switchPumpB"
+             onclick="togglePump('pumpB')">
+            <div class="ios-switch-knob"></div>
+        </div>
+    </div>
+
+    <div class="pump-status-control">
+        <span class="status-label">Status</span>
+
+        <span id="pumpBControlStatus"
+              class="status-value status-off">
+            OFF
+        </span>
+    </div>
+
+</div>
+
     <!-- POMPA PH UP -->
     <div class="pump-control-card">
 
