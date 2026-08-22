@@ -1814,6 +1814,101 @@ section{
     margin:0;
 }
 
+/* =========================================
+   CONTROL - MODE & STATUS POMPA BERDAMPINGAN
+   ========================================= */
+
+.control-top-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+    align-items: stretch;
+}
+
+.control-top-grid .mode-card {
+    max-width: none;
+    width: 100%;
+    margin: 0;
+    box-sizing: border-box;
+    min-height: 280px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.control-status-card {
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    border-top: 6px solid #43A047;
+    box-shadow: 0 10px 30px rgba(0,0,0,.08);
+    box-sizing: border-box;
+    min-height: 280px;
+}
+
+.control-status-card h3 {
+    color: #2E7D32;
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.control-status-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.control-status-item {
+    background: #F9FBE7;
+    border: 1px solid #DCEDC8;
+    border-radius: 12px;
+    padding: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.control-status-item .pump-name {
+    color: #2E7D32;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.control-status-item .pump-state {
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.control-status-item .pump-state.status-on {
+    color: #4CAF50;
+}
+
+.control-status-item .pump-state.status-off {
+    color: #78909C;
+}
+
+@media (max-width: 900px) {
+
+    .control-top-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .control-top-grid .mode-card,
+    .control-status-card {
+        min-height: auto;
+    }
+}
+
+@media (max-width: 650px) {
+
+    .control-status-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
 .control-tab-card .mode-card{
     max-width:none;
     margin:0 0 25px;
@@ -2227,82 +2322,216 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
         </div>
 
         <!-- ================= KONTROL ================= -->
-        <div id="dashboard-tab-kontrol" class="dashboard-tab">
+       <div class="control-tab-card">
 
-            <h2 class="dashboard-tab-title">Kontrol</h2>
+    <!-- =================================
+         MODE + STATUS POMPA
+         ================================= -->
+    <div class="control-top-grid">
 
-            <div class="control-tab-card">
+        <!-- MODE SISTEM - KIRI -->
+        <div class="mode-card">
 
-                <div class="mode-card">
-                    <h3>⚙️ Mode Sistem</h3>
+            <h3>⚙️ Mode Sistem</h3>
 
-                    <h1 id="modeSystem">AUTO</h1>
+            <h1 id="modeSystem">AUTO</h1>
 
-                    <div id="modeNotification"
-                         class="mode-notification"></div>
+            <div id="modeNotification"
+                 class="mode-notification"></div>
 
-                    <div class="mode-buttons">
+            <div class="mode-buttons">
 
-                        <button class="btn-mode-auto"
-                                onclick="ubahMode('AUTO')">
-                            AUTO
-                        </button>
+                <button class="btn-mode-auto"
+                        onclick="ubahMode('AUTO')">
+                    AUTO
+                </button>
 
-                        <button class="btn-mode-manual"
-                                onclick="ubahMode('MANUAL')">
-                            MANUAL
-                        </button>
+                <button class="btn-mode-manual"
+                        onclick="ubahMode('MANUAL')">
+                    MANUAL
+                </button>
 
-                    </div>
+            </div>
+
+        </div>
+
+
+        <!-- STATUS POMPA - KANAN -->
+        <div class="control-status-card">
+
+            <h3>🎛️ Status Pompa</h3>
+
+            <div class="control-status-grid">
+
+                <div class="control-status-item">
+                    <span class="pump-name">
+                        🟢 Nutrisi A
+                    </span>
+
+                    <span id="pumpAControlStatus"
+                          class="pump-state status-off">
+                        OFF
+                    </span>
                 </div>
 
-                <div class="admin-only">
-                    <div class="control-section">
+                <div class="control-status-item">
+                    <span class="pump-name">
+                        🟢 Nutrisi B
+                    </span>
 
-                        <h4>🎛️ Kontrol Pompa (Admin Only)</h4>
-
-                        <div class="pump-control-card">
-                            <h3>🟢 Pompa Nutrisi A</h3>
-
-                            <div class="ios-switch"
-                                 id="switchPumpA"
-                                 onclick="togglePump('pumpA')">
-                                <div class="ios-switch-knob"></div>
-                            </div>
-                        </div>
-
-                        <div class="pump-control-card">
-                            <h3>🟢 Pompa Nutrisi B</h3>
-
-                            <div class="ios-switch"
-                                 id="switchPumpB"
-                                 onclick="togglePump('pumpB')">
-                                <div class="ios-switch-knob"></div>
-                            </div>
-                        </div>
-
-                        <div class="pump-control-card">
-                            <h3>🧪 Pompa pH Up</h3>
-
-                            <div class="ios-switch"
-                                 id="switchPumpUp"
-                                 onclick="togglePump('pumpUp')">
-                                <div class="ios-switch-knob"></div>
-                            </div>
-                        </div>
-
-                        <div class="pump-control-card">
-                            <h3>🧪 Pompa pH Down</h3>
-
-                            <div class="ios-switch"
-                                 id="switchPumpDown"
-                                 onclick="togglePump('pumpDown')">
-                                <div class="ios-switch-knob"></div>
-                            </div>
-                        </div>
-
-                    </div>
+                    <span id="pumpBControlStatus"
+                          class="pump-state status-off">
+                        OFF
+                    </span>
                 </div>
+
+                <div class="control-status-item">
+                    <span class="pump-name">
+                        🧪 pH Up
+                    </span>
+
+                    <span id="pumpUpControlStatus"
+                          class="pump-state status-off">
+                        OFF
+                    </span>
+                </div>
+
+                <div class="control-status-item">
+                    <span class="pump-name">
+                        🧪 pH Down
+                    </span>
+
+                    <span id="pumpDownControlStatus"
+                          class="pump-state status-off">
+                        OFF
+                    </span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================
+         KONTROL POMPA
+         ================================= -->
+
+    <div class="admin-only">
+
+        <div class="control-section">
+
+            <h4>🎛️ Kontrol Pompa (Admin Only)</h4>
+<div class="pump-control-grid">
+
+    <!-- POMPA NUTRISI A -->
+    <div class="pump-control-card">
+
+        <div class="pump-control-header">
+            <h3>🟢 Pompa Nutrisi A</h3>
+
+            <div class="ios-switch"
+                 id="switchPumpA"
+                 onclick="togglePump('pumpA')">
+                <div class="ios-switch-knob"></div>
+            </div>
+        </div>
+
+        <div class="pump-status-control">
+            <span class="status-label">Status</span>
+
+            <span id="pumpAControlStatus"
+                  class="status-value status-off">
+                OFF
+            </span>
+        </div>
+
+    </div>
+
+
+    <!-- POMPA NUTRISI B -->
+    <div class="pump-control-card">
+
+        <div class="pump-control-header">
+            <h3>🟢 Pompa Nutrisi B</h3>
+
+            <div class="ios-switch"
+                 id="switchPumpB"
+                 onclick="togglePump('pumpB')">
+                <div class="ios-switch-knob"></div>
+            </div>
+        </div>
+
+        <div class="pump-status-control">
+            <span class="status-label">Status</span>
+
+            <span id="pumpBControlStatus"
+                  class="status-value status-off">
+                OFF
+            </span>
+        </div>
+
+    </div>
+
+
+    <!-- POMPA PH UP -->
+    <div class="pump-control-card">
+
+        <div class="pump-control-header">
+            <h3>🧪 Pompa pH Up</h3>
+
+            <div class="ios-switch"
+                 id="switchPumpUp"
+                 onclick="togglePump('pumpUp')">
+                <div class="ios-switch-knob"></div>
+            </div>
+        </div>
+
+        <div class="pump-status-control">
+            <span class="status-label">Status</span>
+
+            <span id="pumpUpControlStatus"
+                  class="status-value status-off">
+                OFF
+            </span>
+        </div>
+
+    </div>
+
+
+    <!-- POMPA PH DOWN -->
+    <div class="pump-control-card">
+
+        <div class="pump-control-header">
+            <h3>🧪 Pompa pH Down</h3>
+
+            <div class="ios-switch"
+                 id="switchPumpDown"
+                 onclick="togglePump('pumpDown')">
+                <div class="ios-switch-knob"></div>
+            </div>
+        </div>
+
+        <div class="pump-status-control">
+            <span class="status-label">Status</span>
+
+            <span id="pumpDownControlStatus"
+                  class="status-value status-off">
+                OFF
+            </span>
+        </div>
+
+    </div>
+
+</div>
+
+            ...
+            
+        </div>
+
+    </div>
+</div>
 
                 <div class="user-only info-user"
                      style="display:none; margin-top:20px;">
