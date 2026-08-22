@@ -2356,62 +2356,33 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
         </div>
 
 
-        <!-- STATUS POMPA - KANAN -->
-        <div class="control-status-card">
+<section class="dashboard-section">
+    <h2>Status Pompa</h2>
 
-            <h3>🎛️ Status Pompa</h3>
+    <div class="cards">
 
-            <div class="control-status-grid">
+        <div class="card">
+            <h3>🟢 Pompa Nutrisi A</h3>
+            <h1 id="pumpA" class="status-off">OFF</h1>
+        </div>
 
-                <div class="control-status-item">
-                    <span class="pump-name">
-                        🟢 Nutrisi A
-                    </span>
+        <div class="card">
+            <h3>🟢 Pompa Nutrisi B</h3>
+            <h1 id="pumpB" class="status-off">OFF</h1>
+        </div>
 
-                    <span id="pumpAControlStatus"
-                          class="pump-state status-off">
-                        OFF
-                    </span>
-                </div>
+        <div class="card">
+            <h3>🧪 Pompa pH Up</h3>
+            <h1 id="pumpUp" class="status-off">OFF</h1>
+        </div>
 
-                <div class="control-status-item">
-                    <span class="pump-name">
-                        🟢 Nutrisi B
-                    </span>
-
-                    <span id="pumpBControlStatus"
-                          class="pump-state status-off">
-                        OFF
-                    </span>
-                </div>
-
-                <div class="control-status-item">
-                    <span class="pump-name">
-                        🧪 pH Up
-                    </span>
-
-                    <span id="pumpUpControlStatus"
-                          class="pump-state status-off">
-                        OFF
-                    </span>
-                </div>
-
-                <div class="control-status-item">
-                    <span class="pump-name">
-                        🧪 pH Down
-                    </span>
-
-                    <span id="pumpDownControlStatus"
-                          class="pump-state status-off">
-                        OFF
-                    </span>
-                </div>
-
-            </div>
-
+        <div class="card">
+            <h3>🧪 Pompa pH Down</h3>
+            <h1 id="pumpDown" class="status-off">OFF</h1>
         </div>
 
     </div>
+</section>
 
 
     <!-- =================================
