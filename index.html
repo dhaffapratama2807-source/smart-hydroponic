@@ -2321,20 +2321,26 @@ if (data.pump_ph_down !== undefined) {
         // =================================================
         // UPDATE MODE SYSTEM
         // =================================================
+if (data.mode !== undefined) {
 
-        if (data.mode !== undefined) {
+    currentMode = data.mode;
 
-            currentMode = data.mode;
+    const modeElement =
+        document.getElementById("modeSystem");
 
-            const modeElement =
-                document.getElementById("modeSystem");
+    if (modeElement) {
+        modeElement.textContent =
+            data.mode;
+    }
 
-            if (modeElement) {
-
-                modeElement.textContent =
-                    data.mode;
-            }
-        }
+    // =========================================
+    // JIKA MODE AUTO AKTIF
+    // RESET SEMUA TOMBOL MANUAL KE OFF
+    // =========================================
+    if (data.mode === "AUTO") {
+        resetPumpSwitches();
+    }
+}
 
         // Hapus notifikasi PENDING ketika MANUAL sudah aktif
 if (
@@ -2795,6 +2801,30 @@ function kontrolPompa(id, status) {
 
         }
     );
+}
+
+// =========================================
+// RESET TOMBOL POMPA SAAT MODE AUTO
+// =========================================
+
+function resetPumpSwitches() {
+
+    const switchIds = [
+        "switchPumpA",
+        "switchPumpB",
+        "switchPumpUp",
+        "switchPumpDown"
+    ];
+
+    switchIds.forEach(function(id) {
+
+        const element = document.getElementById(id);
+
+        if (element) {
+            element.classList.remove("active");
+        }
+
+    });
 }
 
 /* =========================================
