@@ -2109,6 +2109,53 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
 
 .kontak-box { max-width: 700px; margin: 0 auto; background: white; padding: 40px; border-radius: 18px; box-shadow: 0 10px 25px rgba(0,0,0,.08); }
 .kontak-box p { margin-bottom: 12px; line-height: 1.8; color: #455A64; }
+
+/* ================= CAMERA STREAM ================= */
+
+.camera-container {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 8px 25px rgba(0,0,0,.08);
+}
+
+.camera-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.camera-header h3 {
+    font-size: 22px;
+    color: #2E7D32;
+}
+
+.camera-status {
+    color: #2E7D32;
+    font-weight: bold;
+}
+
+.camera-view {
+    width: 100%;
+    background: #111;
+    border-radius: 15px;
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.camera-view img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
 </style>
 </head>
 <body>
@@ -2560,16 +2607,25 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
 <div id="dashboard-tab-camera" class="dashboard-tab">
 
     <h2 class="dashboard-tab-title">
-        Image Processing
+        📷 Live Camera
     </h2>
 
-    <div class="camera-placeholder">
+    <div class="camera-container">
 
-        <h3>📷 ESP32-CAM</h3>
+        <div class="camera-header">
+            <h3>ESP32-CAM</h3>
+            <span class="camera-status">
+                ● LIVE
+            </span>
+        </div>
 
-        <p>
-            Tampilan kamera ESP32-CAM akan ditampilkan di sini.
-        </p>
+        <div class="camera-view">
+            <img
+                id="esp32camStream"
+                src="http://202.10.35.14:8000/video"
+                alt="ESP32-CAM Live Stream"
+            >
+        </div>
 
     </div>
 
