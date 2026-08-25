@@ -2156,6 +2156,67 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
     object-fit: contain;
 }
 
+/* ================= AI RESULT ================= */
+
+.ai-result-card {
+    margin-top: 20px;
+    padding: 20px;
+    background: #F8FBF8;
+    border-radius: 15px;
+    border: 1px solid #E0EDE0;
+}
+
+.ai-result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.ai-result-header h3 {
+    color: #2E7D32;
+    font-size: 20px;
+}
+
+.ai-status {
+    padding: 6px 12px;
+    border-radius: 20px;
+    background: #ECEFF1;
+    color: #607D8B;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.ai-prediction,
+.ai-confidence {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #E0E0E0;
+}
+
+.ai-label {
+    color: #607D8B;
+    font-weight: 600;
+}
+
+.ai-value {
+    color: #263238;
+    font-weight: bold;
+}
+
+.ai-probabilities {
+    margin-top: 15px;
+}
+
+.ai-probability-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    color: #455A64;
+}
+
 </style>
 </head>
 <body>
@@ -2626,6 +2687,42 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
                 alt="ESP32-CAM Live Stream"
             >
         </div>
+        <!-- ================= AI RESULT ================= -->
+<div class="ai-result-card">
+
+    <div class="ai-result-header">
+        <h3>🌿 AI Plant Detection</h3>
+        <span id="aiStatus" class="ai-status">WAITING</span>
+    </div>
+
+    <div class="ai-prediction">
+        <span class="ai-label">Prediction</span>
+        <span id="aiPrediction" class="ai-value">-</span>
+    </div>
+
+    <div class="ai-confidence">
+        <span class="ai-label">Confidence</span>
+        <span id="aiConfidence" class="ai-value">-</span>
+    </div>
+
+    <div class="ai-probabilities">
+
+        <div class="ai-probability-row">
+            <span>Healthy</span>
+            <span id="probHealthy">-</span>
+        </div>
+
+        <div class="ai-probability-row">
+            <span>Mildew</span>
+            <span id="probMildew">-</span>
+        </div>
+
+        <div class="ai-probability-row">
+            <span>Wilted</span>
+            <span id="probWilted">-</span>
+        </div>
+
+    </div>
 
     </div>
 
@@ -2886,6 +2983,8 @@ if (topic === MQTT_TOPIC_RESULT) {
             "[MQTT] Command Result:",
             data
         );
+
+        updateAIResult(data); 
 
         if (data.result === "REJECTED") {
 
@@ -3663,6 +3762,62 @@ function ubahMode(mode) {
 
         }
     );
+}
+
+// ===================== AI RESULT =====================
+
+function updateAIResult(data) {
+
+    if (!data) {
+        return;
+
+    console.log("[AI] Result:", data);
+
+    const prediction =
+        data.prediction || "-";
+
+    const confidence =
+        data.confidence !== undefined
+            ? Number(data.confidence).toFixed(2) + "%"
+            : "-";
+
+    const probabilities =
+        data.probabilities || {};
+
+    document.getElementById("aiPrediction").textContent =
+        prediction.toUpperCase();
+
+    document.getElementById("aiConfidence").textContent =
+        confidence;
+
+    document.getElementById("probHealthy").textContent =
+        probabilities.healthy !== undefined
+            ? Number(probabilities.healthy).toFixed(2) + "%"
+            : "-";
+
+    document.getElementById("probMildew").textContent =
+        probabilities.mildew !== undefined
+            ? Number(probabilities.mildew).toFixed(2) + "%"
+            : "-";
+
+    document.getElementById("probWilted").textContent =
+        probabilities.wilted !== undefined
+            ? Number(probabilities.wilted).toFixed(2) + "%"
+            : "-";
+
+    const status =
+        document.getElementById("aiStatus");
+
+    if (data.success === true) {
+
+        status.textContent = "AI READY";
+
+    } else {
+
+        status.textContent = "ERROR";
+
+    }
+}
 }
 </script>
 
