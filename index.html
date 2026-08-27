@@ -3234,8 +3234,6 @@ notificationElement.classList.add("show");
 
     });
 }
-// ===================== START MQTT =====================
-connectMQTT();
 
 // =========================================================
 // DASHBOARD SIDEBAR / TAB
@@ -3817,7 +3815,13 @@ function updateAIResult(data) {
         status.textContent = "ERROR";
 
     }
+    // ===================== START MQTT =====================
+try {
+    connectMQTT();
+} catch (error) {
+    console.error("[MQTT] Gagal memulai MQTT:", error);
 }
+    }
 }
 </script>
 
