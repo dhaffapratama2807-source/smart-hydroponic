@@ -2682,10 +2682,10 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
 
         <div class="camera-view">
             <img
-                id="esp32camStream"
-                src="http://202.10.35.14:8000/video"
-                alt="ESP32-CAM Live Stream"
-            >
+    id="esp32camStream"
+    src="https://applicant-remote-mainly-offerings.trycloudflare.com/stream"
+    alt="ESP32-CAM Live Stream"
+>
         </div>
         <!-- ================= AI RESULT ================= -->
 <div class="ai-result-card">
@@ -2789,12 +2789,12 @@ function connectMQTT() {
     console.log("[MQTT] Connecting to EMQX...");
 
     mqttClient = mqtt.connect(MQTT_BROKER, {
-        username: MQTT_USERNAME,
-        password: MQTT_PASSWORD,
-        clientId: "dashboard_" + Math.random().toString(16).substr(2, 8),
-        clean: true,
-        connectTimeout: 10000,
-        reconnectPeriod: 5000
+    const char *mqtt_user = "USERNAME_MQTT";
+    const char *mqtt_password = "PASSWORD_MQTT";
+    clientId: "dashboard_" + Math.random().toString(16).substr(2, 8),
+    clean: true,
+    connectTimeout: 10000,
+    reconnectPeriod: 5000
     });
 
     mqttClient.on("connect", function () {
