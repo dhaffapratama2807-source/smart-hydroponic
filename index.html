@@ -2115,7 +2115,7 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
 .camera-container {
     width: 100%;
     display: grid;
-    grid-template-columns: 1.15fr 0.85fr;
+    grid-template-columns: 1fr 1fr;
     gap: 20px;
     align-items: stretch;
 }
@@ -2127,32 +2127,12 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
     box-shadow: 0 8px 25px rgba(0,0,0,0.08);
 }
 
-.camera-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-}
-
-.camera-header h3 {
-    font-size: 22px;
-    color: #2E7D32;
-}
-
-.camera-status {
-    color: #2E7D32;
-    font-weight: bold;
-}
-
 .camera-view {
     width: 100%;
     aspect-ratio: 1 / 1;
     background: transparent;
     border-radius: 15px;
     overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .camera-view img {
@@ -2161,7 +2141,6 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
     object-fit: cover;
     display: block;
 }
-/* ================= AI RESULT ================= */
 
 .ai-result-card {
     width: 100%;
@@ -2170,7 +2149,6 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
     align-self: stretch;
 }
 
-/* RESPONSIVE CAMERA */
 @media (max-width: 900px) {
     .camera-container {
         grid-template-columns: 1fr;
@@ -2679,8 +2657,10 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
 <div id="dashboard-tab-camera" class="dashboard-tab">
 
     <h2 class="dashboard-tab-title">
-        📷 Live Camera
-    </h2>
+    📷 Live Camera
+</h2>
+
+<div class="camera-container">
 
     <div class="camera-card">
 
@@ -2739,6 +2719,8 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
     </div>
 
     </div>
+
+</div>
 
 </div>
 
