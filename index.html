@@ -3768,6 +3768,7 @@ function updateAIResult(data) {
 
     if (!data) {
         return;
+    }
 
     console.log("[AI] Result:", data);
 
@@ -3820,7 +3821,6 @@ try {
     connectMQTT();
 } catch (error) {
     console.error("[MQTT] Gagal memulai MQTT:", error);
-}
 }
 }
 </script>
