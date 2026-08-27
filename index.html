@@ -3816,13 +3816,14 @@ function updateAIResult(data) {
         status.textContent = "ERROR";
 
     }
-    // ===================== START MQTT =====================
+}
+// ===================== START MQTT =====================
 try {
     connectMQTT();
 } catch (error) {
     console.error("[MQTT] Gagal memulai MQTT:", error);
 }
-}
+
 </script>
 
 </body>
