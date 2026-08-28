@@ -2764,11 +2764,6 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
         </div>
 
         <div class="ai-probability-row">
-            <span>Mildew</span>
-            <span id="probMildew">-</span>
-        </div>
-
-        <div class="ai-probability-row">
             <span>Wilted</span>
             <span id="probWilted">-</span>
         </div>
@@ -3845,11 +3840,6 @@ function updateAIResult(data) {
     document.getElementById("probHealthy").textContent =
         probabilities.healthy !== undefined
             ? Number(probabilities.healthy).toFixed(2) + "%"
-            : "-";
-
-    document.getElementById("probMildew").textContent =
-        probabilities.mildew !== undefined
-            ? Number(probabilities.mildew).toFixed(2) + "%"
             : "-";
 
     document.getElementById("probWilted").textContent =
