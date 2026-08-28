@@ -2131,138 +2131,148 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 20px;
 }
 
-/* ================= OBJECT DETECTION ================= */
+/* ================= PLANT CONDITION ================= */
 
-.object-detection-card {
+.plant-condition-card {
     width: 100%;
     box-sizing: border-box;
-    padding: 20px;
+    padding: 24px;
     background: #fff;
     border-radius: 20px;
     box-shadow: 0 8px 25px rgba(0,0,0,0.08);
 }
 
-.object-detection-header {
+.plant-condition-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 18px;
+    margin-bottom: 24px;
 }
 
-.object-detection-header h3 {
+.plant-condition-header h3 {
     margin: 0;
     color: #2E7D32;
-    font-size: 20px;
+    font-size: 22px;
     font-weight: 700;
 }
 
-.detection-status {
-    padding: 6px 12px;
-    border-radius: 20px;
-    background: #ECEFF1;
+/* ================= OVERALL CONDITION ================= */
+
+.overall-condition {
+    padding: 18px;
+    background: #F7FAF7;
+    border-radius: 14px;
+    border: 1px solid #E3EDE3;
+}
+
+.condition-label {
     color: #607D8B;
-    font-size: 12px;
-    font-weight: bold;
+    font-size: 13px;
+    margin-bottom: 8px;
 }
 
-/* ================= DETECTION FRAME ================= */
-
-.detection-frame {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 4 / 3;
-    background: #F5F7F6;
-    border-radius: 15px;
-    overflow: hidden;
-    border: 1px solid #E0E0E0;
-}
-
-.detection-placeholder {
-    position: absolute;
-    inset: 0;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    text-align: center;
-    padding: 20px;
-    box-sizing: border-box;
-}
-
-.detection-icon {
-    font-size: 42px;
-    margin-bottom: 10px;
-}
-
-.detection-title {
+.condition-value {
     color: #2E7D32;
-    font-size: 16px;
-    font-weight: 700;
+    font-size: 28px;
+    font-weight: 800;
+    margin-bottom: 6px;
 }
 
-.detection-subtitle {
-    margin-top: 6px;
+.condition-confidence {
     color: #78909C;
     font-size: 13px;
 }
 
-/* ================= SUMMARY ================= */
+.condition-confidence strong {
+    color: #263238;
+}
 
-.detection-summary {
+/* ================= PLANT SUMMARY ================= */
+
+.plant-summary {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-    margin-top: 15px;
+    gap: 10px;
+    margin-top: 16px;
 }
 
-.detection-summary-item {
-    padding: 12px 8px;
+.plant-summary-item {
+    padding: 14px 8px;
     text-align: center;
     background: #F7F9F8;
-    border-radius: 10px;
+    border-radius: 12px;
 }
 
-.summary-label {
+.plant-summary-item span {
     display: block;
     color: #607D8B;
-    font-size: 11px;
-    margin-bottom: 5px;
+    font-size: 12px;
+    margin-bottom: 6px;
 }
 
-.detection-summary-item strong {
+.plant-summary-item strong {
     color: #263238;
-    font-size: 20px;
+    font-size: 22px;
 }
 
-/* ================= PLANT DETAILS ================= */
+/* ================= PROBABILITIES ================= */
 
-.detection-details {
+.condition-probabilities {
     margin-top: 18px;
 }
 
-.detection-details-title {
+.probability-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 9px 0;
+    border-bottom: 1px solid #E8ECE9;
     color: #455A64;
     font-size: 14px;
+}
+
+/* ================= PLANT LIST ================= */
+
+.plant-details {
+    margin-top: 22px;
+}
+
+.plant-details-title {
+    color: #455A64;
+    font-size: 15px;
     font-weight: 700;
     margin-bottom: 8px;
 }
 
-.detection-list {
-    max-height: 180px;
-    overflow-y: auto;
+.plant-list {
     border-top: 1px solid #E0E0E0;
 }
 
-.detection-empty {
-    padding: 15px 5px;
+.plant-empty {
+    padding: 18px 5px;
     text-align: center;
     color: #90A4AE;
-    font-size: 12px;
+    font-size: 13px;
+}
+
+.plant-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 4px;
+    border-bottom: 1px solid #EEF1EF;
+}
+
+.plant-name {
+    color: #455A64;
+    font-weight: 600;
+}
+
+.plant-status {
+    font-weight: 700;
+    font-size: 13px;
 }
 
 .camera-header {
@@ -2879,107 +2889,80 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
 
     <div class="camera-ai-column">
 
-        <!-- ================= AI RESULT ================= -->
-<div class="ai-result-card">
+<!-- ================= PLANT CONDITION ================= -->
+<div class="plant-condition-card">
 
-    <div class="ai-result-header">
-        <h3>🌿 AI Plant Detection</h3>
-        <span id="aiStatus" class="ai-status">WAITING</span>
+    <div class="plant-condition-header">
+        <h3>🌱 Plant Condition</h3>
+
+        <span id="aiStatus" class="ai-status">
+            WAITING
+        </span>
     </div>
 
-    <div class="ai-prediction">
-        <span class="ai-label">Prediction</span>
-        <span id="aiPrediction" class="ai-value">-</span>
+    <!-- Overall condition -->
+    <div class="overall-condition">
+
+        <div class="condition-label">
+            Overall Condition
+        </div>
+
+        <div id="aiPrediction" class="condition-value">
+            -
+        </div>
+
+        <div class="condition-confidence">
+            Confidence:
+            <strong id="aiConfidence">-</strong>
+        </div>
+
     </div>
 
-    <div class="ai-confidence">
-        <span class="ai-label">Confidence</span>
-        <span id="aiConfidence" class="ai-value">-</span>
+    <!-- Detection summary -->
+    <div class="plant-summary">
+
+        <div class="plant-summary-item">
+            <span>Plants</span>
+            <strong id="detectedPlants">0</strong>
+        </div>
+
+        <div class="plant-summary-item">
+            <span>Healthy</span>
+            <strong id="detectedHealthy">0</strong>
+        </div>
+
+        <div class="plant-summary-item">
+            <span>Wilted</span>
+            <strong id="detectedWilted">0</strong>
+        </div>
+
     </div>
 
-    <div class="ai-probabilities">
+    <!-- AI probabilities -->
+    <div class="condition-probabilities">
 
-        <div class="ai-probability-row">
+        <div class="probability-row">
             <span>Healthy</span>
             <span id="probHealthy">-</span>
         </div>
 
-        <div class="ai-probability-row">
+        <div class="probability-row">
             <span>Wilted</span>
             <span id="probWilted">-</span>
         </div>
 
     </div>
 
-    </div>
-<!-- ================= OBJECT DETECTION ================= -->
-<div class="object-detection-card">
+    <!-- Plant list -->
+    <div class="plant-details">
 
-    <div class="object-detection-header">
-        <h3>🌱 Object Detection</h3>
-
-        <span id="detectionStatus" class="detection-status">
-            WAITING
-        </span>
-    </div>
-
-    <div class="detection-frame">
-
-        <div class="detection-placeholder">
-
-            <div class="detection-icon">
-                🌱
-            </div>
-
-            <div class="detection-title">
-                Waiting for detection
-            </div>
-
-            <div class="detection-subtitle">
-                Object detection result will appear here
-            </div>
-
+        <div class="plant-details-title">
+            Plant List
         </div>
 
-    </div>
+        <div id="detectionList" class="plant-list">
 
-    <div class="detection-summary">
-
-        <div class="detection-summary-item">
-            <span class="summary-label">
-                Detected Plants
-            </span>
-
-            <strong id="detectedPlants">0</strong>
-        </div>
-
-        <div class="detection-summary-item">
-            <span class="summary-label">
-                Healthy
-            </span>
-
-            <strong id="detectedHealthy">0</strong>
-        </div>
-
-        <div class="detection-summary-item">
-            <span class="summary-label">
-                Wilted
-            </span>
-
-            <strong id="detectedWilted">0</strong>
-        </div>
-
-    </div>
-
-    <div class="detection-details">
-
-        <div class="detection-details-title">
-            Plant Details
-        </div>
-
-        <div class="detection-list" id="detectionList">
-
-            <div class="detection-empty">
+            <div class="plant-empty">
                 No plants detected yet.
             </div>
 
@@ -2988,6 +2971,8 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
     </div>
 
 </div>
+
+    </div>
 
 </div>
 
