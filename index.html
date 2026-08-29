@@ -946,6 +946,261 @@ section{
 
 }
 
+/* =====================================================
+   PROFESSIONAL SENSOR DASHBOARD
+   ===================================================== */
+
+.sensor-monitoring-section{
+    padding-top:0 !important;
+}
+
+.sensor-monitoring-section > h2{
+    text-align:left !important;
+    font-size:28px !important;
+    margin-bottom:25px !important;
+}
+
+
+/* GRID SENSOR */
+
+.professional-sensor-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:18px;
+}
+
+
+/* CARD SENSOR */
+
+.professional-sensor-card{
+    position:relative;
+
+    min-height:125px;
+
+    background:#FFFFFF;
+
+    border-radius:14px;
+
+    border-top:4px solid #43A047;
+
+    padding:22px;
+
+    display:flex;
+    align-items:center;
+
+    gap:18px;
+
+    box-sizing:border-box;
+
+    box-shadow:0 6px 18px rgba(0,0,0,.07);
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease;
+}
+
+.professional-sensor-card:hover{
+    transform:translateY(-3px);
+    box-shadow:0 10px 24px rgba(0,0,0,.10);
+}
+
+
+/* ICON */
+
+.professional-sensor-icon{
+    width:64px;
+    height:64px;
+
+    min-width:64px;
+
+    border-radius:50%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:30px;
+    font-weight:700;
+
+    line-height:1;
+}
+
+
+/* WARNA ICON */
+
+.professional-sensor-icon.water-icon{
+    background:#E3F2FD;
+    color:#2196F3;
+}
+
+.professional-sensor-icon.air-icon{
+    background:#EDE7F6;
+    color:#7E57C2;
+}
+
+.professional-sensor-icon.humidity-icon{
+    background:#E8F5E9;
+    color:#43A047;
+}
+
+.professional-sensor-icon.ph-icon{
+    background:#FCEFE6;
+    color:#E65100;
+    font-size:22px;
+}
+
+.professional-sensor-icon.tds-icon{
+    background:#FFF8E1;
+    color:#B88600;
+    font-size:20px;
+}
+
+.professional-sensor-icon.level-icon{
+    background:#E3F2FD;
+    color:#2196F3;
+}
+
+
+/* INFORMASI SENSOR */
+
+.professional-sensor-info{
+    min-width:0;
+    flex:1;
+}
+
+.professional-sensor-info h3{
+    margin:0 0 5px 0;
+
+    color:#1B5E20;
+
+    font-size:18px;
+    font-weight:700;
+}
+
+.professional-sensor-info strong{
+    display:block;
+
+    color:#111111;
+
+    font-size:25px;
+    font-weight:800;
+
+    line-height:1.2;
+
+    margin-bottom:5px;
+}
+
+.professional-sensor-info span{
+    display:block;
+
+    color:#607D8B;
+
+    font-size:13px;
+}
+
+
+/* STATUS */
+
+.professional-sensor-status{
+    position:absolute;
+
+    top:18px;
+    right:18px;
+
+    display:flex;
+    flex-direction:column;
+
+    align-items:flex-end;
+
+    gap:5px;
+}
+
+.professional-sensor-status b{
+    background:#E8F5E9;
+
+    color:#188038;
+
+    padding:4px 9px;
+
+    border-radius:7px;
+
+    font-size:10px;
+}
+
+.professional-sensor-status span{
+    color:#607D8B;
+
+    font-size:11px;
+}
+
+.professional-sensor-status span::first-letter{
+    color:#2E7D32;
+}
+
+
+/* MINI GRAPH */
+
+.sensor-mini-chart{
+    position:absolute;
+
+    right:18px;
+    bottom:16px;
+
+    width:90px;
+
+    font-size:17px;
+
+    letter-spacing:-2px;
+
+    font-weight:700;
+}
+
+
+/* WARNA GRAPH */
+
+.water-chart{
+    color:#2196F3;
+}
+
+.air-chart{
+    color:#7E57C2;
+}
+
+.humidity-chart{
+    color:#43A047;
+}
+
+.ph-chart{
+    color:#E65100;
+}
+
+.tds-chart{
+    color:#D89B00;
+}
+
+.level-chart{
+    color:#2196F3;
+}
+
+
+/* RESPONSIVE */
+
+@media(max-width:1100px){
+
+    .professional-sensor-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:700px){
+
+    .professional-sensor-grid{
+        grid-template-columns:1fr;
+    }
+
+}
+
 /* ========================= */
 /* ANIMASI CARD */
 /* ========================= */
@@ -3105,93 +3360,164 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
 
 </section>
 
-                <div class="cards">
-<div class="card sensor-dashboard-card">
+                <section class="dashboard-section sensor-monitoring-section">
 
-    <div class="sensor-icon water-icon">
-        💧
+    <h2>Monitoring Sensor</h2>
+
+    <div class="professional-sensor-grid">
+
+        <!-- SUHU AIR -->
+        <div class="professional-sensor-card">
+
+            <div class="professional-sensor-icon water-icon">
+                💧
+            </div>
+
+            <div class="professional-sensor-info">
+                <h3>Suhu Air</h3>
+                <strong id="waterTemp">0°C</strong>
+                <span>DS18B20</span>
+            </div>
+
+            <div class="professional-sensor-status">
+                <b>NORMAL</b>
+                <span>● Active</span>
+            </div>
+
+            <div class="sensor-mini-chart water-chart">
+                ╱╲__╱╲_╱╲
+            </div>
+
+        </div>
+
+
+        <!-- SUHU UDARA -->
+        <div class="professional-sensor-card">
+
+            <div class="professional-sensor-icon air-icon">
+                🌡️
+            </div>
+
+            <div class="professional-sensor-info">
+                <h3>Suhu Udara</h3>
+                <strong id="airTemp">0°C</strong>
+                <span>DHT11</span>
+            </div>
+
+            <div class="professional-sensor-status">
+                <b>NORMAL</b>
+                <span>● Active</span>
+            </div>
+
+            <div class="sensor-mini-chart air-chart">
+                ╱╲_╱╲__╱╲
+            </div>
+
+        </div>
+
+
+        <!-- KELEMBAPAN -->
+        <div class="professional-sensor-card">
+
+            <div class="professional-sensor-icon humidity-icon">
+                💧
+            </div>
+
+            <div class="professional-sensor-info">
+                <h3>Kelembapan</h3>
+                <strong id="humidity">0%</strong>
+                <span>DHT11</span>
+            </div>
+
+            <div class="professional-sensor-status">
+                <b>NORMAL</b>
+                <span>● Active</span>
+            </div>
+
+            <div class="sensor-mini-chart humidity-chart">
+                ╱╲╱_╲╱╲_
+            </div>
+
+        </div>
+
+
+        <!-- pH -->
+        <div class="professional-sensor-card">
+
+            <div class="professional-sensor-icon ph-icon">
+                pH
+            </div>
+
+            <div class="professional-sensor-info">
+                <h3>pH</h3>
+                <strong id="ph">0.00</strong>
+                <span>pH Meter</span>
+            </div>
+
+            <div class="professional-sensor-status">
+                <b>NORMAL</b>
+                <span>● Active</span>
+            </div>
+
+            <div class="sensor-mini-chart ph-chart">
+                ╱╲_╱╲╱_╲
+            </div>
+
+        </div>
+
+
+        <!-- PPM -->
+        <div class="professional-sensor-card">
+
+            <div class="professional-sensor-icon tds-icon">
+                ppm
+            </div>
+
+            <div class="professional-sensor-info">
+                <h3>PPM</h3>
+                <strong id="tds">0 ppm</strong>
+                <span>TDS Meter</span>
+            </div>
+
+            <div class="professional-sensor-status">
+                <b>NORMAL</b>
+                <span>● Active</span>
+            </div>
+
+            <div class="sensor-mini-chart tds-chart">
+                ╱╲╱_╲╱╲_
+            </div>
+
+        </div>
+
+
+        <!-- KETINGGIAN AIR -->
+        <div class="professional-sensor-card">
+
+            <div class="professional-sensor-icon level-icon">
+                ≋
+            </div>
+
+            <div class="professional-sensor-info">
+                <h3>Ketinggian Air</h3>
+                <strong id="level">0.0 cm</strong>
+                <span>Ultrasonik</span>
+            </div>
+
+            <div class="professional-sensor-status">
+                <b>NORMAL</b>
+                <span>● Active</span>
+            </div>
+
+            <div class="sensor-mini-chart level-chart">
+                ╱╲__╱╲_╱
+            </div>
+
+        </div>
+
     </div>
 
-    <div class="sensor-content">
-        <h3>Suhu Air</h3>
-        <h1 id="waterTemp">0°C</h1>
-        <p>DS18B20</p>
-    </div>
-
-</div>
-
-                    <div class="card sensor-dashboard-card">
-
-    <div class="sensor-icon air-icon">
-        🌡️
-    </div>
-
-    <div class="sensor-content">
-        <h3>Suhu Udara</h3>
-        <h1 id="airTemp">0°C</h1>
-        <p>DHT11</p>
-    </div>
-
-</div>
-
-                    <div class="card sensor-dashboard-card">
-
-    <div class="sensor-icon humidity-icon">
-        💧
-    </div>
-
-    <div class="sensor-content">
-        <h3>Kelembapan</h3>
-        <h1 id="humidity">0%</h1>
-        <p>DHT11</p>
-    </div>
-
-</div>
-
-                   <div class="card sensor-dashboard-card">
-
-    <div class="sensor-icon ph-icon">
-        pH
-    </div>
-
-    <div class="sensor-content">
-        <h3>pH</h3>
-        <h1 id="ph">0.00</h1>
-        <p>pH Meter</p>
-    </div>
-
-</div>
-
-                    <div class="card sensor-dashboard-card">
-
-    <div class="sensor-icon tds-icon">
-        ppm
-    </div>
-
-    <div class="sensor-content">
-        <h3>PPM</h3>
-        <h1 id="tds">0 ppm</h1>
-        <p>TDS Meter</p>
-    </div>
-
-</div>
-
-  <div class="card sensor-dashboard-card">
-
-    <div class="sensor-icon level-icon">
-        ≋
-    </div>
-
-    <div class="sensor-content">
-        <h3>Ketinggian Air</h3>
-        <h1 id="level">0.0 cm</h1>
-        <p>Ultrasonik</p>
-    </div>
-
-</div>
-
-                </div>
-            </section>
+</section>
 
             <section class="dashboard-section">
                 <h2>Status Pompa</h2>
