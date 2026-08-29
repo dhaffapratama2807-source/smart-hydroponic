@@ -473,13 +473,9 @@ section{
 }
 
 .cards{
-
     display:grid;
-
-    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-
+    grid-template-columns:repeat(3, 1fr);
     gap:30px;
-
 }
 
 .card{
@@ -498,12 +494,79 @@ section{
 
 }
 
+.dashboard-tab:first-of-type .cards .card{
+    background:#FFFFFF;
+    padding:40px;
+    min-height:135px;
+
+    border:none;
+    border-radius:18px;
+
+    box-shadow:0 4px 15px rgba(0,0,0,.08);
+
+    display:flex;
+    align-items:center;
+    gap:28px;
+
+    box-sizing:border-box;
+}
+
+.dashboard-tab:first-of-type .cards .card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 10px 25px rgba(0,0,0,.12);
+}
+
 .card:hover{
 
     transform:translateY(-8px);
 
     box-shadow:0 20px 40px rgba(0,0,0,.15);
 
+}
+
+.sensor-dashboard-card{
+    display:flex;
+    align-items:center;
+    gap:28px;
+}
+
+.sensor-icon{
+    width:78px;
+    height:78px;
+    flex:0 0 78px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:34px;
+    font-weight:700;
+}
+
+.sensor-content{
+    min-width:0;
+}
+
+.sensor-content h3{
+    color:#1B5E20;
+    font-size:22px;
+    margin:0 0 12px 0;
+    min-height:0;
+    display:block;
+    text-align:left;
+}
+
+.sensor-content h1{
+    color:#111111;
+    font-size:30px;
+    margin:0 0 10px 0;
+    font-weight:800;
+}
+
+.sensor-content p{
+    color:#607D8B;
+    font-size:16px;
+    margin:0;
+    line-height:1.4;
 }
 
 .card h3{
@@ -1835,19 +1898,19 @@ section{
 
 #dayDisplay{
     color:#FFFFFF !important;
-    font-size:12px;
+    font-size:11px !important;
     font-weight:700;
 }
 
 #dateDisplay{
     color:#FFFFFF !important;
-    font-size:12px;
-    font-weight:600;
+    font-size:11px !important;
+    font-weight:500;
 }
 
 #timeDisplay{
     color:#FFFFFF !important;
-    font-size:12px;
+    font-size:11px !important;
     font-weight:700;
 }
 
@@ -2777,42 +2840,95 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
                 <h2 class="dashboard-tab-title">Monitoring Sensor</h2>
 
                 <div class="cards">
+<div class="card sensor-dashboard-card">
 
-                    <div class="card">
-                        <h3>🌊 Suhu Air</h3>
-                        <h1 id="waterTemp">0°C</h1>
-                        <p>DS18B20</p>
-                    </div>
+    <div class="sensor-icon water-icon">
+        💧
+    </div>
 
-                    <div class="card">
-                        <h3>🌡️ Suhu Udara</h3>
-                        <h1 id="airTemp">0°C</h1>
-                        <p>DHT11</p>
-                    </div>
+    <div class="sensor-content">
+        <h3>Suhu Air</h3>
+        <h1 id="waterTemp">0°C</h1>
+        <p>DS18B20</p>
+    </div>
 
-                    <div class="card">
-                        <h3>💧 Kelembapan</h3>
-                        <h1 id="humidity">0%</h1>
-                        <p>DHT11</p>
-                    </div>
+</div>
 
-                    <div class="card">
-                        <h3>🧪 pH Air</h3>
-                        <h1 id="ph">0</h1>
-                        <p>Normal</p>
-                    </div>
+                    <div class="card sensor-dashboard-card">
 
-                    <div class="card">
-                        <h3>⚡ TDS</h3>
-                        <h1 id="tds">0 ppm</h1>
-                        <p>Nutrisi</p>
-                    </div>
+    <div class="sensor-icon air-icon">
+        🌡️
+    </div>
 
-                    <div class="card">
-                        <h3>🚰 Water Level</h3>
-                        <h1 id="level">0%</h1>
-                        <p>Aman</p>
-                    </div>
+    <div class="sensor-content">
+        <h3>Suhu Udara</h3>
+        <h1 id="airTemp">0°C</h1>
+        <p>DHT11</p>
+    </div>
+
+</div>
+
+                    <div class="card sensor-dashboard-card">
+
+    <div class="sensor-icon humidity-icon">
+        💧
+    </div>
+
+    <div class="sensor-content">
+        <h3>Kelembapan</h3>
+        <h1 id="humidity">0%</h1>
+        <p>DHT11</p>
+    </div>
+
+</div>
+
+                   <div class="card sensor-dashboard-card">
+
+    <div class="sensor-icon ph-icon">
+        pH
+    </div>
+
+    <div class="sensor-content">
+        <h3>pH</h3>
+        <h1 id="ph">0.00</h1>
+        <p>pH Meter</p>
+    </div>
+
+</div>
+
+                    <div class="card sensor-dashboard-card">
+
+    <div class="sensor-icon tds-icon">
+        ppm
+    </div>
+
+    <div class="sensor-content">
+        <h3>PPM</h3>
+        <h1 id="tds">0 ppm</h1>
+        <p>TDS Meter</p>
+    </div>
+
+</div>
+
+                    <div class="card sensor-dashboard-card">
+
+    <div class="sensor-icon level-icon">
+        🚰
+    </div>
+
+  <div class="card sensor-dashboard-card">
+
+    <div class="sensor-icon level-icon">
+        ≋
+    </div>
+
+    <div class="sensor-content">
+        <h3>Ketinggian Air</h3>
+        <h1 id="level">0.0 cm</h1>
+        <p>Ultrasonik</p>
+    </div>
+
+</div>
 
                 </div>
             </section>
