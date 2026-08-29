@@ -4505,6 +4505,12 @@ if (data.pump_ph_down !== undefined) {
                   Number(data.humidity).toFixed(0) + "%";
 }
 
+// pH Air
+if (data.ph !== undefined) {
+    document.getElementById("ph").textContent =
+        Number(data.ph).toFixed(2);
+}
+
             // TDS
             if (data.tds !== undefined) {
 
