@@ -1770,7 +1770,8 @@ section{
     margin-left:250px;
     width:calc(100% - 250px);
     min-height:100vh;
-    padding:35px 45px 60px;
+    padding:0 45px 60px;
+    box-sizing:border-box;
 }
 
 .dashboard-main-header{
@@ -1778,20 +1779,23 @@ section{
 }
 
 .top-system-header{
-    width:100%;
-    background:#FFFFFF;
-    border-top:3px solid #2E7D32;
-    border-bottom:1px solid #E0E0E0;
-    border-radius:0 0 6px 6px;
-    padding:5px 14px;
-    margin-bottom:15px;
+    width:calc(100% + 90px);
+    margin-left:-45px;
+    margin-bottom:25px;
+
+    background:#2E7D32;
+    border:none;
+    border-radius:0;
+
+    padding:8px 20px;
 
     display:flex;
     justify-content:space-between;
     align-items:center;
+
     box-sizing:border-box;
 
-    box-shadow:0 2px 6px rgba(0,0,0,.04);
+    box-shadow:0 3px 8px rgba(0,0,0,.12);
 }
 
 .top-system-title{
@@ -1802,7 +1806,7 @@ section{
 
 .top-system-title h2{
     margin:0;
-    color:#1B5E20;
+    color:#FFFFFF;
     font-size:17px;
 }
 
@@ -1830,18 +1834,18 @@ section{
 }
 
 #dayDisplay{
-    color:#2E7D32;
+    color:#FFFFFF;
     font-size:12px;
     font-weight:700;
 }
 
 #dateDisplay{
-    color:#607D8B;
+    color:#FFFFFF;
     font-size:12px;
 }
 
 #timeDisplay{
-    color:#1B5E20;
+    color:#FFFFFF;
     font-size:14px;
     font-weight:700;
 }
@@ -1901,21 +1905,28 @@ section{
     display:flex;
     align-items:center;
     gap:5px;
+
     padding:5px 9px;
+
     border-radius:15px;
+
+    background:rgba(255,255,255,.15);
+    color:#FFFFFF;
+
     font-size:11px;
     font-weight:700;
+
     transition:.3s;
 }
 
 .system-status.online{
-    background:#E8F5E9;
-    color:#2E7D32;
+    background:rgba(255,255,255,.15);
+    color:#FFFFFF;
 }
 
 .system-status.offline{
-    background:#FFEBEE;
-    color:#C62828;
+    background:rgba(255,255,255,.15);
+    color:#FFFFFF;
 }
 
 .status-dot{
@@ -1926,13 +1937,13 @@ section{
 }
 
 .system-status.online .status-dot{
-    background:#4CAF50;
-    box-shadow:0 0 8px rgba(76,175,80,.6);
+    background:#69F0AE;
+    box-shadow:0 0 8px rgba(105,240,174,.8);
 }
 
 .system-status.offline .status-dot{
-    background:#E53935;
-    box-shadow:0 0 8px rgba(229,57,53,.5);
+    background:#FF5252;
+    box-shadow:0 0 8px rgba(255,82,82,.8);
 }
 
 .dashboard-tab{
