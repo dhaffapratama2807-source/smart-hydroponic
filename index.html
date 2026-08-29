@@ -1827,6 +1827,13 @@ section{
    CONTROL - MODE & STATUS POMPA BERDAMPINGAN
    ========================================= */
 
+.control-top-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+    align-items: stretch;
+}
+
 .control-top-grid .mode-card {
     max-width: none;
     width: 100%;
@@ -1868,18 +1875,6 @@ section{
 
 .control-top-grid .card h1{
     font-size:30px;
-}
-
-.control-top-grid .mode-card {
-    max-width: none;
-    width: 100%;
-    margin: 0;
-    box-sizing: border-box;
-    min-height: 280px;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
 }
 
 .control-status-card {
