@@ -3538,15 +3538,15 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
 
     <div class="overview-grid">
 
-        <div class="overview-card">
-            <div class="overview-icon water-icon">💧</div>
+       <div class="overview-card">
+    <div class="overview-icon level-icon">≋</div>
 
-            <div class="overview-content">
-                <span>Suhu Air</span>
-                <strong id="overviewWaterTemp">0°C</strong>
-                <small>NORMAL</small>
-            </div>
-        </div>
+    <div class="overview-content">
+        <span>Water Float</span>
+        <strong id="overviewLevel">AMAN</strong>
+        <small>FLOAT SWITCH</small>
+    </div>
+</div>
 
 
         <div class="overview-card">
@@ -3580,18 +3580,6 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
                 <small>NORMAL</small>
             </div>
         </div>
-
-
-        <div class="overview-card">
-            <div class="overview-icon level-icon">≋</div>
-
-            <div class="overview-content">
-                <span>Ketinggian Air</span>
-                <strong id="overviewLevel">0%</strong>
-                <small>NORMAL</small>
-            </div>
-        </div>
-
 
         <div class="overview-card">
             <div class="overview-icon system-icon">✓</div>
@@ -3779,22 +3767,23 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
 
 
         <!-- KETINGGIAN AIR -->
-        <div class="professional-sensor-card">
+        <!-- WATER FLOAT -->
+<div class="professional-sensor-card">
 
-            <div class="professional-sensor-icon level-icon">
-                ≋
-            </div>
+    <div class="professional-sensor-icon level-icon">
+        ≋
+    </div>
 
-            <div class="professional-sensor-info">
-                <h3>Ketinggian Air</h3>
-                <strong id="level">0.0 cm</strong>
-                <span>Ultrasonik</span>
-            </div>
+    <div class="professional-sensor-info">
+        <h3>Water Float</h3>
+        <strong id="level">AMAN</strong>
+        <span>Float Switch</span>
+    </div>
 
-            <div class="professional-sensor-status">
-                <b>NORMAL</b>
-                <span>● Active</span>
-            </div>
+    <div class="professional-sensor-status">
+        <b>NORMAL</b>
+        <span>● Active</span>
+    </div>
 
             <div class="sensor-mini-chart level-chart">
     <svg viewBox="0 0 120 45" preserveAspectRatio="none">
@@ -4529,6 +4518,17 @@ if (data.tds !== undefined) {
     document.getElementById("overviewTDS").textContent =
         Number(data.tds).toFixed(0) + " ppm";
 }
+
+// WATER FLOAT
+if (data.tank_status !== undefined) {
+
+    document.getElementById("level").textContent =
+        data.tank_status;
+
+    document.getElementById("overviewLevel").textContent =
+        data.tank_status;
+}
+
         } catch (error) {
 
             console.error("[MQTT] JSON Parse Error:", error);
