@@ -2921,7 +2921,83 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
         <div id="dashboard-tab-dashboard" class="dashboard-tab active">
 
             <section class="dashboard-section">
-                <h2 class="dashboard-tab-title">Monitoring Sensor</h2>
+                <h2 class="dashboard-tab-title">Dashboard</h2>
+
+                <!-- ================= SYSTEM OVERVIEW ================= -->
+<section class="dashboard-section system-overview-section">
+
+    <h2>System Overview</h2>
+
+    <div class="overview-grid">
+
+        <div class="overview-card">
+            <div class="overview-icon water-icon">💧</div>
+
+            <div class="overview-content">
+                <span>Suhu Air</span>
+                <strong id="overviewWaterTemp">0°C</strong>
+                <small>NORMAL</small>
+            </div>
+        </div>
+
+
+        <div class="overview-card">
+            <div class="overview-icon ph-icon">pH</div>
+
+            <div class="overview-content">
+                <span>pH</span>
+                <strong id="overviewPH">0</strong>
+                <small>NORMAL</small>
+            </div>
+        </div>
+
+
+        <div class="overview-card">
+            <div class="overview-icon tds-icon">ppm</div>
+
+            <div class="overview-content">
+                <span>PPM</span>
+                <strong id="overviewTDS">0 ppm</strong>
+                <small>NORMAL</small>
+            </div>
+        </div>
+
+
+        <div class="overview-card">
+            <div class="overview-icon humidity-icon">◌</div>
+
+            <div class="overview-content">
+                <span>Kelembapan</span>
+                <strong id="overviewHumidity">0%</strong>
+                <small>NORMAL</small>
+            </div>
+        </div>
+
+
+        <div class="overview-card">
+            <div class="overview-icon level-icon">≋</div>
+
+            <div class="overview-content">
+                <span>Ketinggian Air</span>
+                <strong id="overviewLevel">0%</strong>
+                <small>NORMAL</small>
+            </div>
+        </div>
+
+
+        <div class="overview-card">
+            <div class="overview-icon system-icon">✓</div>
+
+            <div class="overview-content">
+                <span>System</span>
+                <strong>6/6</strong>
+                <small>SENSOR ACTIVE</small>
+            </div>
+        </div>
+
+    </div>
+
+</section>
 
                 <div class="cards">
 <div class="card sensor-dashboard-card">
