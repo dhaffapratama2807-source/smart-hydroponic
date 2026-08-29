@@ -4486,39 +4486,49 @@ if (data.pump_ph_down !== undefined) {
     );
 }
 
-            // Suhu Air DS18B20
-            if (data.water_temp !== undefined) {
+          // Suhu Air DS18B20
+if (data.water_temp !== undefined) {
 
-                document.getElementById("waterTemp").textContent =
-                    Number(data.water_temp).toFixed(2) + "°C";
+    document.getElementById("waterTemp").textContent =
+        Number(data.water_temp).toFixed(2) + "°C";
 
-            }
+    document.getElementById("overviewWaterTemp").textContent =
+        Number(data.water_temp).toFixed(2) + "°C";
+}
             // Suhu Udara DHT11
             if (data.env_temp !== undefined) {
                 document.getElementById("airTemp").textContent =
     Math.round(data.env_temp) + "°C";
             }
 
-            // Kelembapan DHT11
-            if (data.humidity !== undefined) {
-                document.getElementById("humidity").textContent =
-                  Number(data.humidity).toFixed(0) + "%";
-}
+ // Kelembapan DHT11
+if (data.humidity !== undefined) {
 
+    document.getElementById("humidity").textContent =
+        Number(data.humidity).toFixed(0) + "%";
+
+    document.getElementById("overviewHumidity").textContent =
+        Number(data.humidity).toFixed(0) + "%";
+}
 // pH Air
 if (data.ph !== undefined) {
+
     document.getElementById("ph").textContent =
+        Number(data.ph).toFixed(2);
+
+    document.getElementById("overviewPH").textContent =
         Number(data.ph).toFixed(2);
 }
 
-            // TDS
-            if (data.tds !== undefined) {
+       // TDS
+if (data.tds !== undefined) {
 
-                document.getElementById("tds").textContent =
-                    Number(data.tds).toFixed(0) + " ppm";
+    document.getElementById("tds").textContent =
+        Number(data.tds).toFixed(0) + " ppm";
 
+    document.getElementById("overviewTDS").textContent =
+        Number(data.tds).toFixed(0) + " ppm";
 }
-
         } catch (error) {
 
             console.error("[MQTT] JSON Parse Error:", error);
