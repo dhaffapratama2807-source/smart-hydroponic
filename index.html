@@ -1788,6 +1788,84 @@ section{
     font-size:15px;
 }
 
+.dashboard-main-header{
+    margin-bottom:35px;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:30px;
+}
+
+.dashboard-header-left{
+    flex:1;
+}
+
+.dashboard-header-info{
+    display:flex;
+    align-items:center;
+    gap:25px;
+    text-align:right;
+}
+
+.date-time{
+    color:#2E7D32;
+    line-height:1.5;
+}
+
+#dayDisplay{
+    font-size:16px;
+    font-weight:700;
+}
+
+#dateDisplay{
+    font-size:14px;
+    color:#607D8B;
+}
+
+#timeDisplay{
+    font-size:28px;
+    font-weight:700;
+    color:#1B5E20;
+}
+
+.system-status{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:10px 15px;
+    border-radius:20px;
+    font-size:14px;
+    font-weight:700;
+    transition:.3s;
+}
+
+.system-status.online{
+    background:#E8F5E9;
+    color:#2E7D32;
+}
+
+.system-status.offline{
+    background:#FFEBEE;
+    color:#C62828;
+}
+
+.status-dot{
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    transition:.3s;
+}
+
+.system-status.online .status-dot{
+    background:#4CAF50;
+    box-shadow:0 0 8px rgba(76,175,80,.6);
+}
+
+.system-status.offline .status-dot{
+    background:#E53935;
+    box-shadow:0 0 8px rgba(229,57,53,.5);
+}
+
 .dashboard-tab{
     display:none;
 }
@@ -2588,10 +2666,22 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
 
     <main class="dashboard-main">
 
-        <div class="dashboard-main-header">
-            <h1>Dashboard Monitoring</h1>
-            <p>Monitoring kondisi hidroponik secara real-time.</p>
-        </div>
+<div class="dashboard-header-info">
+
+    <div class="date-time">
+        <div id="dayDisplay">Senin</div>
+        <div id="dateDisplay">29 Agustus 2026</div>
+        <div id="timeDisplay">15:36:00</div>
+    </div>
+
+    <div id="controllerStatus" class="system-status offline">
+        <span id="statusDot" class="status-dot"></span>
+        <span id="statusText">OFFLINE</span>
+    </div>
+
+</div>
+
+</div>
 
         <!-- ================= DASHBOARD ================= -->
         <div id="dashboard-tab-dashboard" class="dashboard-tab active">
@@ -3042,6 +3132,43 @@ const MQTT_TOPIC_RESULT = "hydroponic/result";
 
 let mqttClient = null;
 
+// =========================================
+// CONTROLLER MQTT HEARTBEAT
+// =========================================
+
+let lastControllerMessage = 0;
+
+// Controller dianggap offline jika
+// tidak ada MQTT masuk selama 10 detik
+const CONTROLLER_TIMEOUT = 10000;
+
+// =========================================
+// UPDATE STATUS CONTROLLER
+// =========================================
+
+function setControllerStatus(online) {
+
+    const statusBox = document.getElementById("controllerStatus");
+    const statusText = document.getElementById("statusText");
+
+    if (!statusBox || !statusText) return;
+
+    if (online) {
+
+        statusBox.classList.remove("offline");
+        statusBox.classList.add("online");
+
+        statusText.textContent = "ONLINE";
+
+    } else {
+
+        statusBox.classList.remove("online");
+        statusBox.classList.add("offline");
+
+        statusText.textContent = "OFFLINE";
+    }
+}
+
 // ===================== MQTT CONNECT =====================
 function connectMQTT() {
 
@@ -3104,6 +3231,21 @@ mqttClient.subscribe(MQTT_TOPIC_RESULT, function(err) {
     console.log("[MQTT] Message received");
     console.log("Topic:", topic);
     console.log("Data:", message.toString());
+
+    // =========================================
+// MQTT HEARTBEAT CONTROLLER
+// =========================================
+
+// Hanya MQTT dari controller yang dianggap
+// sebagai tanda controller masih aktif
+if (
+    topic === MQTT_TOPIC_SENSOR ||
+    topic === MQTT_TOPIC_STATUS
+) {
+    lastControllerMessage = Date.now();
+
+    setControllerStatus(true);
+}
 
     // ===================== SENSOR DATA =====================
     if (topic === MQTT_TOPIC_SENSOR) {
@@ -3474,6 +3616,26 @@ notificationElement.classList.add("show");
     }
 }
 });
+
+// =========================================
+// CEK CONTROLLER OFFLINE
+// =========================================
+
+setInterval(function() {
+
+    if (lastControllerMessage === 0) {
+        setControllerStatus(false);
+        return;
+    }
+
+    const elapsed = Date.now() - lastControllerMessage;
+
+    if (elapsed > CONTROLLER_TIMEOUT) {
+        setControllerStatus(false);
+    }
+
+}, 1000);
+
 
     mqttClient.on("error", function(error) {
 
@@ -4077,6 +4239,62 @@ try {
 } catch (error) {
     console.error("[MQTT] Gagal memulai MQTT:", error);
 }
+
+// =========================================
+// JAM & TANGGAL REAL-TIME
+// =========================================
+
+function updateDateTime() {
+
+    const now = new Date();
+
+    const days = [
+        "Minggu",
+        "Senin",
+        "Selasa",
+        "Rabu",
+        "Kamis",
+        "Jumat",
+        "Sabtu"
+    ];
+
+    const months = [
+        "Januari",
+        "Februari",
+        "Maret",
+        "April",
+        "Mei",
+        "Juni",
+        "Juli",
+        "Agustus",
+        "September",
+        "Oktober",
+        "November",
+        "Desember"
+    ];
+
+    const day = days[now.getDay()];
+
+    const date = now.getDate();
+    const month = months[now.getMonth()];
+    const year = now.getFullYear();
+
+    const hours = String(now.getHours()).padStart(2, "0");
+    const minutes = String(now.getMinutes()).padStart(2, "0");
+    const seconds = String(now.getSeconds()).padStart(2, "0");
+
+    document.getElementById("dayDisplay").textContent = day;
+
+    document.getElementById("dateDisplay").textContent =
+        `${date} ${month} ${year}`;
+
+    document.getElementById("timeDisplay").textContent =
+        `${hours}:${minutes}:${seconds}`;
+}
+
+updateDateTime();
+
+setInterval(updateDateTime, 1000);
 
 </script>
 
