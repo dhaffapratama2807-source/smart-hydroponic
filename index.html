@@ -541,29 +541,29 @@ section{
 
 .overview-grid{
     display:grid;
-    grid-template-columns:repeat(6, 1fr);
-    gap:10px;
+    grid-template-columns:repeat(4, 1fr);
+    gap:16px;
     width:100%;
 }
 
 .overview-card{
     background:#FFFFFF;
-    border-radius:10px;
-    padding:14px 12px;
-    min-height:88px;
+    border-radius:14px;
+    padding:18px;
+    min-height:105px;
 
     display:flex;
     align-items:center;
-    gap:10px;
+    gap:16px;
 
     box-shadow:0 4px 12px rgba(0,0,0,.06);
     box-sizing:border-box;
 }
 
 .overview-icon{
-    width:48px;
-    height:48px;
-    min-width:48px;
+    width:56px;
+    height:56px;
+    min-width:56px;
 
     border-radius:50%;
 
@@ -571,7 +571,7 @@ section{
     align-items:center;
     justify-content:center;
 
-    font-size:22px;
+    font-size:25px;
     font-weight:700;
 }
 
@@ -586,14 +586,14 @@ section{
 
 .overview-content span{
     color:#1B5E20;
-    font-size:13px;
+    font-size:16px;
     font-weight:700;
     white-space:nowrap;
 }
 
 .overview-content strong{
     color:#111111;
-    font-size:20px;
+    font-size:24px;
     font-weight:800;
     line-height:1.1;
 }
@@ -606,7 +606,7 @@ section{
     padding:2px 7px;
     border-radius:8px;
 
-    font-size:8px;
+    font-size:10px;
     font-weight:700;
     line-height:1.2;
 }
@@ -3524,28 +3524,56 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
 
     <h2>System Overview</h2>
 
-    <div class="overview-grid">
+   <div class="overview-grid">
 
-       <div class="overview-card">
-    <div class="overview-icon level-icon">≋</div>
+    <!-- SUHU AIR -->
+    <div class="overview-card">
+        <div class="overview-icon water-icon">💧</div>
 
-    <div class="overview-content">
-        <span>Water Float</span>
-        <strong id="overviewLevel">AMAN</strong>
-        <small>FLOAT SWITCH</small>
-    </div>
-</div>
-
-
-        <div class="overview-card">
-            <div class="overview-icon ph-icon">pH</div>
-
-            <div class="overview-content">
-                <span>pH</span>
-                <strong id="overviewPH">0</strong>
-                <small>NORMAL</small>
-            </div>
+        <div class="overview-content">
+            <span>Suhu Air</span>
+            <strong id="overviewWaterTemp">0°C</strong>
+            <small>NORMAL</small>
         </div>
+    </div>
+
+
+    <!-- SUHU UDARA -->
+    <div class="overview-card">
+        <div class="overview-icon air-icon">🌡️</div>
+
+        <div class="overview-content">
+            <span>Suhu Udara</span>
+            <strong id="overviewAirTemp">0°C</strong>
+            <small>NORMAL</small>
+        </div>
+    </div>
+
+
+    <!-- TDS -->
+    <div class="overview-card">
+        <div class="overview-icon tds-icon">ppm</div>
+
+        <div class="overview-content">
+            <span>PPM</span>
+            <strong id="overviewTDS">0 ppm</strong>
+            <small>NORMAL</small>
+        </div>
+    </div>
+
+
+    <!-- pH -->
+    <div class="overview-card">
+        <div class="overview-icon ph-icon">pH</div>
+
+        <div class="overview-content">
+            <span>pH</span>
+            <strong id="overviewPH">0</strong>
+            <small>NORMAL</small>
+        </div>
+    </div>
+
+</div>
 
 
         <div class="overview-card">
@@ -3562,21 +3590,6 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
         <div class="overview-card">
             <div class="overview-icon humidity-icon">◌</div>
 
-            <div class="overview-content">
-                <span>Kelembapan</span>
-                <strong id="overviewHumidity">0%</strong>
-                <small>NORMAL</small>
-            </div>
-        </div>
-
-        <div class="overview-card">
-            <div class="overview-icon system-icon">✓</div>
-
-            <div class="overview-content">
-                <span>System</span>
-                <strong>6/6</strong>
-                <small>SENSOR ACTIVE</small>
-            </div>
         </div>
 
     </div>
@@ -4472,19 +4485,20 @@ if (data.water_temp !== undefined) {
     document.getElementById("overviewWaterTemp").textContent =
         Number(data.water_temp).toFixed(2) + "°C";
 }
-            // Suhu Udara DHT11
-            if (data.env_temp !== undefined) {
-                document.getElementById("airTemp").textContent =
-    Math.round(data.env_temp) + "°C";
-            }
+// Suhu Udara DHT11
+if (data.env_temp !== undefined) {
 
- // Kelembapan DHT11
+    document.getElementById("airTemp").textContent =
+        Math.round(data.env_temp) + "°C";
+
+    document.getElementById("overviewAirTemp").textContent =
+        Math.round(data.env_temp) + "°C";
+}
+
+// Kelembapan DHT11
 if (data.humidity !== undefined) {
 
     document.getElementById("humidity").textContent =
-        Number(data.humidity).toFixed(0) + "%";
-
-    document.getElementById("overviewHumidity").textContent =
         Number(data.humidity).toFixed(0) + "%";
 }
 // pH Air
@@ -4511,9 +4525,6 @@ if (data.tds !== undefined) {
 if (data.tank_status !== undefined) {
 
     document.getElementById("level").textContent =
-        data.tank_status;
-
-    document.getElementById("overviewLevel").textContent =
         data.tank_status;
 }
 
