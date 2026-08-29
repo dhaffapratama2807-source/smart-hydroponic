@@ -3092,6 +3092,238 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
     color: #455A64;
 }
 
+/* =====================================================
+   STATUS POMPA - PROFESSIONAL
+   ===================================================== */
+
+.pump-section {
+    margin-top: 26px;
+}
+
+.pump-section h2 {
+    margin-bottom: 18px;
+}
+
+
+/* GRID 4 POMPA */
+
+.pump-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    width: 100%;
+}
+
+
+/* CARD */
+
+.pump-card {
+    position: relative;
+
+    background: #ffffff;
+
+    border-top: 4px solid #43A047;
+
+    border-radius: 16px;
+
+    min-height: 155px;
+
+    padding: 20px;
+
+    box-sizing: border-box;
+
+    display: flex;
+    align-items: flex-start;
+
+    gap: 16px;
+
+    box-shadow: 0 7px 20px rgba(0, 0, 0, 0.07);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.pump-card:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 10px 25px rgba(0, 0, 0, 0.10);
+}
+
+
+/* ICON */
+
+.pump-icon {
+    width: 58px;
+    height: 58px;
+
+    min-width: 58px;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 28px;
+}
+
+
+/* ICON NUTRISI */
+
+.pump-water {
+    background: #E3F2FD;
+}
+
+
+/* ICON PH UP */
+
+.pump-ph-up {
+    background: #E8F5E9;
+}
+
+
+/* ICON PH DOWN */
+
+.pump-ph-down {
+    background: #FFF3E0;
+}
+
+
+/* INFORMASI */
+
+.pump-info {
+    flex: 1;
+
+    min-width: 0;
+}
+
+.pump-info h3 {
+    margin: 2px 0 10px 0;
+
+    color: #1B5E20;
+
+    font-size: 18px;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+
+/* STATUS ON / OFF */
+
+.pump-status {
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    font-size: 24px;
+
+    font-weight: 800;
+
+    margin-bottom: 8px;
+}
+
+
+/* OFF */
+
+.pump-status.status-off {
+    color: #E53935;
+}
+
+
+/* ON */
+
+.pump-status.status-on {
+    color: #16883B;
+}
+
+
+/* TITIK STATUS */
+
+.status-dot {
+    width: 11px;
+    height: 11px;
+
+    border-radius: 50%;
+
+    background: #E53935;
+
+    display: inline-block;
+}
+
+
+/* TITIK SAAT ON */
+
+.status-on .status-dot {
+    background: #16A34A;
+}
+
+
+/* MODE */
+
+.pump-mode {
+    display: inline-block;
+
+    padding: 4px 9px;
+
+    border-radius: 7px;
+
+    background: #E8F5E9;
+
+    color: #16883B;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    line-height: 1;
+}
+
+
+/* MANUAL */
+
+.pump-mode.mode-manual {
+    background: #FFF0E5;
+
+    color: #F57C00;
+}
+
+
+/* RUNTIME */
+
+.pump-runtime {
+    margin-top: 9px;
+
+    color: #607D8B;
+
+    font-size: 11px;
+
+    font-weight: 500;
+}
+
+@media (max-width: 1100px) {
+
+    .pump-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .pump-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
 </style>
 </head>
 <body>
@@ -3639,10 +3871,126 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
         </div>
 
 
-<section class="dashboard-section">
+<section class="dashboard-section pump-section">
+
     <h2>Status Pompa</h2>
 
-    <div class="cards">
+    <div class="pump-grid">
+
+        <!-- POMPA NUTRISI A -->
+        <div class="pump-card">
+
+            <div class="pump-icon pump-water">
+                💧
+            </div>
+
+            <div class="pump-info">
+                <h3>Pompa Nutrisi A</h3>
+
+                <div id="pumpAControl"
+                     class="pump-status status-off">
+                    <span class="status-dot"></span>
+                    OFF
+                </div>
+
+                <span class="pump-mode">
+                    ● AUTO
+                </span>
+
+                <div class="pump-runtime">
+                    ◷ Runtime 00:00
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- POMPA NUTRISI B -->
+        <div class="pump-card">
+
+            <div class="pump-icon pump-water">
+                💧
+            </div>
+
+            <div class="pump-info">
+                <h3>Pompa Nutrisi B</h3>
+
+                <div id="pumpBControl"
+                     class="pump-status status-off">
+                    <span class="status-dot"></span>
+                    OFF
+                </div>
+
+                <span class="pump-mode">
+                    ● AUTO
+                </span>
+
+                <div class="pump-runtime">
+                    ◷ Runtime 00:00
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- POMPA PH UP -->
+        <div class="pump-card">
+
+            <div class="pump-icon pump-ph-up">
+                🧪
+            </div>
+
+            <div class="pump-info">
+                <h3>Pompa pH Up</h3>
+
+                <div id="pumpUpControl"
+                     class="pump-status status-off">
+                    <span class="status-dot"></span>
+                    OFF
+                </div>
+
+                <span class="pump-mode mode-manual">
+                    ● MANUAL
+                </span>
+
+                <div class="pump-runtime">
+                    ◷ Runtime 00:00
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- POMPA PH DOWN -->
+        <div class="pump-card">
+
+            <div class="pump-icon pump-ph-down">
+                🧪
+            </div>
+
+            <div class="pump-info">
+                <h3>Pompa pH Down</h3>
+
+                <div id="pumpDownControl"
+                     class="pump-status status-off">
+                    <span class="status-dot"></span>
+                    OFF
+                </div>
+
+                <span class="pump-mode mode-manual">
+                    ● MANUAL
+                </span>
+
+                <div class="pump-runtime">
+                    ◷ Runtime 00:00
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
 
         <div class="card">
             <h3>🟢 Pompa Nutrisi A</h3>
