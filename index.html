@@ -475,7 +475,7 @@ section{
 .cards{
     display:grid;
     grid-template-columns:repeat(3, 1fr);
-    gap:30px;
+    gap:24px;
 }
 
 .card{
@@ -527,14 +527,22 @@ section{
 .sensor-dashboard-card{
     display:flex;
     align-items:center;
-    gap:28px;
-    padding:40px;
-    min-height:210px;
+    gap:32px;
+
+    padding:28px 34px;
+    min-height:185px;
+
     background:#FFFFFF;
     border:none;
     border-radius:18px;
-    box-shadow:0 4px 15px rgba(0,0,0,.08);
+
+    box-shadow:0 8px 24px rgba(0,0,0,.07);
+
     box-sizing:border-box;
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease;
 }
 
 .sensor-dashboard-card:hover{
@@ -556,6 +564,8 @@ section{
 
     font-size:34px;
     font-weight:700;
+
+    line-height:1;
 }
 
 /* IKON SENSOR */
@@ -600,25 +610,39 @@ section{
 
 .sensor-content h3{
     color:#1B5E20;
-    font-size:22px;
+
+    font-size:24px;
     font-weight:700;
-    margin:0 0 12px 0;
+
+    margin:0 0 10px 0;
+
     min-height:0;
     display:block;
+
     text-align:left;
+
+    line-height:1.2;
 }
 
 .sensor-content h1{
     color:#111111;
-    font-size:30px;
-    margin:0 0 10px 0;
+
+    font-size:32px;
     font-weight:800;
+
+    margin:0 0 8px 0;
+
+    line-height:1.15;
 }
 
 .sensor-content p{
     color:#607D8B;
+
     font-size:16px;
+    font-weight:400;
+
     margin:0;
+
     line-height:1.4;
 }
 
@@ -638,6 +662,13 @@ section{
 
     justify-content:center;
 
+}
+
+.sensor-dashboard-card .sensor-content h3{
+    min-height:0;
+    display:block;
+    align-items:initial;
+    justify-content:initial;
 }
 
 .card p{
