@@ -2792,33 +2792,196 @@ section{
 
     /* ===== SIDEBAR MOBILE ===== */
 
+    /* =========================================
+   MOBILE HAMBURGER MENU
+   ========================================= */
+
+.mobile-menu-btn{
+    display:none;
+}
+
+
+/* =========================================
+   MOBILE
+   ========================================= */
+
+@media(max-width:650px){
+
+    /* =========================
+       TOMBOL HAMBURGER
+       ========================= */
+
+    .mobile-menu-btn{
+        display:flex;
+
+        align-items:center;
+        justify-content:center;
+
+        position:fixed;
+
+        top:15px;
+        left:15px;
+
+        width:48px;
+        height:48px;
+
+        border:none;
+        border-radius:12px;
+
+        background:#2E7D32;
+        color:#ffffff;
+
+        font-size:28px;
+        font-weight:bold;
+
+        cursor:pointer;
+
+        z-index:3000;
+
+        box-shadow:0 4px 12px rgba(0,0,0,.20);
+    }
+
+
+    /* =========================
+       SIDEBAR MOBILE
+       ========================= */
+
     .dashboard-sidebar{
-        position:relative;
+
+        position:fixed;
+
+        top:0;
+        left:0;
+        bottom:0;
+
+        width:280px;
+
+        padding:25px 18px;
+
+        box-sizing:border-box;
+
+        background:#17651f;
+
+        transform:translateX(-100%);
+
+        transition:transform .3s ease;
+
+        z-index:2500;
+
+        overflow-y:auto;
+    }
+
+
+    /* SIDEBAR SAAT DIBUKA */
+
+    .dashboard-sidebar.mobile-open{
+        transform:translateX(0);
+    }
+
+
+    /* =========================
+       LAYOUT UTAMA
+       ========================= */
+
+    .dashboard-layout{
+        display:block;
+
         width:100%;
-        min-height:auto;
-        padding:18px 16px;
+        max-width:100%;
+
+        overflow-x:hidden;
+    }
+
+
+    .dashboard-main{
+
+        margin-left:0;
+
+        width:100%;
+        max-width:100%;
+
+        padding:0 14px 40px;
+
         box-sizing:border-box;
     }
 
-    .dashboard-sidebar .sidebar-logo{
-        padding:4px 0 16px;
-        margin-bottom:14px;
-    }
 
-    .dashboard-sidebar .sidebar-logo h2{
-        font-size:21px;
-    }
+    /* =========================
+       MENU DALAM SIDEBAR
+       ========================= */
 
-    .dashboard-sidebar .sidebar-logo p{
-        font-size:11px;
-    }
-
-    /* MENU JADI 1 KOLOM */
     .sidebar-menu{
+
         display:flex;
+
         flex-direction:column;
+
         gap:6px;
     }
+
+
+    .sidebar-menu button{
+
+        width:100%;
+
+        text-align:left;
+
+        padding:13px 14px;
+
+        font-size:15px;
+    }
+
+
+    /* =========================
+       LOGOUT
+       ========================= */
+
+    .sidebar-bottom{
+        margin-top:20px;
+    }
+
+
+    /* =========================
+       HEADER
+       ========================= */
+
+    .top-system-header{
+
+        width:calc(100% + 28px);
+
+        margin-left:-14px;
+
+        padding:18px 16px 14px;
+
+        padding-left:75px;
+
+        box-sizing:border-box;
+    }
+
+
+    /* =========================
+       JUDUL
+       ========================= */
+
+    .dashboard-main-header h1{
+        font-size:28px;
+    }
+
+    .dashboard-tab-title{
+        font-size:26px;
+    }
+
+
+    /* =========================
+       SENSOR 1 KOLOM
+       ========================= */
+
+    .professional-sensor-grid{
+        grid-template-columns:1fr;
+        gap:12px;
+    }
+
+}
 
     .sidebar-menu button{
         width:100%;
@@ -3885,6 +4048,10 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
     </aside>
 
     <main class="dashboard-main">
+
+        <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+    ☰
+</button>
 
 <div class="top-system-header">
 
@@ -5869,10 +6036,25 @@ function showDashboardTab(tabName) {
         button.classList.add("active");
     }
 
+    // Tutup sidebar mobile setelah memilih menu
+const sidebar = document.querySelector(".dashboard-sidebar");
+
+if (sidebar) {
+    sidebar.classList.remove("mobile-open");
+}
+
     window.scrollTo({
         top: 0,
         behavior: "instant"
     });
+}
+
+function toggleMobileMenu() {
+    const sidebar = document.querySelector(".dashboard-sidebar");
+
+    if (sidebar) {
+        sidebar.classList.toggle("mobile-open");
+    }
 }
 
 // ===================== ROUTER SPA =====================
