@@ -2513,6 +2513,16 @@ section{
     align-items: stretch;
 }
 
+.pump-control-column {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.pump-control-column .pump-control-card {
+    margin-bottom: 0;
+}
+
 .control-top-grid .mode-card {
     max-width: none;
     width: 100%;
@@ -3964,6 +3974,10 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
 
         </div>
 
+        <!-- KOLOM CARD TOMBOL POMPA -->
+        <div class="pump-control-column">
+
+
 <!-- POMPA NUTRISI A -->
 <div class="pump-control-card">
 
@@ -4057,6 +4071,8 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
                   class="status-value status-off">
                 OFF
             </span>
+        </div>
+
         </div>
 
     </div>
