@@ -2798,6 +2798,12 @@ body.login-page-active { background:#F5F7F5; }
     transform: scale(0.95);
 }
 
+.ios-switch.disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
 .pump-control-card { background: white; border-radius: 10px; padding: 16px; border: 1px solid #DCEDC8; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
 .pump-control-card h3 { margin: 0; font-size: 15px; color: #2E7D32; }
 
@@ -4425,6 +4431,7 @@ let mqttClient = null;
 // =========================================
 
 let lastControllerMessage = 0;
+let controllerOnline = false;
 
 // Controller dianggap offline jika
 // tidak ada MQTT masuk selama 10 detik
@@ -4436,6 +4443,8 @@ const CONTROLLER_TIMEOUT = 10000;
 
 function setControllerStatus(online) {
 
+    controllerOnline = online;
+    
     const statusBox = document.getElementById("controllerStatus");
     const statusText = document.getElementById("statusText");
 
@@ -4455,6 +4464,31 @@ function setControllerStatus(online) {
 
         statusText.textContent = "OFFLINE";
     }
+
+    // =================================
+    // ENABLE / DISABLE SWITCH POMPA
+    // =================================
+
+    const switchIds = [
+        "switchPumpA",
+        "switchPumpB",
+        "switchPumpUp",
+        "switchPumpDown"
+    ];
+
+    switchIds.forEach(function(id) {
+
+        const sw = document.getElementById(id);
+
+        if (!sw) return;
+
+        if (online) {
+            sw.classList.remove("disabled");
+        } else {
+            sw.classList.add("disabled");
+        }
+
+    });
 }
 // =========================================================
 // UPDATE STATUS POMPA
@@ -5429,6 +5463,11 @@ function resetPumpSwitches() {
    ========================================= */
 
 function togglePump(id) {
+
+    if (!controllerOnline) {
+    alert("⚠️ Controller OFFLINE.\nPompa tidak dapat dikontrol.");
+    return;
+    }
 
     const switchIds = {
         pumpA: "switchPumpA",
