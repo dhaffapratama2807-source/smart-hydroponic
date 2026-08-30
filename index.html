@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Smart Hydroponic</title>
 <script src="https://cdn.jsdelivr.net/npm/mqtt@5.15.2/dist/mqtt.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
 /* ===================== style.css ===================== */
 /* ========================================= */
@@ -3451,6 +3452,40 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
 
 }
 
+/* =========================================
+   GRAFIK SENSOR REAL-TIME
+   ========================================= */
+
+.graph-sensor-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.graph-sensor-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 20px;
+    box-sizing: border-box;
+    min-width: 0;
+    box-shadow: 0 7px 20px rgba(0, 0, 0, 0.07);
+}
+
+.graph-sensor-card h3 {
+    margin: 0 0 15px 0;
+    color: #1B5E20;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.graph-sensor-card canvas {
+    width: 100% !important;
+    height: 240px !important;
+    display: block;
+}
+
 </style>
 </head>
 <body>
@@ -4331,20 +4366,39 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
         Real Time Graphic
     </h2>
 
-    <div class="graph-placeholder">
+    <div class="graph-sensor-grid">
 
-        <h3>📈 Grafik Data Sensor</h3>
-
-        <p>
-            Grafik real-time sensor hidroponik akan ditampilkan di sini.
-        </p>
-
-        <p>
-            Suhu Air, Suhu Udara, Kelembapan, pH,
-            TDS, dan Water Level.
-        </p>
-
+    <!-- 1. SUHU AIR -->
+    <div class="graph-sensor-card">
+        <h3>🌡️ Suhu Air</h3>
+        <canvas id="chartWaterTemp"></canvas>
     </div>
+
+    <!-- 2. SUHU UDARA -->
+    <div class="graph-sensor-card">
+        <h3>🌡️ Suhu Udara</h3>
+        <canvas id="chartAirTemp"></canvas>
+    </div>
+
+    <!-- 3. KELEMBAPAN -->
+    <div class="graph-sensor-card">
+        <h3>💧 Kelembapan</h3>
+        <canvas id="chartHumidity"></canvas>
+    </div>
+
+    <!-- 4. pH -->
+    <div class="graph-sensor-card">
+        <h3>🧪 pH</h3>
+        <canvas id="chartPH"></canvas>
+    </div>
+
+    <!-- 5. TDS / PPM -->
+    <div class="graph-sensor-card">
+        <h3>⚗️ TDS / PPM</h3>
+        <canvas id="chartTDS"></canvas>
+    </div>
+
+</div>
 
 </div>
 
@@ -4725,6 +4779,220 @@ function updatePumpStatus(id, isActive) {
     }
 }
 
+// =======================================================
+// REAL-TIME SENSOR GRAPH
+// =======================================================
+
+let chartWaterTemp;
+let chartAirTemp;
+let chartHumidity;
+let chartPH;
+let chartTDS;
+
+function initRealtimeCharts() {
+
+    // 1. SUHU AIR
+    chartWaterTemp = new Chart(
+        document.getElementById("chartWaterTemp"),
+        {
+            type: "line",
+            data: {
+                labels: [],
+                datasets: [{
+                    label: "Suhu Air (°C)",
+                    data: [],
+                    tension: 0.3,
+                    fill: false
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: false,
+                scales: {
+                    y: {
+                        beginAtZero: false
+                    }
+                }
+            }
+        }
+    );
+
+    // 2. SUHU UDARA
+    chartAirTemp = new Chart(
+        document.getElementById("chartAirTemp"),
+        {
+            type: "line",
+            data: {
+                labels: [],
+                datasets: [{
+                    label: "Suhu Udara (°C)",
+                    data: [],
+                    tension: 0.3,
+                    fill: false
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: false,
+                scales: {
+                    y: {
+                        beginAtZero: false
+                    }
+                }
+            }
+        }
+    );
+
+    // 3. KELEMBAPAN
+    chartHumidity = new Chart(
+        document.getElementById("chartHumidity"),
+        {
+            type: "line",
+            data: {
+                labels: [],
+                datasets: [{
+                    label: "Kelembapan (%)",
+                    data: [],
+                    tension: 0.3,
+                    fill: false
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: false,
+                scales: {
+                    y: {
+                        beginAtZero: false
+                    }
+                }
+            }
+        }
+    );
+
+    // 4. pH
+    chartPH = new Chart(
+        document.getElementById("chartPH"),
+        {
+            type: "line",
+            data: {
+                labels: [],
+                datasets: [{
+                    label: "pH",
+                    data: [],
+                    tension: 0.3,
+                    fill: false
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: false,
+                scales: {
+                    y: {
+                        beginAtZero: false
+                    }
+                }
+            }
+        }
+    );
+
+    // 5. TDS / PPM
+    chartTDS = new Chart(
+        document.getElementById("chartTDS"),
+        {
+            type: "line",
+            data: {
+                labels: [],
+                datasets: [{
+                    label: "TDS / PPM",
+                    data: [],
+                    tension: 0.3,
+                    fill: false
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: false,
+                scales: {
+                    y: {
+                        beginAtZero: false
+                    }
+                }
+            }
+        }
+    );
+}
+
+// =======================================================
+// UPDATE REAL-TIME SENSOR GRAPH
+// =======================================================
+
+function updateRealtimeCharts(data) {
+
+    const now = new Date();
+
+    const timeLabel = now.toLocaleTimeString("id-ID", {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit"
+    });
+
+    // SUHU AIR
+    if (data.water_temp !== undefined && chartWaterTemp) {
+        chartWaterTemp.data.labels.push(timeLabel);
+        chartWaterTemp.data.datasets[0].data.push(Number(data.water_temp));
+    }
+
+    // SUHU UDARA
+    if (data.env_temp !== undefined && chartAirTemp) {
+        chartAirTemp.data.labels.push(timeLabel);
+        chartAirTemp.data.datasets[0].data.push(Number(data.env_temp));
+    }
+
+    // KELEMBAPAN
+    if (data.humidity !== undefined && chartHumidity) {
+        chartHumidity.data.labels.push(timeLabel);
+        chartHumidity.data.datasets[0].data.push(Number(data.humidity));
+    }
+
+    // pH
+    if (data.ph !== undefined && chartPH) {
+        chartPH.data.labels.push(timeLabel);
+        chartPH.data.datasets[0].data.push(Number(data.ph));
+    }
+
+    // TDS / PPM
+    if (data.tds !== undefined && chartTDS) {
+        chartTDS.data.labels.push(timeLabel);
+        chartTDS.data.datasets[0].data.push(Number(data.tds));
+    }
+
+    // Batasi jumlah titik yang tampil
+    const maxPoints = 20;
+
+    [
+        chartWaterTemp,
+        chartAirTemp,
+        chartHumidity,
+        chartPH,
+        chartTDS
+    ].forEach(chart => {
+
+        if (!chart) return;
+
+        while (chart.data.labels.length > maxPoints) {
+            chart.data.labels.shift();
+            chart.data.datasets[0].data.shift();
+        }
+
+        chart.update("none");
+    });
+}
+
 // ===================== MQTT CONNECT =====================
 function connectMQTT() {
 
@@ -4809,6 +5077,8 @@ if (
         try {
 
             const data = JSON.parse(message.toString());
+            
+            updateRealtimeCharts(data);
 
             console.log("[MQTT] Parsed sensor data:", data);
 
@@ -5345,15 +5615,13 @@ function lihatFitur() {
 
 window.addEventListener("load", function() {
 
+    // Inisialisasi grafik sensor
+    initRealtimeCharts();
+
     if (checkLogin()) {
-
         showPage("dashboard");
-
-        // Refresh dianggap sebagai aktivitas
         updateActivity();
-
     }
-
 });
 
 // ===================== main.js =====================
