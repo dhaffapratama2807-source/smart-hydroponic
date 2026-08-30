@@ -2292,6 +2292,9 @@ section{
     min-height:100vh;
     padding:0 45px 60px;
     box-sizing:border-box;
+
+    overflow-x:hidden;
+    min-width:0;
 }
 
 .dashboard-main-header{
@@ -4444,7 +4447,7 @@ const CONTROLLER_TIMEOUT = 10000;
 function setControllerStatus(online) {
 
     controllerOnline = online;
-    
+
     const statusBox = document.getElementById("controllerStatus");
     const statusText = document.getElementById("statusText");
 
