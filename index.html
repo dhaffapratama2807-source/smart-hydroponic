@@ -21,12 +21,16 @@ html{
     box-sizing:border-box;
 }
 
+html,
 body{
+    width:100%;
+    max-width:100%;
+    overflow-x:hidden;
+}
 
+body{
     font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
-
     background:#F5F7F5;
-
     color:#263238;
 }
 
@@ -474,8 +478,15 @@ section{
 
 .cards{
     display:grid;
-    grid-template-columns:repeat(3, 1fr);
+    grid-template-columns:repeat(3, minmax(0, 1fr));
     gap:24px;
+    width:100%;
+    min-width:0;
+}
+
+.cards > *{
+    min-width:0;
+    max-width:100%;
 }
 
 .card{
@@ -541,9 +552,15 @@ section{
 
 .overview-grid{
     display:grid;
-    grid-template-columns:repeat(4, 1fr);
+    grid-template-columns:repeat(4, minmax(0, 1fr));
     gap:16px;
     width:100%;
+    min-width:0;
+}
+
+.overview-grid > *{
+    min-width:0;
+    max-width:100%;
 }
 
 .overview-card{
@@ -966,8 +983,15 @@ section{
 
 .professional-sensor-grid{
     display:grid;
-    grid-template-columns:repeat(3, 1fr);
+    grid-template-columns:repeat(3, minmax(0, 1fr));
     gap:18px;
+    width:100%;
+    min-width:0;
+}
+
+.professional-sensor-grid > *{
+    min-width:0;
+    max-width:100%;
 }
 
 
@@ -1984,13 +2008,16 @@ section{
 /* ========================================= */
 
 .pump-grid{
-
     display:grid;
+    grid-template-columns:repeat(4, minmax(0, 1fr));
+    gap:16px;
+    width:100%;
+    min-width:0;
+}
 
-    grid-template-columns:repeat(4,1fr);
-
-    gap:25px;
-
+.pump-grid > *{
+    min-width:0;
+    max-width:100%;
 }
 
 .pump-card{
@@ -2183,6 +2210,9 @@ section{
 .dashboard-layout{
     display:flex;
     min-height:100vh;
+    width:100%;
+    max-width:100%;
+    overflow-x:hidden;
     background:#F5F7F5;
 }
 
@@ -2302,8 +2332,8 @@ section{
 }
 
 .top-system-header{
-    width:calc(100% + 90px);
-    margin-left:-35px;
+    width:100%;
+    margin-left:0;
     margin-bottom:25px;
 
     background:#2E7D32;
