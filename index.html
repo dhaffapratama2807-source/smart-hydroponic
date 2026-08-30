@@ -2700,6 +2700,37 @@ section{
     }
 }
 
+/* =========================================
+   FIX UKURAN DASHBOARD
+   ========================================= */
+
+.dashboard-main{
+    margin-left:250px;
+    width:calc(100% - 250px);
+    min-height:100vh;
+    padding:0 45px 60px;
+    box-sizing:border-box;
+}
+
+.overview-grid{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:16px;
+    width:100%;
+}
+
+.professional-sensor-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:18px;
+    width:100%;
+}
+
+.professional-sensor-card{
+    min-height:125px;
+    box-sizing:border-box;
+}
+
 /* ===================== TAMBAHAN UNTUK SPA (satu file) ===================== */
 .page { display: none; }
 .page.active { display: block; }
