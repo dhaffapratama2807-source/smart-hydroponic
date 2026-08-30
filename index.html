@@ -2300,7 +2300,7 @@ section{
 
 .top-system-header{
     width:calc(100% + 90px);
-    margin-left:-45px;
+    margin-left:-35px;
     margin-bottom:25px;
 
     background:#2E7D32;
@@ -4060,6 +4060,139 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
 
     </div>
 
+    <!-- =========================================
+     STATUS POMPA - COPY DARI DASHBOARD
+     ========================================= -->
+
+<section class="dashboard-section pump-section">
+
+    <h2>Status Pompa</h2>
+
+    <div class="pump-grid">
+
+        <!-- POMPA NUTRISI A -->
+        <div class="pump-card">
+
+            <div class="pump-icon pump-water">
+                💧
+            </div>
+
+            <div class="pump-info">
+
+                <h3>Pompa Nutrisi A</h3>
+
+                <div id="pumpAControlTab"
+                     class="pump-status status-off">
+                    <span class="status-dot"></span>
+                    OFF
+                </div>
+
+                <span class="pump-mode">
+                    ● AUTO
+                </span>
+
+                <div class="pump-runtime">
+                    ◷ Runtime 00:00
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- POMPA NUTRISI B -->
+        <div class="pump-card">
+
+            <div class="pump-icon pump-water">
+                💧
+            </div>
+
+            <div class="pump-info">
+
+                <h3>Pompa Nutrisi B</h3>
+
+                <div id="pumpBControlTab"
+                     class="pump-status status-off">
+                    <span class="status-dot"></span>
+                    OFF
+                </div>
+
+                <span class="pump-mode">
+                    ● AUTO
+                </span>
+
+                <div class="pump-runtime">
+                    ◷ Runtime 00:00
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- POMPA PH UP -->
+        <div class="pump-card">
+
+            <div class="pump-icon pump-ph-up">
+                🧪
+            </div>
+
+            <div class="pump-info">
+
+                <h3>Pompa pH Up</h3>
+
+                <div id="pumpUpControlTab"
+                     class="pump-status status-off">
+                    <span class="status-dot"></span>
+                    OFF
+                </div>
+
+                <span class="pump-mode mode-manual">
+                    ● MANUAL
+                </span>
+
+                <div class="pump-runtime">
+                    ◷ Runtime 00:00
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- POMPA PH DOWN -->
+        <div class="pump-card">
+
+            <div class="pump-icon pump-ph-down">
+                🧪
+            </div>
+
+            <div class="pump-info">
+
+                <h3>Pompa pH Down</h3>
+
+                <div id="pumpDownControlTab"
+                     class="pump-status status-off">
+                    <span class="status-dot"></span>
+                    OFF
+                </div>
+
+                <span class="pump-mode mode-manual">
+                    ● MANUAL
+                </span>
+
+                <div class="pump-runtime">
+                    ◷ Runtime 00:00
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
 </div>
 
                 <div class="user-only info-user"
@@ -4377,6 +4510,43 @@ function updatePumpStatus(id, isActive) {
 
             controlStatusElement.classList.add("status-off");
             controlStatusElement.textContent = "OFF";
+        }
+    }
+
+        // ==============================
+    // STATUS POMPA DI TAB CONTROL
+    // COPY DARI DASHBOARD
+    // ==============================
+    const controlTabStatusIds = {
+        pumpA: "pumpAControlTab",
+        pumpB: "pumpBControlTab",
+        pumpUp: "pumpUpControlTab",
+        pumpDown: "pumpDownControlTab"
+    };
+
+    const controlTabStatusElement =
+        document.getElementById(controlTabStatusIds[id]);
+
+    if (controlTabStatusElement) {
+
+        controlTabStatusElement.classList.remove(
+            "status-on",
+            "status-off"
+        );
+
+        if (isActive) {
+
+            controlTabStatusElement.classList.add("status-on");
+
+            controlTabStatusElement.innerHTML =
+                '<span class="status-dot"></span>ON';
+
+        } else {
+
+            controlTabStatusElement.classList.add("status-off");
+
+            controlTabStatusElement.innerHTML =
+                '<span class="status-dot"></span>OFF';
         }
     }
 
