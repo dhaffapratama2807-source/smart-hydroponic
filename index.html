@@ -3474,8 +3474,6 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
     📷 Camera
 </button>
 
-</div>
-
         <div class="sidebar-bottom">
             <div class="sidebar-user">
                 <span id="sidebar-username"></span>
@@ -3782,11 +3780,9 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
     </svg>
 </div>
 
-        </div>
+</div>
 
-    </div>
-
-        </div>
+</div>
 
         <section class="dashboard-section pump-section">
 
@@ -3908,9 +3904,6 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
     </div>
 
 </section>
-
-</div>
-
 
        <!-- ================= KONTROL ================= -->
 <div id="dashboard-tab-kontrol" class="dashboard-tab">
@@ -4055,7 +4048,6 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
         </div>
 
     </div>
-
 </div>
 
 <!-- ================= GRAFIK ================= -->
@@ -4293,6 +4285,106 @@ function setControllerStatus(online) {
         statusText.textContent = "OFFLINE";
     }
 }
+// =========================================================
+// UPDATE STATUS POMPA
+// =========================================================
+function updatePumpStatus(id, isActive) {
+
+    // ==============================
+    // STATUS POMPA DI DASHBOARD
+    // ==============================
+    const dashboardIds = {
+        pumpA: "pumpAControl",
+        pumpB: "pumpBControl",
+        pumpUp: "pumpUpControl",
+        pumpDown: "pumpDownControl"
+    };
+
+    const dashboardElement =
+        document.getElementById(dashboardIds[id]);
+
+    if (dashboardElement) {
+
+        dashboardElement.classList.remove(
+            "status-on",
+            "status-off"
+        );
+
+        if (isActive) {
+
+            dashboardElement.classList.add("status-on");
+
+            dashboardElement.innerHTML =
+                '<span class="status-dot"></span>ON';
+
+        } else {
+
+            dashboardElement.classList.add("status-off");
+
+            dashboardElement.innerHTML =
+                '<span class="status-dot"></span>OFF';
+        }
+    }
+
+
+    // ==============================
+    // STATUS POMPA DI TAB CONTROL
+    // ==============================
+    const controlStatusIds = {
+        pumpA: "pumpAControlStatus",
+        pumpB: "pumpBControlStatus",
+        pumpUp: "pumpUpControlStatus",
+        pumpDown: "pumpDownControlStatus"
+    };
+
+    const controlStatusElement =
+        document.getElementById(controlStatusIds[id]);
+
+    if (controlStatusElement) {
+
+        controlStatusElement.classList.remove(
+            "status-on",
+            "status-off"
+        );
+
+        if (isActive) {
+
+            controlStatusElement.classList.add("status-on");
+            controlStatusElement.textContent = "ON";
+
+        } else {
+
+            controlStatusElement.classList.add("status-off");
+            controlStatusElement.textContent = "OFF";
+        }
+    }
+
+
+    // ==============================
+    // SWITCH POMPA
+    // ==============================
+    const switchIds = {
+        pumpA: "switchPumpA",
+        pumpB: "switchPumpB",
+        pumpUp: "switchPumpUp",
+        pumpDown: "switchPumpDown"
+    };
+
+    const switchElement =
+        document.getElementById(switchIds[id]);
+
+    if (switchElement) {
+
+        if (isActive) {
+
+            switchElement.classList.add("active");
+
+        } else {
+
+            switchElement.classList.remove("active");
+        }
+    }
+}
 
 // ===================== MQTT CONNECT =====================
 function connectMQTT() {
@@ -4381,54 +4473,6 @@ if (
 
             console.log("[MQTT] Parsed sensor data:", data);
 
-            // =================================================
-// UPDATE STATUS REAL-TIME POMPA
-// =================================================
-
-function updatePumpStatus(id, isActive) {
-
-    const element = document.getElementById(id);
-
-    if (!element) return;
-
-    const switchIds = {
-        pumpA: "switchPumpA",
-        pumpB: "switchPumpB",
-        pumpUp: "switchPumpUp",
-        pumpDown: "switchPumpDown"
-    };
-
-    const switchElement =
-        document.getElementById(switchIds[id]);
-
-    const card = element.closest(".card");
-
-    if (isActive) {
-
-        element.textContent = "ON";
-        element.className = "status-on pump-active";
-
-        if (card) {
-            card.classList.add("pump-running");
-        }
-
-        if (switchElement) {
-            switchElement.classList.add("active");
-        }
-
-    } else {
-
-        element.textContent = "OFF";
-        element.className = "status-off";
-
-        if (card) {
-            card.classList.remove("pump-running");
-        }
-
-        if (switchElement) {
-            switchElement.classList.remove("active");
-        }
-    }
 }
 
 
@@ -4579,78 +4623,6 @@ if (topic === MQTT_TOPIC_STATUS) {
 // UPDATE STATUS REAL-TIME POMPA
 // =================================================
 
-function updatePumpStatus(id, isActive) {
-
-    // ==============================
-    // STATUS DASHBOARD
-    // ==============================
-
-    const element = document.getElementById(id);
-
-    if (element) {
-
-        if (isActive) {
-            element.className = "status-on";
-            element.textContent = "ON";
-        } else {
-            element.className = "status-off";
-            element.textContent = "OFF";
-        }
-
-    }
-
-
-    // ==============================
-    // STATUS DI TAB CONTROL
-    // ==============================
-
-    const controlIds = {
-        pumpA: "pumpAControl",
-        pumpB: "pumpBControl",
-        pumpUp: "pumpUpControl",
-        pumpDown: "pumpDownControl"
-    };
-
-    const controlElement =
-        document.getElementById(controlIds[id]);
-
-    if (controlElement) {
-
-        if (isActive) {
-            controlElement.className = "status-on";
-            controlElement.textContent = "ON";
-        } else {
-            controlElement.className = "status-off";
-            controlElement.textContent = "OFF";
-        }
-
-    }
-
-
-    // ==============================
-    // SWITCH KONTROL POMPA
-    // ==============================
-
-    const switchIds = {
-        pumpA: "switchPumpA",
-        pumpB: "switchPumpB",
-        pumpUp: "switchPumpUp",
-        pumpDown: "switchPumpDown"
-    };
-
-    const switchElement =
-        document.getElementById(switchIds[id]);
-
-    if (switchElement) {
-
-        if (isActive) {
-            switchElement.classList.add("active");
-        } else {
-            switchElement.classList.remove("active");
-        }
-
-    }
-}
 
 // Nutrisi A
 if (data.pump_nutrient_a !== undefined) {
@@ -5090,17 +5062,10 @@ function initDashboard() {
     document.getElementById("tds").innerHTML = "0 ppm";
     document.getElementById("level").innerHTML = "0%";
 
-    document.getElementById("pumpA").className = "status-off";
-    document.getElementById("pumpA").textContent = "OFF";
-
-    document.getElementById("pumpB").className = "status-off";
-    document.getElementById("pumpB").textContent = "OFF";
-
-    document.getElementById("pumpUp").className = "status-off";
-    document.getElementById("pumpUp").textContent = "OFF";
-
-    document.getElementById("pumpDown").className = "status-off";
-    document.getElementById("pumpDown").textContent = "OFF";
+    updatePumpStatus("pumpA", false);
+    updatePumpStatus("pumpB", false);
+    updatePumpStatus("pumpUp", false);
+    updatePumpStatus("pumpDown", false);
 }
 
 function kontrolPompa(id, status) {
