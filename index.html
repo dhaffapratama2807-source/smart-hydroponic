@@ -2776,51 +2776,179 @@ section{
     }
 }
 
-@media(max-width:650px){
+/* =========================================
+   MOBILE DASHBOARD
+   ========================================= */
+@media (max-width:650px){
+
+    /* ===== DASHBOARD UTAMA ===== */
+
+    .dashboard-layout{
+        display:block;
+        width:100%;
+        max-width:100%;
+        overflow-x:hidden;
+    }
+
+    /* ===== SIDEBAR MOBILE ===== */
+
     .dashboard-sidebar{
         position:relative;
         width:100%;
         min-height:auto;
-        padding:16px;
+        padding:18px 16px;
+        box-sizing:border-box;
     }
 
     .dashboard-sidebar .sidebar-logo{
-        padding-bottom:16px;
-        margin-bottom:12px;
+        padding:4px 0 16px;
+        margin-bottom:14px;
     }
 
+    .dashboard-sidebar .sidebar-logo h2{
+        font-size:21px;
+    }
+
+    .dashboard-sidebar .sidebar-logo p{
+        font-size:11px;
+    }
+
+    /* MENU JADI 1 KOLOM */
     .sidebar-menu{
-        display:grid;
-        grid-template-columns:repeat(3,1fr);
+        display:flex;
+        flex-direction:column;
+        gap:6px;
     }
 
     .sidebar-menu button{
-        text-align:center;
-        padding:11px 8px;
-        font-size:13px;
+        width:100%;
+        text-align:left;
+        padding:12px 14px;
+        font-size:14px;
     }
 
+    /* LOGOUT */
     .sidebar-bottom{
         margin-top:14px;
+        padding-top:14px;
     }
 
-    .dashboard-layout{
-        display:block;
-    }
+    /* ===== AREA CONTENT ===== */
 
     .dashboard-main{
         margin-left:0;
         width:100%;
-        padding:25px 16px 40px;
+        max-width:100%;
+        padding:20px 14px 35px;
+        box-sizing:border-box;
+    }
+
+    /* ===== HEADER ATAS ===== */
+
+    .top-system-header{
+        width:calc(100% + 28px);
+        margin-left:-14px;
+        padding:12px 14px;
+        display:flex;
+        flex-direction:column;
+        align-items:flex-start;
+        gap:10px;
+    }
+
+    .top-system-title h2{
+        font-size:18px;
+    }
+
+    .top-system-info{
+        width:100%;
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        gap:8px;
+    }
+
+    .top-date-time{
+        gap:3px;
+    }
+
+    #dayDisplay{
+        font-size:13px;
+    }
+
+    #dateDisplay{
+        font-size:11px;
+    }
+
+    #timeDisplay{
+        font-size:20px;
+    }
+
+    .system-status{
+        font-size:11px;
+        padding:5px 9px;
+        white-space:nowrap;
+    }
+
+    /* ===== JUDUL DASHBOARD ===== */
+
+    .dashboard-main-header{
+        display:block;
+        margin-bottom:22px;
     }
 
     .dashboard-main-header h1{
         font-size:28px;
+        line-height:1.2;
+    }
+
+    .dashboard-main-header p{
+        font-size:13px;
     }
 
     .dashboard-tab-title{
-        font-size:25px;
+        font-size:26px;
+        margin-bottom:20px;
     }
+
+    .dashboard-tab .dashboard-section{
+        margin-bottom:25px;
+    }
+
+    .dashboard-tab .dashboard-section h2{
+        font-size:22px;
+        margin-bottom:18px;
+    }
+
+    /* ===== SYSTEM OVERVIEW ===== */
+
+    .overview-grid{
+        grid-template-columns:1fr;
+        gap:12px;
+    }
+
+    .overview-card{
+        min-height:82px;
+        padding:12px;
+    }
+
+    /* ===== SENSOR ===== */
+
+    .professional-sensor-grid{
+        grid-template-columns:1fr;
+        gap:12px;
+    }
+
+    .professional-sensor-card{
+        min-height:125px;
+        padding:15px;
+    }
+
+    .professional-sensor-icon{
+        width:54px;
+        height:54px;
+        min-width:54px;
+    }
+
 }
 
 /* ===================== TAMBAHAN UNTUK SPA (satu file) ===================== */
