@@ -5974,15 +5974,6 @@ if (data.mode !== undefined) {
     }
 }
 
-    // =========================================
-    // JIKA MODE AUTO AKTIF
-    // RESET SEMUA TOMBOL MANUAL KE OFF
-    // =========================================
-    if (data.mode === "AUTO") {
-        resetPumpSwitches();
-    }
-}
-
         // Hapus notifikasi PENDING ketika MANUAL sudah aktif
 if (
     data.mode === "MANUAL" &&
