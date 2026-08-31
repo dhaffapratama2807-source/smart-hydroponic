@@ -4379,15 +4379,15 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
             <div class="pump-info">
                 <h3>Pompa Nutrisi A</h3>
 
-                <div id="pumpAControl"
-                     class="pump-status status-off">
-                    <span class="status-dot"></span>
-                    OFF
-                </div>
+<div id="pumpAControl"
+     class="pump-status status-off">
+    <span class="status-dot"></span>
+    OFF
+</div>
 
-                <span class="pump-mode">
-                    ● AUTO
-                </span>
+<span id="pumpAMode" class="pump-mode">
+    ● AUTO
+</span>
 
                 <div class="pump-runtime">
                     ◷ Runtime 00:00
@@ -4413,9 +4413,9 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
                     OFF
                 </div>
 
-                <span class="pump-mode">
-                    ● AUTO
-                </span>
+                <span id="pumpBMode" class="pump-mode">
+    ● AUTO
+</span>
 
                 <div class="pump-runtime">
                     ◷ Runtime 00:00
@@ -4441,9 +4441,9 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
                     OFF
                 </div>
 
-                <span class="pump-mode mode-manual">
-                    ● MANUAL
-                </span>
+                <span id="pumpUpMode" class="pump-mode">
+    ● AUTO
+</span>
 
                 <div class="pump-runtime">
                     ◷ Runtime 00:00
@@ -4469,9 +4469,9 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
                     OFF
                 </div>
 
-                <span class="pump-mode mode-manual">
-                    ● MANUAL
-                </span>
+                <span id="pumpDownMode" class="pump-mode">
+    ● AUTO
+</span>
 
                 <div class="pump-runtime">
                     ◷ Runtime 00:00
@@ -4658,9 +4658,9 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
                     OFF
                 </div>
 
-                <span class="pump-mode">
-                    ● AUTO
-                </span>
+                <span id="pumpAModeControlTab" class="pump-mode">
+    ● AUTO
+</span>
 
                 <div class="pump-runtime">
                     ◷ Runtime 00:00
@@ -4688,9 +4688,9 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
                     OFF
                 </div>
 
-                <span class="pump-mode">
-                    ● AUTO
-                </span>
+                <span id="pumpBModeControlTab" class="pump-mode">
+    ● AUTO
+</span>
 
                 <div class="pump-runtime">
                     ◷ Runtime 00:00
@@ -4718,9 +4718,9 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
                     OFF
                 </div>
 
-                <span class="pump-mode mode-manual">
-                    ● MANUAL
-                </span>
+                <span id="pumpUpModeControlTab" class="pump-mode">
+    ● AUTO
+</span>
 
                 <div class="pump-runtime">
                     ◷ Runtime 00:00
@@ -4748,9 +4748,9 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
                     OFF
                 </div>
 
-                <span class="pump-mode mode-manual">
-                    ● MANUAL
-                </span>
+                <span id="pumpDownModeControlTab" class="pump-mode">
+    ● AUTO
+</span>
 
                 <div class="pump-runtime">
                     ◷ Runtime 00:00
@@ -5200,6 +5200,61 @@ function setControllerStatus(online) {
 // =========================================================
 // UPDATE STATUS POMPA
 // =========================================================
+// =========================================================
+// UPDATE MODE SISTEM PADA SEMUA CARD POMPA
+// =========================================================
+function updatePumpMode(mode) {
+
+    const modeIds = {
+        pumpA: [
+            "pumpAMode",
+            "pumpAModeControlTab"
+        ],
+
+        pumpB: [
+            "pumpBMode",
+            "pumpBModeControlTab"
+        ],
+
+        pumpUp: [
+            "pumpUpMode",
+            "pumpUpModeControlTab"
+        ],
+
+        pumpDown: [
+            "pumpDownMode",
+            "pumpDownModeControlTab"
+        ]
+    };
+
+    Object.keys(modeIds).forEach(function(pump) {
+
+        modeIds[pump].forEach(function(elementId) {
+
+            const element =
+                document.getElementById(elementId);
+
+            if (!element) return;
+
+            // Reset class mode
+            element.classList.remove("mode-manual");
+
+            if (mode === "MANUAL") {
+
+                element.classList.add("mode-manual");
+                element.textContent = "● MANUAL";
+
+            } else {
+
+                element.textContent = "● AUTO";
+
+            }
+
+        });
+
+    });
+}
+
 function updatePumpStatus(id, isActive) {
 
     // ==============================
@@ -5911,6 +5966,13 @@ if (data.mode !== undefined) {
         modeElement.textContent =
             data.mode;
     }
+    // UPDATE MODE PADA SEMUA CARD POMPA
+    updatePumpMode(data.mode);
+
+    if (data.mode === "AUTO") {
+        resetPumpSwitches();
+    }
+}
 
     // =========================================
     // JIKA MODE AUTO AKTIF
