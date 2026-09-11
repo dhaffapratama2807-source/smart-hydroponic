@@ -4990,6 +4990,82 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
     line-height: 1.5;
 }
 
+/* =========================================
+   DARK THEME
+   ========================================= */
+
+body.dark-theme{
+    background:#121714;
+    color:#E8F5E9;
+}
+
+/* Area utama dashboard */
+body.dark-theme .dashboard-main{
+    background:#121714;
+}
+
+/* Card dashboard */
+body.dark-theme .card{
+    background:#1B241F;
+    color:#E8F5E9;
+    border-color:#2E4035;
+}
+
+/* Settings section */
+body.dark-theme .settings-section{
+    background:#1B241F;
+    border-color:#2E4035;
+}
+
+/* Item pengaturan */
+body.dark-theme .setting-item{
+    background:#202B24;
+    border-color:#33463A;
+    color:#E8F5E9;
+}
+
+/* Threshold card */
+body.dark-theme .threshold-card{
+    background:#202B24;
+    border-color:#33463A;
+}
+
+/* Judul Settings */
+body.dark-theme .settings-section-title h3{
+    color:#E8F5E9;
+}
+
+/* Deskripsi Settings */
+body.dark-theme .settings-section-title p,
+body.dark-theme .setting-item small{
+    color:#A5B8AC;
+}
+
+/* Input & Select */
+body.dark-theme .setting-item input,
+body.dark-theme .setting-item select,
+body.dark-theme .threshold-card input{
+    background:#121914;
+    color:#E8F5E9;
+    border-color:#405447;
+}
+
+/* Placeholder */
+body.dark-theme input::placeholder{
+    color:#8FA196;
+}
+
+/* Judul card */
+body.dark-theme .card h3,
+body.dark-theme .card h4{
+    color:#E8F5E9;
+}
+
+/* Area umum dashboard */
+body.dark-theme .dashboard-tab-title{
+    color:#E8F5E9;
+}
+
 </style>
 </head>
 <body>
@@ -7963,6 +8039,34 @@ if (sidebar) {
     });
 }
 
+function applyTheme() {
+
+    const saved = localStorage.getItem("hydroponicSettings");
+
+    if (!saved) {
+        document.body.classList.remove("dark-theme");
+        return;
+    }
+
+    try {
+
+        const settings = JSON.parse(saved);
+
+        document.body.classList.toggle(
+            "dark-theme",
+            settings.theme === "dark"
+        );
+
+    } catch (error) {
+
+        console.error("Gagal menerapkan tema:", error);
+
+        document.body.classList.remove("dark-theme");
+
+    }
+
+}
+
 function saveSettings() {
 
     if (localStorage.getItem("role") !== "admin") {
@@ -8007,11 +8111,13 @@ function saveSettings() {
     };
 
     localStorage.setItem(
-        "hydroponicSettings",
-        JSON.stringify(settings)
-    );
+    "hydroponicSettings",
+    JSON.stringify(settings)
+);
 
-    alert("Pengaturan berhasil disimpan.");
+applyTheme();
+
+alert("Pengaturan berhasil disimpan.");
 }
 
 function loadSettings() {
@@ -8592,6 +8698,8 @@ function initDashboard() {
     updateSidebarUser();
 
     loadSettings();
+
+    applyTheme();
 
     applySettingsRole();
 
