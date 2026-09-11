@@ -3212,12 +3212,12 @@ section{
     margin-left:-14px;
 
     background:linear-gradient(
-    90deg,
-    #0B4227 0%,
-    #145A32 100%
+        90deg,
+        #0B4227 0%,
+        #145A32 100%
     );
 
-    padding:12px 14px;
+    padding:14px 14px 16px;
 
     box-sizing:border-box;
 
@@ -3225,10 +3225,12 @@ section{
 
     display:grid;
 
-    grid-template-columns:56px 1fr;
-    grid-template-rows:auto auto;
+    grid-template-columns:48px minmax(0,1fr) auto;
 
-    column-gap:8px;
+    grid-template-rows:auto auto auto;
+
+    column-gap:10px;
+    row-gap:10px;
 
     align-items:center;
 
@@ -3306,44 +3308,138 @@ section{
     /* ===== HEADER ATAS ===== */
 
     .top-system-title h2{
-        font-size:18px;
+    margin:0;
+
+    font-size:20px;
+    line-height:1.2;
+
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
     }
 
     .top-system-info{
+    display:contents;
+    }
+
+    /* =========================
+   TOP BAR MOBILE
+   ========================= */
+
+/* BARIS 1 */
+.mobile-menu-btn{
+    grid-column:1;
+    grid-row:1;
+
+    width:48px;
+    height:48px;
+    }
+
+.top-system-title{
     grid-column:2;
+    grid-row:1;
+
+    min-width:0;
+    }
+
+/* ACTION BUTTON MOBILE */
+.top-system-header .top-action-btn{
+    position:absolute;
+
+    top:20px;
+
+    width:36px;
+    height:36px;
+    }
+
+.top-system-header .top-action-btn:nth-of-type(2){
+    right:56px;
+    }
+
+.top-system-header .top-action-btn:nth-of-type(3){
+    right:14px;
+    }
+
+
+/* BARIS 2 */
+.top-breadcrumb{
+    grid-column:1 / -1;
     grid-row:2;
 
     width:100%;
 
+    min-width:0;
+
     display:flex;
-    justify-content:space-between;
     align-items:center;
 
     gap:8px;
 
+    overflow:hidden;
+    }
+
+
+/* BARIS 3 */
+.top-date-time{
+    grid-column:1 / 3;
+    grid-row:3;
+
+    display:flex;
+    align-items:center;
+
+    gap:6px;
+
     min-width:0;
-}
 
-    .top-date-time{
-        gap:3px;
+    text-align:left;
+
+    white-space:nowrap;
+
+    overflow:hidden;
     }
 
+
+/* Tanggal */
     #dayDisplay{
-        font-size:13px;
+    font-size:11px;
+    font-weight:700;
+
+    white-space:nowrap;
     }
 
+
+/* Tanggal lengkap */
     #dateDisplay{
-        font-size:11px;
+    font-size:10px;
+
+    white-space:nowrap;
+
+    overflow:hidden;
+    text-overflow:ellipsis;
     }
 
+
+/* Jam */
     #timeDisplay{
-        font-size:20px;
+    font-size:12px;
+    font-weight:700;
+
+    white-space:nowrap;
     }
 
+
+/* STATUS ONLINE */
     .system-status{
-        font-size:11px;
-        padding:5px 9px;
-        white-space:nowrap;
+    grid-column:3;
+    grid-row:3;
+
+    font-size:10px;
+
+    padding:7px 9px;
+
+    white-space:nowrap;
+
+    flex-shrink:0;
     }
 
     /* ===== JUDUL DASHBOARD ===== */
