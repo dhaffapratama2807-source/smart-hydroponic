@@ -7975,7 +7975,7 @@ function saveSettings() {
         // General
         theme: document.getElementById("settingTheme")?.value || "light",
         language: document.getElementById("settingLanguage")?.value || "id",
-        compactMobile: document.getElementById("settingCompactMobile")?.checked || false,
+        compactMobile: document.getElementById("settingCompact")?.checked || false,
 
         // Notification
         notification: document.getElementById("settingNotification")?.checked || false,
@@ -8039,7 +8039,7 @@ function loadSettings() {
 
     const theme = document.getElementById("settingTheme");
     const language = document.getElementById("settingLanguage");
-    const compactMobile = document.getElementById("settingCompactMobile");
+    const compactMobile = document.getElementById("settingCompact");
 
     if (theme) {
         theme.value = settings.theme || "light";
@@ -8592,6 +8592,8 @@ function initDashboard() {
     updateSidebarUser();
 
     loadSettings();
+
+    applySettingsRole();
 
     applyControlRole();
 
