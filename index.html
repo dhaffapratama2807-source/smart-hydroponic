@@ -6172,37 +6172,42 @@ if (loginForm) {
         const username = document.getElementById("username").value;
         const password = document.getElementById("password").value;
 
+let role = "";
+
 if (username === "admin" && password === "admin123") {
 
-    localStorage.setItem("login", "true");
+    role = "admin";
 
-    localStorage.setItem(
-        "lastActivity",
-        Date.now().toString()
-    );
+} else if (username === "user" && password === "user123") {
 
-    console.log(
-        "LOGIN:",
-        localStorage.getItem("login")
-    );
-
-    alert("Login berhasil!");
-
-    // Langsung tampilkan dashboard
-    document.querySelectorAll(".page").forEach(function(page) {
-        page.classList.remove("active");
-    });
-
-    document.getElementById("page-dashboard").classList.add("active");
-
-    showDashboardTab("dashboard");
-    initDashboard();
+    role = "user";
 
 } else {
 
     alert("Username atau Password salah!");
+    return;
 
 }
+
+localStorage.setItem("login", "true");
+localStorage.setItem("username", username);
+localStorage.setItem("role", role);
+
+localStorage.setItem(
+    "lastActivity",
+    Date.now().toString()
+);
+
+alert("Login berhasil!");
+
+document.querySelectorAll(".page").forEach(function(page) {
+    page.classList.remove("active");
+});
+
+document.getElementById("page-dashboard").classList.add("active");
+
+showDashboardTab("dashboard");
+initDashboard();
     });
 }
 
