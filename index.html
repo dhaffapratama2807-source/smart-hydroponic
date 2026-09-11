@@ -7011,18 +7011,34 @@ function setControllerStatus(online) {
 
     if (online) {
 
-        statusBox.classList.remove("offline");
-        statusBox.classList.add("online");
+    statusBox.classList.remove("offline");
+    statusBox.classList.add("online");
 
-        statusText.textContent = "ONLINE";
+    statusText.textContent = "ONLINE";
 
-    } else {
+} else {
 
-        statusBox.classList.remove("online");
-        statusBox.classList.add("offline");
+    statusBox.classList.remove("online");
+    statusBox.classList.add("offline");
 
-        statusText.textContent = "OFFLINE";
-    }
+    statusText.textContent = "OFFLINE";
+
+}
+
+
+/* =================================
+   UPDATE STATUS DI SETTINGS
+   ================================= */
+
+const settingsControllerStatus =
+    document.getElementById("settingsControllerStatus");
+
+if (settingsControllerStatus) {
+
+    settingsControllerStatus.textContent =
+        online ? "ONLINE" : "OFFLINE";
+
+}
 
     // =================================
     // ENABLE / DISABLE SWITCH POMPA
