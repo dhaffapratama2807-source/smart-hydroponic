@@ -6,6 +6,10 @@
 <title>Smart Hydroponic</title>
 <script src="https://cdn.jsdelivr.net/npm/mqtt@5.15.2/dist/mqtt.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+>
 <style>
 /* ===================== style.css ===================== */
 /* ========================================= */
@@ -2286,61 +2290,129 @@ section{
     left:0;
     top:0;
     bottom:0;
+
     width:250px;
-    background:#1B5E20;
+
+    background:
+        linear-gradient(
+            180deg,
+            #145A32 0%,
+            #0B4227 100%
+        );
+
     color:white;
-    padding:28px 18px;
+
+    padding:28px 16px;
+
     display:flex;
     flex-direction:column;
+
     z-index:2000;
-    box-shadow:6px 0 20px rgba(0,0,0,.10);
+
+    box-shadow:
+        8px 0 25px rgba(0,0,0,.15);
 }
 
 .dashboard-sidebar .sidebar-logo{
-    text-align:center;
-    padding:8px 8px 28px;
-    border-bottom:1px solid rgba(255,255,255,.15);
-    margin-bottom:22px;
+    text-align:left;
+
+    padding:8px 12px 22px;
+
+    border-bottom:1px solid rgba(255,255,255,.12);
+
+    margin-bottom:18px;
 }
 
 .dashboard-sidebar .sidebar-logo h2{
-    font-size:22px;
-    margin-bottom:5px;
+    font-size:18px;
+    margin-bottom:4px;
 }
 
 .dashboard-sidebar .sidebar-logo p{
-    font-size:12px;
+    font-size:9px;
     color:#C8E6C9;
 }
 
 .sidebar-menu{
     display:flex;
     flex-direction:column;
-    gap:8px;
+    gap:4px;
 }
 
 .sidebar-menu button{
+    position:relative;
+
     width:100%;
+
+    display:flex;
+    align-items:center;
+
+    gap:13px;
+
     border:none;
     background:transparent;
-    color:#E8F5E9;
+
+    color:rgba(255,255,255,.72);
+
     text-align:left;
-    padding:14px 16px;
-    border-radius:10px;
-    font-size:15px;
+
+    padding:11px 12px;
+
+    border-radius:9px;
+
+    font-size:13px;
     font-weight:600;
+
     cursor:pointer;
-    transition:.2s;
+
+    transition:
+        background .25s ease,
+        color .25s ease,
+        transform .25s ease;
+}
+
+.sidebar-menu button i{
+    width:18px;
+
+    font-size:13px;
+
+    text-align:center;
+
+    color:rgba(255,255,255,.65);
+
+    transition:
+        color .25s ease,
+        transform .25s ease;
 }
 
 .sidebar-menu button:hover{
-    background:rgba(255,255,255,.10);
+    background:rgba(67,160,71,.18);
+    color:white;
+}
+
+.sidebar-menu button:hover i{
+    color:#A5D6A7;
 }
 
 .sidebar-menu button.active{
-    background:#43A047;
+    background:
+        linear-gradient(
+            90deg,
+            rgba(67,160,71,.45),
+            rgba(67,160,71,.18)
+        );
+
     color:white;
-    box-shadow:0 5px 15px rgba(0,0,0,.12);
+
+    box-shadow:
+        inset 3px 0 0 #66BB6A,
+        0 4px 15px rgba(0,0,0,.12);
+}
+
+.sidebar-menu button.active i{
+    color:#FFFFFF;
+
+    transform:scale(1.05);
 }
 
 .sidebar-bottom{
@@ -4079,26 +4151,31 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
         </div>
 
         <div class="sidebar-menu">
-            <button id="tabDashboard"
-                    class="active"
-                    onclick="showDashboardTab('dashboard')">
-                📊 Dashboard
-            </button>
 
-            <button id="tabKontrol"
-        onclick="showDashboardTab('kontrol')">
-    🎛️ Control
-</button>
+    <button id="tabDashboard"
+            class="active"
+            onclick="showDashboardTab('dashboard')">
+        <i class="fa-solid fa-house"></i>
+        <span>Dashboard</span>
+    </button>
 
-          <button id="tabGrafik"
-        onclick="showDashboardTab('grafik')">
-    📈 Graphic
-</button>
+    <button id="tabKontrol"
+            onclick="showDashboardTab('kontrol')">
+        <i class="fa-solid fa-sliders"></i>
+        <span>Control</span>
+    </button>
 
-<button id="tabCamera"
-        onclick="showDashboardTab('camera')">
-    📷 Camera
-</button>
+    <button id="tabGrafik"
+            onclick="showDashboardTab('grafik')">
+        <i class="fa-solid fa-chart-column"></i>
+        <span>Graphic</span>
+    </button>
+
+    <button id="tabCamera"
+            onclick="showDashboardTab('camera')">
+        <i class="fa-solid fa-camera"></i>
+        <span>Camera</span>
+    </button>
 
 </div>
 
