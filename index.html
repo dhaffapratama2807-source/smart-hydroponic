@@ -8067,6 +8067,253 @@ function applyTheme() {
 
 }
 
+function applyLanguage() {
+
+    const saved = localStorage.getItem("hydroponicSettings");
+
+    if (!saved) return;
+
+    let settings;
+
+    try {
+        settings = JSON.parse(saved);
+    } catch (error) {
+        console.error("Gagal membaca bahasa:", error);
+        return;
+    }
+
+    const lang = settings.language || "id";
+
+    const translations = {
+
+        id: {
+            dashboard: "Dashboard",
+            control: "Control",
+            graphic: "Graphic",
+            camera: "Camera",
+            settings: "Settings",
+
+            monitoringSystem: "Monitoring System",
+            pumpControl: "Pump Control",
+            sensorAnalytics: "Sensor Analytics",
+            monitoringCamera: "Monitoring Camera",
+            systemConfiguration: "System Configuration",
+
+            settingsTitle: "Settings",
+            settingsSubtitle: "Pengaturan sistem Smart Hydroponic",
+
+            general: "General",
+            generalDesc: "Tampilan dan perilaku dashboard",
+
+            theme: "Tema",
+            themeDesc: "Tampilan dashboard",
+
+            language: "Bahasa",
+            languageDesc: "Bahasa antarmuka",
+
+            dashboardRefresh: "Dashboard Refresh",
+            dashboardRefreshDesc: "Pembaruan data sensor",
+
+            compactMobile: "Mode Kompak Mobile",
+            compactMobileDesc: "Optimasi tampilan mobile",
+
+            sensorThreshold: "Sensor Threshold",
+            sensorThresholdDesc: "Batas nilai sensor untuk peringatan",
+
+            notification: "Notifikasi",
+            notificationDesc: "Pengaturan peringatan sistem",
+
+            soundAlert: "Sound Alert",
+            soundAlertDesc: "Suara ketika terjadi peringatan",
+
+            browserNotification: "Browser Notification",
+            browserNotificationDesc: "Notifikasi dari browser",
+
+            system: "System",
+            systemDesc: "Status sistem dan konfigurasi",
+
+            account: "Account",
+            accountDesc: "Informasi akun pengguna",
+
+            resetDefault: "Reset Default",
+            saveChanges: "Simpan Perubahan"
+        },
+
+        en: {
+            dashboard: "Dashboard",
+            control: "Control",
+            graphic: "Graphic",
+            camera: "Camera",
+            settings: "Settings",
+
+            monitoringSystem: "Monitoring System",
+            pumpControl: "Pump Control",
+            sensorAnalytics: "Sensor Analytics",
+            monitoringCamera: "Monitoring Camera",
+            systemConfiguration: "System Configuration",
+
+            settingsTitle: "Settings",
+            settingsSubtitle: "Smart Hydroponic system settings",
+
+            general: "General",
+            generalDesc: "Dashboard appearance and behavior",
+
+            theme: "Theme",
+            themeDesc: "Dashboard appearance",
+
+            language: "Language",
+            languageDesc: "Interface language",
+
+            dashboardRefresh: "Dashboard Refresh",
+            dashboardRefreshDesc: "Sensor data updates",
+
+            compactMobile: "Compact Mobile Mode",
+            compactMobileDesc: "Optimize mobile display",
+
+            sensorThreshold: "Sensor Threshold",
+            sensorThresholdDesc: "Sensor limits for warnings",
+
+            notification: "Notifications",
+            notificationDesc: "System alert settings",
+
+            soundAlert: "Sound Alert",
+            soundAlertDesc: "Sound when an alert occurs",
+
+            browserNotification: "Browser Notification",
+            browserNotificationDesc: "Notifications from browser",
+
+            system: "System",
+            systemDesc: "System status and configuration",
+
+            account: "Account",
+            accountDesc: "User account information",
+
+            resetDefault: "Reset Default",
+            saveChanges: "Save Changes"
+        }
+
+    };
+
+    const t = translations[lang] || translations.id;
+
+
+    /* =========================
+       SIDEBAR
+       ========================= */
+
+    const sidebarTexts = document.querySelectorAll(
+        ".dashboard-sidebar .sidebar-menu span"
+    );
+
+    const sidebarMap = [
+        t.dashboard,
+        t.control,
+        t.graphic,
+        t.camera,
+        t.settings
+    ];
+
+    sidebarTexts.forEach(function(element, index) {
+
+        if (sidebarMap[index]) {
+            element.textContent = sidebarMap[index];
+        }
+
+    });
+
+
+    /* =========================
+       SETTINGS HEADER
+       ========================= */
+
+    const settingsTitle =
+        document.querySelector("#dashboard-tab-settings .dashboard-tab-title");
+
+    if (settingsTitle) {
+        settingsTitle.textContent = t.settingsTitle;
+    }
+
+
+    /* =========================
+       SETTINGS SECTIONS
+       ========================= */
+
+    const sections =
+        document.querySelectorAll(
+            "#dashboard-tab-settings .settings-section"
+        );
+
+    sections.forEach(function(section) {
+
+        const title =
+            section.querySelector(
+                ".settings-section-title h3"
+            );
+
+        const description =
+            section.querySelector(
+                ".settings-section-title p"
+            );
+
+        if (!title) return;
+
+        const original = title.textContent.trim();
+
+        if (original === "General") {
+            title.textContent = t.general;
+            if (description)
+                description.textContent = t.generalDesc;
+        }
+
+        else if (original === "Sensor Threshold") {
+            title.textContent = t.sensorThreshold;
+            if (description)
+                description.textContent = t.sensorThresholdDesc;
+        }
+
+        else if (original === "Notification") {
+            title.textContent = t.notification;
+            if (description)
+                description.textContent = t.notificationDesc;
+        }
+
+        else if (original === "System") {
+            title.textContent = t.system;
+            if (description)
+                description.textContent = t.systemDesc;
+        }
+
+        else if (original === "Account") {
+            title.textContent = t.account;
+            if (description)
+                description.textContent = t.accountDesc;
+        }
+
+    });
+
+
+    /* =========================
+       BUTTON
+       ========================= */
+
+    const resetButton =
+        document.querySelector(".settings-reset-btn");
+
+    const saveButton =
+        document.querySelector(".settings-save-btn");
+
+    if (resetButton) {
+        resetButton.innerHTML =
+            `<i class="fa-solid fa-rotate-left"></i> ${t.resetDefault}`;
+    }
+
+    if (saveButton) {
+        saveButton.innerHTML =
+            `<i class="fa-solid fa-floppy-disk"></i> ${t.saveChanges}`;
+    }
+
+}
+
 function saveSettings() {
 
     if (localStorage.getItem("role") !== "admin") {
@@ -8116,6 +8363,7 @@ function saveSettings() {
 );
 
 applyTheme();
+applyLanguage();
 
 alert("Pengaturan berhasil disimpan.");
 }
@@ -8700,6 +8948,8 @@ function initDashboard() {
     loadSettings();
 
     applyTheme();
+
+    applyLanguage();
 
     applySettingsRole();
 
