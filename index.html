@@ -5189,11 +5189,13 @@ function setControllerStatus(online) {
 
         if (!sw) return;
 
-        if (online) {
-            sw.classList.remove("disabled");
-        } else {
-            sw.classList.add("disabled");
-        }
+        const role = localStorage.getItem("role");
+
+if (online && role === "admin") {
+    sw.classList.remove("disabled");
+} else {
+    sw.classList.add("disabled");
+}
 
     });
 }
@@ -6536,9 +6538,22 @@ function resetPumpSwitches() {
 
 function togglePump(id) {
 
+    // =========================================
+    // CEK ROLE
+    // =========================================
+    const role = localStorage.getItem("role");
+
+    if (role !== "admin") {
+        alert("⛔ Akses ditolak.\nHanya Admin yang dapat mengontrol pompa.");
+        return;
+    }
+
+    // =========================================
+    // CEK CONTROLLER
+    // =========================================
     if (!controllerOnline) {
-    alert("⚠️ Controller OFFLINE.\nPompa tidak dapat dikontrol.");
-    return;
+        alert("⚠️ Controller OFFLINE.\nPompa tidak dapat dikontrol.");
+        return;
     }
 
     const switchIds = {
@@ -6574,6 +6589,16 @@ function togglePump(id) {
 let currentMode = "AUTO";
 
 function ubahMode(mode) {
+
+    // =========================================
+    // CEK ROLE
+    // =========================================
+    const role = localStorage.getItem("role");
+
+    if (role !== "admin") {
+        alert("⛔ Akses ditolak.\nHanya Admin yang dapat mengubah mode sistem.");
+        return;
+    }
 
     if (mode === currentMode) {
         return;
