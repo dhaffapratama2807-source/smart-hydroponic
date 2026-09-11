@@ -6747,7 +6747,7 @@ initDashboard();
 // SESSION LOGIN & AUTO LOGOUT 5 MENIT
 // =========================================
 
-const SESSION_TIMEOUT = 5 * 60 * 1000;
+const SESSION_TIMEOUT = 10 * 60 * 1000;
 
 function updateActivity() {
     if (localStorage.getItem("login") === "true") {
@@ -6761,18 +6761,30 @@ function updateActivity() {
 function checkLogin() {
 
     const loginStatus = localStorage.getItem("login");
+    const lastActivity = localStorage.getItem("lastActivity");
 
-    const lastActivity = parseInt(
-        localStorage.getItem("lastActivity") || "0"
-    );
+    if (loginStatus !== "true") {
+        return false;
+    }
 
-    if (
-        loginStatus !== "true" ||
-        !lastActivity ||
-        (Date.now() - lastActivity) >= SESSION_TIMEOUT
-    ) {
+    // Jika belum ada waktu aktivitas,
+    // buat waktu aktivitas baru
+    if (!lastActivity) {
+        updateActivity();
+        return true;
+    }
+
+    const inactiveTime = Date.now() - parseInt(lastActivity);
+
+    // Jika tidak aktif selama 10 menit
+    if (inactiveTime >= SESSION_TIMEOUT) {
+
         localStorage.removeItem("login");
+        localStorage.removeItem("username");
+        localStorage.removeItem("role");
         localStorage.removeItem("lastActivity");
+
+        alert("Sesi Anda telah berakhir. Silakan login kembali.");
 
         return false;
     }
