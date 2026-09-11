@@ -2527,22 +2527,27 @@ section{
     margin-bottom:25px;
 
     background:linear-gradient(
-    90deg,
-    #0B4227 0%,
-    #145A32 100%
+        90deg,
+        #0B4227 0%,
+        #145A32 100%
     );
+
     border:none;
     border-radius:0;
 
-    padding:10px 20px;
+    padding:10px 24px;
 
     display:flex;
-    justify-content:space-between;
     align-items:center;
+
+    gap:0;
 
     box-sizing:border-box;
 
-    box-shadow:0 3px 8px rgba(0,0,0,.12);
+    box-shadow:
+        0 3px 8px rgba(0,0,0,.12);
+
+    min-height:58px;
 }
 
 .top-system-title{
@@ -2553,8 +2558,119 @@ section{
 
 .top-system-title h2{
     margin:0;
+
     color:#FFFFFF;
-    font-size:17px;
+
+    font-size:20px;
+    font-weight:700;
+
+    white-space:nowrap;
+}
+
+.top-system-title{
+    display:flex;
+    align-items:center;
+
+    padding-right:24px;
+
+    border-right:1px solid rgba(255,255,255,.20);
+}
+
+.top-breadcrumb{
+    display:flex;
+    align-items:center;
+
+    gap:10px;
+
+    margin-left:24px;
+
+    flex:1;
+
+    min-width:0;
+
+    color:rgba(255,255,255,.70);
+
+    font-size:14px;
+}
+
+.breadcrumb-current{
+    display:flex;
+    align-items:center;
+
+    gap:9px;
+
+    padding:7px 12px;
+
+    border-radius:18px;
+
+    background:rgba(255,255,255,.08);
+
+    color:#FFFFFF;
+
+    font-weight:600;
+
+    white-space:nowrap;
+}
+
+.breadcrumb-current i{
+    font-size:14px;
+}
+
+.breadcrumb-arrow{
+    font-size:20px;
+
+    color:rgba(255,255,255,.45);
+
+    line-height:1;
+}
+
+#breadcrumbSub{
+    color:rgba(255,255,255,.70);
+
+    white-space:nowrap;
+}
+
+.top-action-btn{
+    width:36px;
+    height:36px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border:none;
+    border-radius:50%;
+
+    background:transparent;
+
+    color:rgba(255,255,255,.80);
+
+    font-size:16px;
+
+    cursor:pointer;
+
+    transition:
+        background .2s ease,
+        color .2s ease,
+        transform .2s ease;
+}
+
+.top-action-btn:hover{
+    background:rgba(255,255,255,.12);
+
+    color:#FFFFFF;
+
+    transform:translateY(-1px);
+}
+
+.top-divider{
+    width:1px;
+
+    height:28px;
+
+    margin:0 12px;
+
+    background:rgba(255,255,255,.20);
 }
 
 .top-system-title span{
@@ -2569,7 +2685,10 @@ section{
 .top-system-info{
     display:flex;
     align-items:center;
-    gap:12px;
+
+    gap:8px;
+
+    flex-shrink:0;
 }
 
 .top-date-time{
@@ -4223,26 +4342,82 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
     ☰
 </button>
 
+    <div class="top-system-header">
+
+    <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+        ☰
+    </button>
+
+    <!-- BRAND -->
     <div class="top-system-title">
         <h2>Smart Hydroponic</h2>
     </div>
 
+    <!-- BREADCRUMB -->
+    <div class="top-breadcrumb">
+
+        <div class="breadcrumb-current">
+            <i id="breadcrumbIcon" class="fa-solid fa-house"></i>
+
+            <span id="breadcrumbPage">
+                Dashboard
+            </span>
+        </div>
+
+        <span class="breadcrumb-arrow">›</span>
+
+        <span id="breadcrumbSub">
+            Monitoring System
+        </span>
+
+    </div>
+
+    <!-- ACTION + SYSTEM INFO -->
     <div class="top-system-info">
 
+        <!-- NOTIFICATION -->
+        <button
+            class="top-action-btn"
+            type="button"
+            aria-label="Notifikasi">
+
+            <i class="fa-solid fa-bell"></i>
+
+        </button>
+
+        <!-- SETTINGS -->
+        <button
+            class="top-action-btn"
+            type="button"
+            aria-label="Settings">
+
+            <i class="fa-solid fa-gear"></i>
+
+        </button>
+
+        <div class="top-divider"></div>
+
+        <!-- DATE & TIME -->
         <div class="top-date-time">
             <div id="dayDisplay">Sabtu</div>
             <div id="dateDisplay">29 Agustus 2026</div>
             <div id="timeDisplay">15:36:00</div>
         </div>
 
+        <!-- CONTROLLER STATUS -->
         <div id="controllerStatus" class="system-status offline">
+
             <span id="statusDot" class="status-dot"></span>
-            <span id="statusText">OFFLINE</span>
+
+            <span id="statusText">
+                OFFLINE
+            </span>
+
         </div>
 
     </div>
 
-    </div>
+</div>
 
         <!-- ================= DASHBOARD ================= -->
         <div id="dashboard-tab-dashboard" class="dashboard-tab active">
@@ -6258,6 +6433,67 @@ function showDashboardTab(tabName) {
     if (button) {
         button.classList.add("active");
     }
+
+    // =========================================
+// UPDATE TOP BAR BREADCRUMB
+// =========================================
+
+const breadcrumbIcon =
+    document.getElementById("breadcrumbIcon");
+
+const breadcrumbPage =
+    document.getElementById("breadcrumbPage");
+
+const breadcrumbSub =
+    document.getElementById("breadcrumbSub");
+
+const breadcrumbData = {
+
+    dashboard: {
+        icon: "fa-house",
+        page: "Dashboard",
+        sub: "Monitoring System"
+    },
+
+    kontrol: {
+        icon: "fa-sliders",
+        page: "Control",
+        sub: "Pump Control"
+    },
+
+    grafik: {
+        icon: "fa-chart-column",
+        page: "Graphic",
+        sub: "Sensor Analytics"
+    },
+
+    camera: {
+        icon: "fa-camera",
+        page: "Camera",
+        sub: "Monitoring Camera"
+    }
+
+};
+
+const currentBreadcrumb =
+    breadcrumbData[tabName];
+
+if (
+    currentBreadcrumb &&
+    breadcrumbIcon &&
+    breadcrumbPage &&
+    breadcrumbSub
+) {
+
+    breadcrumbIcon.className =
+        "fa-solid " + currentBreadcrumb.icon;
+
+    breadcrumbPage.textContent =
+        currentBreadcrumb.page;
+
+    breadcrumbSub.textContent =
+        currentBreadcrumb.sub;
+}
 
     // Tutup sidebar mobile setelah memilih menu
 const sidebar = document.querySelector(".dashboard-sidebar");
