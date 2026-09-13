@@ -7402,22 +7402,34 @@ function initRealtimeCharts() {
 // UPDATE REAL-TIME SENSOR GRAPH
 // =======================================================
 
+const GRAPH_INTERVAL = 10 * 60 * 1000; // 10 menit
+let lastGraphUpdate = 0;
+
 function updateRealtimeCharts(data) {
 
-    const now = new Date();
+   const now = new Date();
+
+    const nowMs = now.getTime();
 
     const timeLabel = now.toLocaleTimeString("id-ID", {
         hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit"
-    });
+        minute: "2-digit"
+});
+
+const shouldUpdateGraph =
+    lastGraphUpdate === 0 ||
+    (nowMs - lastGraphUpdate >= GRAPH_INTERVAL);
 
     // SUHU AIR
     if (data.water_temp !== undefined && chartWaterTemp) {
     const value = Number(data.water_temp);
 
+    if (shouldUpdateGraph) {
+
     chartWaterTemp.data.labels.push(timeLabel);
     chartWaterTemp.data.datasets[0].data.push(value);
+
+}
 
     document.getElementById("graphWaterTempValue").innerHTML =
         value.toFixed(2) + ' <span>°C</span>';
@@ -7427,8 +7439,12 @@ function updateRealtimeCharts(data) {
     if (data.env_temp !== undefined && chartAirTemp) {
     const value = Number(data.env_temp);
 
+    if (shouldUpdateGraph) {
+
     chartAirTemp.data.labels.push(timeLabel);
     chartAirTemp.data.datasets[0].data.push(value);
+
+}
 
     document.getElementById("graphAirTempValue").innerHTML =
         value.toFixed(0) + ' <span>°C</span>';
@@ -7438,8 +7454,12 @@ function updateRealtimeCharts(data) {
 if (data.humidity !== undefined && chartHumidity) {
     const value = Number(data.humidity);
 
+    if (shouldUpdateGraph) {
+
     chartHumidity.data.labels.push(timeLabel);
     chartHumidity.data.datasets[0].data.push(value);
+
+}
 
     document.getElementById("graphHumidityValue").innerHTML =
         value.toFixed(0) + ' <span>%</span>';
@@ -7449,8 +7469,12 @@ if (data.humidity !== undefined && chartHumidity) {
 if (data.ph !== undefined && chartPH) {
     const value = Number(data.ph);
 
+    if (shouldUpdateGraph) {
+
     chartPH.data.labels.push(timeLabel);
     chartPH.data.datasets[0].data.push(value);
+
+}
 
     document.getElementById("graphPHValue").innerHTML =
         value.toFixed(2) + ' <span>pH</span>';
@@ -7460,11 +7484,17 @@ if (data.ph !== undefined && chartPH) {
 if (data.tds !== undefined && chartTDS) {
     const value = Number(data.tds);
 
+    if (shouldUpdateGraph) {
+
     chartTDS.data.labels.push(timeLabel);
     chartTDS.data.datasets[0].data.push(value);
-
+    }
     document.getElementById("graphTDSValue").innerHTML =
         value.toFixed(0) + ' <span>ppm</span>';
+}
+
+if (shouldUpdateGraph) {
+    lastGraphUpdate = nowMs;
 }
 
     // Batasi jumlah titik yang tampil
