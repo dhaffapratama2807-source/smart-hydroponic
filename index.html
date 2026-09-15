@@ -1026,6 +1026,52 @@ section{
     box-shadow:0 10px 24px rgba(0,0,0,.10);
 }
 
+/* =========================================
+   SENSOR STATUS EFFECT
+   ========================================= */
+
+/* SENSOR ACTIVE */
+.professional-sensor-card.sensor-card-active {
+    border-top-color:#43A047;
+    box-shadow:
+        0 6px 18px rgba(67,160,71,.10);
+}
+
+/* ICON ACTIVE */
+.professional-sensor-card.sensor-card-active
+.professional-sensor-icon {
+    animation:sensorPulse 2s infinite;
+}
+
+/* SENSOR OFFLINE */
+.professional-sensor-card.sensor-card-offline {
+    border-top-color:#EA4335;
+    box-shadow:
+        0 6px 18px rgba(234,67,53,.08);
+}
+
+/* ICON OFFLINE */
+.professional-sensor-card.sensor-card-offline
+.professional-sensor-icon {
+    opacity:.45;
+    filter:grayscale(.45);
+    animation:none;
+}
+
+/* GLOW / PULSE ACTIVE */
+@keyframes sensorPulse {
+
+    0%, 100% {
+        transform:scale(1);
+        box-shadow:0 0 0 0 rgba(67,160,71,.25);
+    }
+
+    50% {
+        transform:scale(1.04);
+        box-shadow:0 0 0 9px rgba(67,160,71,0);
+    }
+}
+
 
 /* ICON */
 
@@ -1143,14 +1189,28 @@ section{
 }
 
 .professional-sensor-status span {
-    color: #2E7D32;
-
-
     font-size:13px;
+    transition: color .25s ease, text-shadow .25s ease;
 }
 
-.professional-sensor-status span::first-letter{
-    color:#2E7D32;
+/* SENSOR ACTIVE */
+.professional-sensor-status span.sensor-online {
+    color:#188038;
+    text-shadow:0 0 6px rgba(24,128,56,.35);
+}
+
+.professional-sensor-status span.sensor-online::first-letter {
+    color:#18A94B;
+}
+
+/* SENSOR OFFLINE */
+.professional-sensor-status span.sensor-offline {
+    color:#D93025;
+    text-shadow:none;
+}
+
+.professional-sensor-status span.sensor-offline::first-letter {
+    color:#EA4335;
 }
 
 
@@ -8030,12 +8090,19 @@ function setSingleSensorStatus(sensorId, online) {
 
     if (!element) return;
 
+    const card = element.closest(".professional-sensor-card");
+
     if (online) {
 
         element.textContent = "● Active";
 
         element.classList.remove("sensor-offline");
         element.classList.add("sensor-online");
+
+        if (card) {
+            card.classList.remove("sensor-card-offline");
+            card.classList.add("sensor-card-active");
+        }
 
     } else {
 
@@ -8044,6 +8111,10 @@ function setSingleSensorStatus(sensorId, online) {
         element.classList.remove("sensor-online");
         element.classList.add("sensor-offline");
 
+        if (card) {
+            card.classList.remove("sensor-card-active");
+            card.classList.add("sensor-card-offline");
+        }
     }
 }
 // =========================================================
