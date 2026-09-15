@@ -8199,6 +8199,29 @@ function setSingleSensorStatus(sensorId, status) {
         }
     }
 }
+
+function getSensorRangeStatus(value, minId, maxId) {
+
+    const minElement = document.getElementById(minId);
+    const maxElement = document.getElementById(maxId);
+
+    if (!minElement || !maxElement) {
+        return "normal";
+    }
+
+    const min = Number(minElement.value);
+    const max = Number(maxElement.value);
+
+    if (!Number.isFinite(min) || !Number.isFinite(max)) {
+        return "normal";
+    }
+
+    if (value < min || value > max) {
+        return "warning";
+    }
+
+    return "normal";
+}
 // =========================================================
 // UPDATE STATUS POMPA
 // =========================================================
@@ -9225,7 +9248,7 @@ if (data.water_temp !== undefined) {
 
 setSingleSensorStatus(
     "sensorStatusWaterTemp",
-    sensorStatus
+    "offline"
 );
 
     } else {
@@ -9260,7 +9283,7 @@ if (data.env_temp !== undefined) {
 
 setSingleSensorStatus(
     "sensorStatusAirTemp",
-    sensorStatus
+    "offline"
 );
 
     } else {
@@ -9293,7 +9316,7 @@ if (data.humidity !== undefined) {
 
 setSingleSensorStatus(
     "sensorStatusHumidity",
-    sensorStatus
+    "offline"
 );
 
     } else {
@@ -9328,7 +9351,7 @@ if (data.ph !== undefined) {
 
 setSingleSensorStatus(
     "sensorStatusPH",
-    sensorStatus
+    "offline"
 );
 
     } else {
@@ -9364,7 +9387,7 @@ if (data.tds !== undefined) {
 
 setSingleSensorStatus(
     "sensorStatusTDS",
-    sensorStatus
+    "offline"
 );
 
     } else {
@@ -9389,9 +9412,9 @@ if (data.tank_status !== undefined) {
             value;
 
         setSingleSensorStatus(
-            "sensorStatusLevel",
-            true
-        );
+    "sensorStatusLevel",
+    "offline"
+);
 
     } else {
 
