@@ -2567,28 +2567,35 @@ section{
     margin-top:3px;
 }
 
-.sidebar-user-card .role-badge{
-    padding:4px 8px;
-    font-size:10px;
-    flex-shrink:0;
-}
-
 .sidebar-logout{
-    display:inline-block;
-    width:auto;
+    width:42px;
+    height:42px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
 
     border:none;
+    border-radius:50%;
+
     background:#E53935;
     color:white;
 
-    padding:8px 18px;
-    border-radius:8px;
+    font-size:18px;
 
-    font-size:13px;
-    font-weight:700;
     cursor:pointer;
+    flex-shrink:0;
 
     transition:.2s;
+}
+
+.sidebar-logout:hover{
+    background:#C62828;
+    transform:scale(1.05);
+}
+
+.sidebar-logout i{
+    pointer-events:none;
 }
 
 .sidebar-bottom{
@@ -5852,15 +5859,16 @@ body.dark-theme .history-stat strong {
             </div>
         </div>
 
-        <span id="sidebar-role" class="role-badge">
-            -
-        </span>
+        <button
+    class="sidebar-logout"
+    onclick="logout()"
+    title="Logout"
+    aria-label="Logout"
+>
+    <i class="fa-solid fa-right-from-bracket"></i>
+</button>
 
-    </div>
-
-    <button class="sidebar-logout" onclick="logout()">
-        Logout
-    </button>
+</div>
 
 </div>
 
