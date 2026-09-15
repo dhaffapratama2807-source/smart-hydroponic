@@ -1142,8 +1142,9 @@ section{
     font-size:12px;
 }
 
-.professional-sensor-status span{
-    color:#607D8B;
+.professional-sensor-status span {
+    color: #2E7D32;
+
 
     font-size:13px;
 }
@@ -5820,7 +5821,7 @@ body.dark-theme .dashboard-tab-title{
 
             <div class="professional-sensor-status">
                 <b>NORMAL</b>
-                <span>● Active</span>
+                <span class="sensor-online-status">● Active</span>
             </div>
 
             <div class="sensor-mini-chart water-chart">
@@ -5853,7 +5854,7 @@ body.dark-theme .dashboard-tab-title{
 
             <div class="professional-sensor-status">
                 <b>NORMAL</b>
-                <span>● Active</span>
+                <span class="sensor-online-status">● Active</span>
             </div>
 
             <div class="sensor-mini-chart air-chart">
@@ -5886,7 +5887,7 @@ body.dark-theme .dashboard-tab-title{
 
             <div class="professional-sensor-status">
                 <b>NORMAL</b>
-                <span>● Active</span>
+                <span class="sensor-online-status">● Active</span>
             </div>
 
             <div class="sensor-mini-chart humidity-chart">
@@ -5919,7 +5920,7 @@ body.dark-theme .dashboard-tab-title{
 
             <div class="professional-sensor-status">
                 <b>NORMAL</b>
-                <span>● Active</span>
+                <span class="sensor-online-status">● Active</span>
             </div>
 
             <div class="sensor-mini-chart ph-chart">
@@ -5952,7 +5953,7 @@ body.dark-theme .dashboard-tab-title{
 
             <div class="professional-sensor-status">
                 <b>NORMAL</b>
-                <span>● Active</span>
+                <span class="sensor-online-status">● Active</span>
             </div>
 
             <div class="sensor-mini-chart tds-chart">
@@ -5986,7 +5987,7 @@ body.dark-theme .dashboard-tab-title{
 
     <div class="professional-sensor-status">
         <b>NORMAL</b>
-        <span>● Active</span>
+        <span class="sensor-online-status">● Active</span>
     </div>
 
             <div class="sensor-mini-chart level-chart">
@@ -7680,10 +7681,10 @@ let mqttClient = null;
 
 let lastControllerMessage = 0;
 let controllerOnline = false;
-
-// Controller dianggap offline jika
-// tidak ada MQTT masuk selama 10 detik
 const CONTROLLER_TIMEOUT = 10000;
+
+let lastSensorMessage = 0;
+const SENSOR_TIMEOUT = 10000;
 
 // =========================================
 // UPDATE STATUS CONTROLLER
@@ -7695,6 +7696,8 @@ function setControllerStatus(online) {
 
     const statusBox = document.getElementById("controllerStatus");
     const statusText = document.getElementById("statusText");
+    const settingsStatus =
+        document.getElementById("settingsControllerStatus");
 
     if (!statusBox || !statusText) return;
 
@@ -7705,12 +7708,22 @@ function setControllerStatus(online) {
 
         statusText.textContent = "ONLINE";
 
+        // Settings
+        if (settingsStatus) {
+            settingsStatus.textContent = "ONLINE";
+        }
+
     } else {
 
         statusBox.classList.remove("online");
         statusBox.classList.add("offline");
 
         statusText.textContent = "OFFLINE";
+
+        // Settings
+        if (settingsStatus) {
+            settingsStatus.textContent = "OFFLINE";
+        }
     }
 
     // =================================
@@ -7739,6 +7752,24 @@ if (online && role === "admin") {
 }
 
     });
+}
+
+function setSensorStatus(online) {
+
+    document.querySelectorAll(".sensor-online-status")
+        .forEach(function(element) {
+
+            if (online) {
+                element.textContent = "● Active";
+                element.classList.remove("sensor-offline");
+                element.classList.add("sensor-online");
+            } else {
+                element.textContent = "● Offline";
+                element.classList.remove("sensor-online");
+                element.classList.add("sensor-offline");
+            }
+
+        });
 }
 // =========================================================
 // UPDATE STATUS POMPA
@@ -8288,6 +8319,13 @@ function connectMQTT() {
 
     mqttClient.on("connect", function () {
 
+        const settingsMqttStatus =
+    document.getElementById("settingsMqttStatus");
+
+if (settingsMqttStatus) {
+    settingsMqttStatus.textContent = "CONNECTED";
+}
+
 mqttClient.subscribe(MQTT_TOPIC_RESULT, function(err) {
 
     if (!err) {
@@ -8356,6 +8394,9 @@ if (
         try {
 
             const data = JSON.parse(message.toString());
+
+            lastSensorMessage = Date.now();
+            setSensorStatus(true);
 
             updateRealtimeCharts(data);
 
@@ -8553,10 +8594,16 @@ if (data.mode !== undefined) {
         document.getElementById("modeSystem");
 
     if (modeElement) {
-        modeElement.textContent =
-            data.mode;
+        modeElement.textContent = data.mode;
     }
-    // UPDATE MODE PADA SEMUA CARD POMPA
+
+    const settingsModeElement =
+        document.getElementById("settingsSystemMode");
+
+    if (settingsModeElement) {
+        settingsModeElement.textContent = data.mode;
+    }
+
     updatePumpMode(data.mode);
 
     if (data.mode === "AUTO") {
@@ -8642,6 +8689,21 @@ setInterval(function() {
 
 }, 1000);
 
+setInterval(function() {
+
+    if (lastSensorMessage === 0) {
+        setSensorStatus(false);
+        return;
+    }
+
+    const elapsed = Date.now() - lastSensorMessage;
+
+    if (elapsed > SENSOR_TIMEOUT) {
+        setSensorStatus(false);
+    }
+
+}, 1000);
+
 
     mqttClient.on("error", function(error) {
 
@@ -8656,6 +8718,13 @@ setInterval(function() {
     });
 
     mqttClient.on("offline", function() {
+
+        const settingsMqttStatus =
+    document.getElementById("settingsMqttStatus");
+
+if (settingsMqttStatus) {
+    settingsMqttStatus.textContent = "DISCONNECTED";
+}
 
         console.log("[MQTT] Offline");
 
@@ -10100,6 +10169,9 @@ function initDashboard() {
     const roleElement =
         document.getElementById("sidebar-role");
 
+    const settingsRoleElement =
+        document.getElementById("settingsRole");
+
     if (!usernameElement || !titleElement || !roleElement) {
         return;
     }
@@ -10108,29 +10180,44 @@ function initDashboard() {
 
     if (role === "admin") {
 
-        titleElement.textContent = "Administrator";
+    titleElement.textContent = "Administrator";
 
-        roleElement.textContent = "ADMIN";
+    roleElement.textContent = "ADMIN";
 
-        roleElement.classList.add("role-admin");
-        roleElement.classList.remove("role-user");
+    if (settingsRoleElement) {
+        settingsRoleElement.textContent = "ADMIN";
+    }
+
+    roleElement.classList.add("role-admin");
+    roleElement.classList.remove("role-user");
+
+}
 
     } else if (role === "user") {
 
-        titleElement.textContent = "Monitoring User";
+    titleElement.textContent = "Monitoring User";
 
-        roleElement.textContent = "USER";
+    roleElement.textContent = "USER";
 
-        roleElement.classList.add("role-user");
-        roleElement.classList.remove("role-admin");
+    if (settingsRoleElement) {
+        settingsRoleElement.textContent = "USER";
+    }
+
+    roleElement.classList.add("role-user");
+    roleElement.classList.remove("role-admin");
+
+}
 
     } else {
 
-        titleElement.textContent = "Unknown";
+    titleElement.textContent = "Unknown";
 
-        roleElement.textContent = "-";
+    roleElement.textContent = "-";
 
+    if (settingsRoleElement) {
+        settingsRoleElement.textContent = "-";
     }
+
 }
     document.getElementById("waterTemp").innerHTML = "0°C";
     document.getElementById("airTemp").innerHTML = "0°C";
