@@ -6059,7 +6059,11 @@ body.dark-theme .history-stat strong {
 
             <div class="professional-sensor-status">
                 <b>NORMAL</b>
-                <span class="sensor-online-status">● Active</span>
+                <span
+    id="sensorStatusWaterTemp"
+    class="sensor-online-status">
+    ● Offline
+</span>
             </div>
 
             <div class="sensor-mini-chart water-chart">
@@ -6092,7 +6096,11 @@ body.dark-theme .history-stat strong {
 
             <div class="professional-sensor-status">
                 <b>NORMAL</b>
-                <span class="sensor-online-status">● Active</span>
+                <span
+    id="sensorStatusAirTemp"
+    class="sensor-online-status">
+    ● Offline
+</span>
             </div>
 
             <div class="sensor-mini-chart air-chart">
@@ -6125,7 +6133,11 @@ body.dark-theme .history-stat strong {
 
             <div class="professional-sensor-status">
                 <b>NORMAL</b>
-                <span class="sensor-online-status">● Active</span>
+                <span
+    id="sensorStatusHumidity"
+    class="sensor-online-status">
+    ● Offline
+</span>
             </div>
 
             <div class="sensor-mini-chart humidity-chart">
@@ -6158,7 +6170,11 @@ body.dark-theme .history-stat strong {
 
             <div class="professional-sensor-status">
                 <b>NORMAL</b>
-                <span class="sensor-online-status">● Active</span>
+                <span
+    id="sensorStatusPH"
+    class="sensor-online-status">
+    ● Offline
+</span>
             </div>
 
             <div class="sensor-mini-chart ph-chart">
@@ -6191,7 +6207,11 @@ body.dark-theme .history-stat strong {
 
             <div class="professional-sensor-status">
                 <b>NORMAL</b>
-                <span class="sensor-online-status">● Active</span>
+                <span
+    id="sensorStatusTDS"
+    class="sensor-online-status">
+    ● Offline
+</span>
             </div>
 
             <div class="sensor-mini-chart tds-chart">
@@ -6225,7 +6245,11 @@ body.dark-theme .history-stat strong {
 
     <div class="professional-sensor-status">
         <b>NORMAL</b>
-        <span class="sensor-online-status">● Active</span>
+        <span
+    id="sensorStatusLevel"
+    class="sensor-online-status">
+    ● Offline
+</span>
     </div>
 
             <div class="sensor-mini-chart level-chart">
@@ -7921,8 +7945,16 @@ let lastControllerMessage = 0;
 let controllerOnline = false;
 const CONTROLLER_TIMEOUT = 10000;
 
-let lastSensorMessage = 0;
 const SENSOR_TIMEOUT = 10000;
+
+const sensorLastMessage = {
+    waterTemp: 0,
+    airTemp: 0,
+    humidity: 0,
+    ph: 0,
+    tds: 0,
+    level: 0
+};
 
 // =========================================
 // UPDATE STATUS CONTROLLER
@@ -7992,22 +8024,27 @@ if (online && role === "admin") {
     });
 }
 
-function setSensorStatus(online) {
+function setSingleSensorStatus(sensorId, online) {
 
-    document.querySelectorAll(".sensor-online-status")
-        .forEach(function(element) {
+    const element = document.getElementById(sensorId);
 
-            if (online) {
-                element.textContent = "● Active";
-                element.classList.remove("sensor-offline");
-                element.classList.add("sensor-online");
-            } else {
-                element.textContent = "● Offline";
-                element.classList.remove("sensor-online");
-                element.classList.add("sensor-offline");
-            }
+    if (!element) return;
 
-        });
+    if (online) {
+
+        element.textContent = "● Active";
+
+        element.classList.remove("sensor-offline");
+        element.classList.add("sensor-online");
+
+    } else {
+
+        element.textContent = "● Offline";
+
+        element.classList.remove("sensor-online");
+        element.classList.add("sensor-offline");
+
+    }
 }
 // =========================================================
 // UPDATE STATUS POMPA
@@ -8805,9 +8842,6 @@ if (
 
             const data = JSON.parse(message.toString());
 
-            lastSensorMessage = Date.now();
-            setSensorStatus(true);
-
             updateRealtimeCharts(data);
 
             console.log("[MQTT] Parsed sensor data:", data);
@@ -8848,53 +8882,167 @@ if (data.pump_ph_down !== undefined) {
           // Suhu Air DS18B20
 if (data.water_temp !== undefined) {
 
-    document.getElementById("waterTemp").textContent =
-        Number(data.water_temp).toFixed(2) + "°C";
+    const value = Number(data.water_temp);
 
-    document.getElementById("overviewWaterTemp").textContent =
-        Number(data.water_temp).toFixed(2) + "°C";
+    if (Number.isFinite(value) && value !== 0) {
+
+        sensorLastMessage.waterTemp = Date.now();
+
+        document.getElementById("waterTemp").textContent =
+            value.toFixed(2) + "°C";
+
+        document.getElementById("overviewWaterTemp").textContent =
+            value.toFixed(2) + "°C";
+
+        setSingleSensorStatus(
+            "sensorStatusWaterTemp",
+            true
+        );
+
+    } else {
+
+        setSingleSensorStatus(
+            "sensorStatusWaterTemp",
+            false
+        );
+    }
 }
 // Suhu Udara DHT11
 if (data.env_temp !== undefined) {
 
-    document.getElementById("airTemp").textContent =
-        Math.round(data.env_temp) + "°C";
+    const value = Number(data.env_temp);
 
-    document.getElementById("overviewAirTemp").textContent =
-        Math.round(data.env_temp) + "°C";
+    if (Number.isFinite(value) && value !== 0) {
+
+        sensorLastMessage.airTemp = Date.now();
+
+        document.getElementById("airTemp").textContent =
+            Math.round(value) + "°C";
+
+        document.getElementById("overviewAirTemp").textContent =
+            Math.round(value) + "°C";
+
+        setSingleSensorStatus(
+            "sensorStatusAirTemp",
+            true
+        );
+
+    } else {
+
+        setSingleSensorStatus(
+            "sensorStatusAirTemp",
+            false
+        );
+    }
 }
 
 // Kelembapan DHT11
 if (data.humidity !== undefined) {
 
-    document.getElementById("humidity").textContent =
-        Number(data.humidity).toFixed(0) + "%";
+    const value = Number(data.humidity);
+
+    if (Number.isFinite(value) && value !== 0) {
+
+        sensorLastMessage.humidity = Date.now();
+
+        document.getElementById("humidity").textContent =
+            value.toFixed(0) + "%";
+
+        setSingleSensorStatus(
+            "sensorStatusHumidity",
+            true
+        );
+
+    } else {
+
+        setSingleSensorStatus(
+            "sensorStatusHumidity",
+            false
+        );
+    }
 }
 // pH Air
 if (data.ph !== undefined) {
 
-    document.getElementById("ph").textContent =
-        Number(data.ph).toFixed(2);
+    const value = Number(data.ph);
 
-    document.getElementById("overviewPH").textContent =
-        Number(data.ph).toFixed(2);
+    if (Number.isFinite(value) && value !== 0) {
+
+        sensorLastMessage.ph = Date.now();
+
+        document.getElementById("ph").textContent =
+            value.toFixed(2);
+
+        document.getElementById("overviewPH").textContent =
+            value.toFixed(2);
+
+        setSingleSensorStatus(
+            "sensorStatusPH",
+            true
+        );
+
+    } else {
+
+        setSingleSensorStatus(
+            "sensorStatusPH",
+            false
+        );
+    }
 }
 
        // TDS
 if (data.tds !== undefined) {
 
-    document.getElementById("tds").textContent =
-        Number(data.tds).toFixed(0) + " ppm";
+    const value = Number(data.tds);
 
-    document.getElementById("overviewTDS").textContent =
-        Number(data.tds).toFixed(0) + " ppm";
+    if (Number.isFinite(value) && value !== 0) {
+
+        sensorLastMessage.tds = Date.now();
+
+        document.getElementById("tds").textContent =
+            value.toFixed(0) + " ppm";
+
+        document.getElementById("overviewTDS").textContent =
+            value.toFixed(0) + " ppm";
+
+        setSingleSensorStatus(
+            "sensorStatusTDS",
+            true
+        );
+
+    } else {
+
+        setSingleSensorStatus(
+            "sensorStatusTDS",
+            false
+        );
+    }
 }
 
 // WATER FLOAT
 if (data.tank_status !== undefined) {
 
-    document.getElementById("level").textContent =
-        data.tank_status;
+    const value = String(data.tank_status).trim();
+
+    if (value !== "") {
+
+        sensorLastMessage.level = Date.now();
+
+        document.getElementById("level").textContent =
+            value;
+
+        setSingleSensorStatus(
+            "sensorStatusLevel",
+            true
+        );
+
+    } else {
+
+        setSingleSensorStatus(
+            "sensorStatusLevel",
+            false
+        );
+    }
 }
 
         } catch (error) {
@@ -9101,15 +9249,66 @@ setInterval(function() {
 
 setInterval(function() {
 
-    if (lastSensorMessage === 0) {
-        setSensorStatus(false);
-        return;
+    const now = Date.now();
+
+    if (
+        sensorLastMessage.waterTemp !== 0 &&
+        now - sensorLastMessage.waterTemp > SENSOR_TIMEOUT
+    ) {
+        setSingleSensorStatus(
+            "sensorStatusWaterTemp",
+            false
+        );
     }
 
-    const elapsed = Date.now() - lastSensorMessage;
+    if (
+        sensorLastMessage.airTemp !== 0 &&
+        now - sensorLastMessage.airTemp > SENSOR_TIMEOUT
+    ) {
+        setSingleSensorStatus(
+            "sensorStatusAirTemp",
+            false
+        );
+    }
 
-    if (elapsed > SENSOR_TIMEOUT) {
-        setSensorStatus(false);
+    if (
+        sensorLastMessage.humidity !== 0 &&
+        now - sensorLastMessage.humidity > SENSOR_TIMEOUT
+    ) {
+        setSingleSensorStatus(
+            "sensorStatusHumidity",
+            false
+        );
+    }
+
+    if (
+        sensorLastMessage.ph !== 0 &&
+        now - sensorLastMessage.ph > SENSOR_TIMEOUT
+    ) {
+        setSingleSensorStatus(
+            "sensorStatusPH",
+            false
+        );
+    }
+
+    if (
+        sensorLastMessage.tds !== 0 &&
+        now - sensorLastMessage.tds > SENSOR_TIMEOUT
+    ) {
+        setSingleSensorStatus(
+            "sensorStatusTDS",
+            false
+        );
+    }
+
+    if (
+        sensorLastMessage.level !== 0 &&
+        now - sensorLastMessage.level > SENSOR_TIMEOUT
+    ) {
+        setSingleSensorStatus(
+            "sensorStatusLevel",
+            false
+        );
     }
 
 }, 1000);
