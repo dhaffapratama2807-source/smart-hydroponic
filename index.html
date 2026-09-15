@@ -10175,7 +10175,6 @@ function initDashboard() {
     if (!usernameElement || !titleElement || !roleElement) {
         return;
     }
-
     usernameElement.textContent = username;
 
     if (role === "admin") {
@@ -10213,6 +10212,8 @@ function initDashboard() {
     if (settingsRoleElement) {
         settingsRoleElement.textContent = "-";
     }
+
+}
 
 }
     document.getElementById("waterTemp").innerHTML = "0°C";
