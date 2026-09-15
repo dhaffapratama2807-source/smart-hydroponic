@@ -6652,7 +6652,7 @@ body.dark-theme .dashboard-tab-title{
 
                 <label>Periode</label>
 
-                <select id="historyPeriod">
+                <select id="historyPeriod" onchange="loadHistoryData()">
                     <option value="1">1 Hari</option>
                     <option value="3">3 Hari</option>
                     <option value="7" selected>7 Hari</option>
@@ -6665,7 +6665,7 @@ body.dark-theme .dashboard-tab-title{
 
                 <label>Interval</label>
 
-                <select id="historyInterval">
+                <select id="historyInterval" onchange="loadHistoryData()">
                     <option value="1m">1 Menit</option>
                     <option value="5m">5 Menit</option>
                     <option value="10m" selected>10 Menit</option>
@@ -8092,6 +8092,23 @@ function initRealtimeCharts() {
 const GRAPH_INTERVAL = 10 * 60 * 1000; // 10 menit
 let lastGraphUpdate = 0;
 
+// =======================================================
+// HISTORY GRAPH
+// =======================================================
+
+const HISTORY_API_URL =
+    "https://server1.conacis.com/hydro-api/api/history";
+
+let historyCharts = {
+    ph: null,
+    tds: null,
+    waterTemp: null,
+    airTemp: null,
+    humidity: null
+};
+
+let historyLoaded = false;
+
 function updateRealtimeCharts(data) {
 
    const now = new Date();
@@ -8793,11 +8810,17 @@ if (sidebar) {
 
 function showGraphView(view) {
 
-    const tabs = document.querySelectorAll(".graph-view-tab");
+    const tabs =
+        document.querySelectorAll(".graph-view-tab");
 
-    const realtimeView = document.getElementById("graphViewRealtime");
-    const historyView = document.getElementById("graphViewHistory");
-    const title = document.getElementById("graphViewTitle");
+    const realtimeView =
+        document.getElementById("graphViewRealtime");
+
+    const historyView =
+        document.getElementById("graphViewHistory");
+
+    const title =
+        document.getElementById("graphViewTitle");
 
     tabs.forEach(function(tab) {
         tab.classList.remove("active");
@@ -8812,7 +8835,9 @@ function showGraphView(view) {
 
         title.textContent = "Real Time Graphic";
 
-    } else if (view === "history") {
+    }
+
+    else if (view === "history") {
 
         tabs[1].classList.add("active");
 
@@ -8821,7 +8846,351 @@ function showGraphView(view) {
 
         title.textContent = "History Graphic";
 
+        loadHistoryData();
     }
+}
+
+// =======================================================
+// LOAD HISTORY DATA
+// =======================================================
+
+async function loadHistoryData() {
+
+    const period =
+        document.getElementById("historyPeriod").value;
+
+    const interval =
+        document.getElementById("historyInterval").value;
+
+    const historyView =
+        document.getElementById("graphViewHistory");
+
+    if (!historyView) {
+        console.error("History view tidak ditemukan.");
+        return;
+    }
+
+    console.log(
+        `[HISTORY] Loading data | ${period} hari | interval ${interval}`
+    );
+
+    try {
+
+        const response = await fetch(
+            `${HISTORY_API_URL}?days=${period}&interval=${interval}`
+        );
+
+        if (!response.ok) {
+            throw new Error(
+                `HTTP ${response.status}`
+            );
+        }
+
+        const result = await response.json();
+
+        console.log("[HISTORY] API response:", result);
+
+        if (!result.success) {
+            throw new Error(
+                "API mengembalikan success=false"
+            );
+        }
+
+        if (!Array.isArray(result.data)) {
+            throw new Error(
+                "Format data history tidak valid."
+            );
+        }
+
+        console.log(
+            `[HISTORY] Data diterima: ${result.data.length} titik`
+        );
+
+        renderHistoryCharts(result.data);
+
+        historyLoaded = true;
+
+    } catch (error) {
+
+        console.error(
+            "[HISTORY] Gagal mengambil data:",
+            error
+        );
+
+        alert(
+            "Gagal mengambil data history.\n\n" +
+            "Periksa koneksi API VPS."
+        );
+    }
+}
+
+// =======================================================
+// RENDER HISTORY CHARTS
+// =======================================================
+
+function renderHistoryCharts(data) {
+
+    const labels = data.map(function(item) {
+
+        const date = new Date(item.timestamp);
+
+        return date.toLocaleString("id-ID", {
+            day: "2-digit",
+            month: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit"
+        });
+
+    });
+
+
+    const phData = data.map(item =>
+        Number(item.ph)
+    );
+
+    const tdsData = data.map(item =>
+        Number(item.tds)
+    );
+
+    const waterTempData = data.map(item =>
+        Number(item.water_temp)
+    );
+
+    const airTempData = data.map(item =>
+        Number(item.air_temp)
+    );
+
+    const humidityData = data.map(item =>
+        Number(item.humidity)
+    );
+
+
+    createHistoryChart(
+        "historyChartPH",
+        "pH Air",
+        labels,
+        phData,
+        "pH"
+    );
+
+    createHistoryChart(
+        "historyChartTDS",
+        "PPM / TDS",
+        labels,
+        tdsData,
+        "ppm"
+    );
+
+    createHistoryChart(
+        "historyChartWaterTemp",
+        "Suhu Air",
+        labels,
+        waterTempData,
+        "°C"
+    );
+
+    createHistoryChart(
+        "historyChartAirTemp",
+        "Suhu Udara",
+        labels,
+        airTempData,
+        "°C"
+    );
+
+    createHistoryChart(
+        "historyChartHumidity",
+        "Kelembapan",
+        labels,
+        humidityData,
+        "%"
+    );
+
+
+    updateHistoryStats(
+        phData,
+        "historyPHMin",
+        "historyPHMax",
+        "historyPHAvg"
+    );
+
+    updateHistoryStats(
+        tdsData,
+        "historyTDSMin",
+        "historyTDSMax",
+        "historyTDSAvg"
+    );
+
+    updateHistoryStats(
+        waterTempData,
+        "historyWaterTempMin",
+        "historyWaterTempMax",
+        "historyWaterTempAvg"
+    );
+
+    updateHistoryStats(
+        airTempData,
+        "historyAirTempMin",
+        "historyAirTempMax",
+        "historyAirTempAvg"
+    );
+
+    updateHistoryStats(
+        humidityData,
+        "historyHumidityMin",
+        "historyHumidityMax",
+        "historyHumidityAvg"
+    );
+}
+
+// =======================================================
+// CREATE HISTORY CHART
+// =======================================================
+
+function createHistoryChart(
+    canvasId,
+    label,
+    labels,
+    data,
+    unit
+) {
+
+    const canvas =
+        document.getElementById(canvasId);
+
+    if (!canvas) {
+        console.error(
+            `[HISTORY] Canvas tidak ditemukan: ${canvasId}`
+        );
+        return;
+    }
+
+    const oldChart =
+        historyCharts[canvasId];
+
+    if (oldChart) {
+        oldChart.destroy();
+    }
+
+    const chart =
+        new Chart(canvas, {
+
+            type: "line",
+
+            data: {
+
+                labels: labels,
+
+                datasets: [{
+                    label: `${label} (${unit})`,
+                    data: data,
+
+                    borderWidth: 2,
+
+                    pointRadius: 0,
+
+                    pointHoverRadius: 4,
+
+                    tension: 0.25,
+
+                    fill: false
+                }]
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                interaction: {
+                    mode: "index",
+                    intersect: false
+                },
+
+                plugins: {
+
+                    legend: {
+                        display: true
+                    }
+
+                },
+
+                scales: {
+
+                    x: {
+
+                        ticks: {
+                            maxTicksLimit: 12,
+                            autoSkip: true
+                        }
+
+                    },
+
+                    y: {
+
+                        beginAtZero: false,
+
+                        ticks: {
+                            precision: 2
+                        }
+
+                    }
+
+                }
+
+            }
+
+        });
+
+
+    historyCharts[canvasId] = chart;
+}
+
+// =======================================================
+// HISTORY STATISTICS
+// =======================================================
+
+function updateHistoryStats(
+    data,
+    minId,
+    maxId,
+    avgId
+) {
+
+    if (!data || data.length === 0) {
+        return;
+    }
+
+    const validData = data.filter(function(value) {
+        return Number.isFinite(value);
+    });
+
+    if (validData.length === 0) {
+        return;
+    }
+
+    const min =
+        Math.min(...validData);
+
+    const max =
+        Math.max(...validData);
+
+    const avg =
+        validData.reduce(
+            (sum, value) => sum + value,
+            0
+        ) / validData.length;
+
+
+    document.getElementById(minId).textContent =
+        min.toFixed(2);
+
+    document.getElementById(maxId).textContent =
+        max.toFixed(2);
+
+    document.getElementById(avgId).textContent =
+        avg.toFixed(2);
 }
 
 function applyTheme() {
