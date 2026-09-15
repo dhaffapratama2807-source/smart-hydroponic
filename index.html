@@ -4312,6 +4312,106 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
    GRAFIK SENSOR REAL-TIME - MODERN
    ========================================= */
 
+/* =========================================
+   GRAPH VIEW TABS
+   ========================================= */
+
+.graph-view-tabs {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 4px;
+    margin-bottom: 24px;
+}
+
+.graph-view-tab {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    min-width: 230px;
+    height: 58px;
+
+    padding: 0 24px;
+
+    border: 1px solid #E0E8E2;
+    border-radius: 12px;
+
+    background: #FFFFFF;
+    color: #145A32;
+
+    font-size: 16px;
+    font-weight: 700;
+
+    cursor: pointer;
+    transition: all 0.25s ease;
+
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.04);
+}
+
+.graph-view-tab i {
+    font-size: 18px;
+}
+
+.graph-view-tab:hover {
+    border-color: #A5D6A7;
+    background: #F1F8F3;
+    transform: translateY(-1px);
+}
+
+/* TAB AKTIF */
+
+.graph-view-tab.active {
+    background: #218B4B;
+    border-color: #218B4B;
+    color: #FFFFFF;
+
+    box-shadow: 0 5px 14px rgba(33, 139, 75, 0.20);
+}
+
+.graph-view-tab.active:hover {
+    background: #218B4B;
+    color: #FFFFFF;
+}
+
+/* GARIS PEMISAH */
+
+.graph-view-tabs::after {
+    content: "";
+    height: 1px;
+    flex: 1;
+    background: #DCE5DE;
+    margin-left: 8px;
+}
+
+/* MOBILE */
+
+@media (max-width: 700px) {
+
+    .graph-view-tabs {
+        gap: 8px;
+        margin-bottom: 20px;
+    }
+
+    .graph-view-tab {
+        min-width: 0;
+        flex: 1;
+        height: 52px;
+        padding: 0 12px;
+        font-size: 13px;
+        gap: 7px;
+    }
+
+    .graph-view-tab i {
+        font-size: 15px;
+    }
+
+    .graph-view-tabs::after {
+        display: none;
+    }
+}
+
 .graph-sensor-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -6062,10 +6162,36 @@ body.dark-theme .dashboard-tab-title{
 <div id="dashboard-tab-grafik" class="dashboard-tab">
 
     <h2 class="dashboard-tab-title">
-        Real Time Graphic
-    </h2>
+    Real Time Graphic
+</h2>
 
-    <div class="graph-sensor-grid">
+<div class="graph-view-tabs">
+
+    <button
+        type="button"
+        class="graph-view-tab active"
+        onclick="showGraphView('realtime')">
+
+        <i class="fa-solid fa-chart-column"></i>
+
+        <span>Realtime Graphic</span>
+
+    </button>
+
+    <button
+        type="button"
+        class="graph-view-tab"
+        onclick="showGraphView('history')">
+
+        <i class="fa-regular fa-clock"></i>
+
+        <span>History Graphic</span>
+
+    </button>
+
+</div>
+
+<div class="graph-sensor-grid">
 
     <!-- SUHU AIR -->
     <div class="graph-sensor-card">
@@ -8094,6 +8220,34 @@ if (sidebar) {
         top: 0,
         behavior: "instant"
     });
+}
+
+// =========================================================
+// GRAPH VIEW TAB
+// =========================================================
+
+function showGraphView(view) {
+
+    const tabs = document.querySelectorAll(".graph-view-tab");
+
+    tabs.forEach(function(tab) {
+        tab.classList.remove("active");
+    });
+
+    if (view === "realtime") {
+
+        tabs[0].classList.add("active");
+
+    } else if (view === "history") {
+
+        tabs[1].classList.add("active");
+
+        alert("History Graphic sedang dalam tahap pengembangan.");
+
+        // Untuk sementara kembali ke realtime
+        tabs[0].classList.add("active");
+        tabs[1].classList.remove("active");
+    }
 }
 
 function applyTheme() {
