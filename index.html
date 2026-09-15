@@ -2575,18 +2575,25 @@ section{
     align-items:center;
     justify-content:center;
 
+    padding:0;
+
     border:none;
     border-radius:50%;
 
     background:#E53935;
-    color:white;
-
-    font-size:18px;
+    color:#FFFFFF;
 
     cursor:pointer;
     flex-shrink:0;
 
     transition:.2s;
+}
+
+.sidebar-logout .logout-icon{
+    width:22px;
+    height:22px;
+
+    display:block;
 }
 
 .sidebar-logout:hover{
@@ -5865,7 +5872,31 @@ body.dark-theme .history-stat strong {
     title="Logout"
     aria-label="Logout"
 >
-    <i class="fa-solid fa-right-from-bracket"></i>
+    <svg
+        class="logout-icon"
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+    >
+        <path d="M13 5H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h7"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"/>
+
+        <path d="M11 12h9"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"/>
+
+        <path d="M17 8l4 4-4 4"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"/>
+    </svg>
 </button>
 
 </div>
