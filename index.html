@@ -9108,6 +9108,16 @@ function createHistoryChart(
         return;
     }
 
+    const wrapper = canvas.parentElement;
+const emptyMessage = wrapper
+    ? wrapper.querySelector(".history-empty")
+    : null;
+
+if (emptyMessage) {
+    emptyMessage.style.display =
+        data && data.length > 0 ? "none" : "flex";
+}
+
     const oldChart =
         historyCharts[canvasId];
 
