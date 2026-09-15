@@ -8320,6 +8320,163 @@ let chartHumidity;
 let chartPH;
 let chartTDS;
 
+// =======================================================
+// PENYIMPANAN REALTIME GRAPH
+// =======================================================
+
+const REALTIME_GRAPH_STORAGE_KEY = "smartHydroponicRealtimeGraph";
+const REALTIME_GRAPH_MAX_POINTS = 20;
+
+function saveRealtimeGraphData() {
+    try {
+        const graphData = {
+            lastGraphUpdate: lastGraphUpdate,
+
+            waterTemp: chartWaterTemp
+                ? {
+                    labels: [...chartWaterTemp.data.labels],
+                    data: [...chartWaterTemp.data.datasets[0].data]
+                }
+                : { labels: [], data: [] },
+
+            airTemp: chartAirTemp
+                ? {
+                    labels: [...chartAirTemp.data.labels],
+                    data: [...chartAirTemp.data.datasets[0].data]
+                }
+                : { labels: [], data: [] },
+
+            humidity: chartHumidity
+                ? {
+                    labels: [...chartHumidity.data.labels],
+                    data: [...chartHumidity.data.datasets[0].data]
+                }
+                : { labels: [], data: [] },
+
+            ph: chartPH
+                ? {
+                    labels: [...chartPH.data.labels],
+                    data: [...chartPH.data.datasets[0].data]
+                }
+                : { labels: [], data: [] },
+
+            tds: chartTDS
+                ? {
+                    labels: [...chartTDS.data.labels],
+                    data: [...chartTDS.data.datasets[0].data]
+                }
+                : { labels: [], data: [] }
+        };
+
+        localStorage.setItem(
+            REALTIME_GRAPH_STORAGE_KEY,
+            JSON.stringify(graphData)
+        );
+
+    } catch (error) {
+        console.error(
+            "[GRAPH] Gagal menyimpan data realtime:",
+            error
+        );
+    }
+}
+
+
+function restoreRealtimeGraphData() {
+    try {
+        const saved =
+            localStorage.getItem(
+                REALTIME_GRAPH_STORAGE_KEY
+            );
+
+        if (!saved) {
+            return;
+        }
+
+        const graphData = JSON.parse(saved);
+
+        // Restore waktu update terakhir
+        if (
+            graphData.lastGraphUpdate &&
+            Number.isFinite(Number(graphData.lastGraphUpdate))
+        ) {
+            lastGraphUpdate =
+                Number(graphData.lastGraphUpdate);
+        }
+
+        function restoreChart(chart, savedData) {
+
+            if (
+                !chart ||
+                !savedData ||
+                !Array.isArray(savedData.labels) ||
+                !Array.isArray(savedData.data)
+            ) {
+                return;
+            }
+
+            chart.data.labels =
+                savedData.labels.slice(
+                    -REALTIME_GRAPH_MAX_POINTS
+                );
+
+            chart.data.datasets[0].data =
+                savedData.data.slice(
+                    -REALTIME_GRAPH_MAX_POINTS
+                );
+        }
+
+        restoreChart(
+            chartWaterTemp,
+            graphData.waterTemp
+        );
+
+        restoreChart(
+            chartAirTemp,
+            graphData.airTemp
+        );
+
+        restoreChart(
+            chartHumidity,
+            graphData.humidity
+        );
+
+        restoreChart(
+            chartPH,
+            graphData.ph
+        );
+
+        restoreChart(
+            chartTDS,
+            graphData.tds
+        );
+
+        // Refresh chart
+        [
+            chartWaterTemp,
+            chartAirTemp,
+            chartHumidity,
+            chartPH,
+            chartTDS
+        ].forEach(chart => {
+            if (chart) {
+                chart.update("none");
+            }
+        });
+
+        console.log(
+            "[GRAPH] Data realtime berhasil dipulihkan."
+        );
+
+    } catch (error) {
+
+        console.error(
+            "[GRAPH] Gagal memulihkan data realtime:",
+            error
+        );
+    }
+}
+
 function initRealtimeCharts() {
 
     // =======================================================
@@ -8602,11 +8759,18 @@ function initRealtimeCharts() {
     // =======================================================
 
     chartTDS = createRealtimeChart(
-        "chartTDS",
-        "TDS / PPM",
-        "#D89B00",
-        "rgba(216, 155, 0, 0.16)"
-    );
+    "chartTDS",
+    "TDS / PPM",
+    "#D89B00",
+    "rgba(216, 155, 0, 0.16)"
+);
+
+// =======================================================
+// PULIHKAN DATA GRAFIK SETELAH CHART SELESAI DIBUAT
+// =======================================================
+
+restoreRealtimeGraphData();
+
 }
 
 // =======================================================
@@ -8722,11 +8886,16 @@ if (data.tds !== undefined && chartTDS) {
 }
 
 if (shouldUpdateGraph) {
+
     lastGraphUpdate = nowMs;
+
+    // Simpan grafik supaya tidak hilang
+    // ketika dashboard di-refresh
+    saveRealtimeGraphData();
 }
 
     // Batasi jumlah titik yang tampil
-    const maxPoints = 20;
+    const maxPoints = REALTIME_GRAPH_MAX_POINTS;
 
     [
         chartWaterTemp,
