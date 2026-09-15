@@ -4676,18 +4676,39 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
 .graph-sensor-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 22px;
+    gap: 18px;
     width: 100%;
     margin-top: 24px;
 }
 
 .graph-sensor-card {
-    background: #ffffff;
-    border: 1px solid #e8ece9;
-    border-radius: 14px;
-    padding: 18px 18px 14px;
+    position: relative;
+
+    background: #FFFFFF;
+    border: 1px solid #E3ECE5;
+    border-radius: 18px;
+
+    padding: 20px 20px 16px;
     min-width: 0;
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+
+    box-shadow:
+        0 4px 16px rgba(27, 94, 32, 0.06);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+
+    overflow: hidden;
+}
+
+.graph-sensor-card:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 24px rgba(27, 94, 32, 0.10);
+
+    border-color: #C8E6C9;
 }
 
 /* HEADER CARD */
@@ -4695,43 +4716,93 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 5px;
+
+    margin-bottom: 8px;
 }
 
 .graph-card-title {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 9px;
 }
 
 .graph-card-icon {
-    font-size: 24px;
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 10px;
+
+    background: #E8F5E9;
+
+    font-size: 18px;
 }
 
 .graph-card-title h3 {
     margin: 0;
-    color: #1B5E20;
-    font-size: 18px;
-    font-weight: 700;
+
+    color: #145A32;
+
+    font-size: 16px;
+    font-weight: 750;
+
+    letter-spacing: -0.2px;
 }
 
 /* STATUS NORMAL */
 .graph-status {
-    padding: 4px 10px;
-    border-radius: 6px;
-    background: #effaf0;
-    border: 1px solid #b9dfbd;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+
+    padding: 5px 9px;
+
+    border-radius: 20px;
+
+    background: #E8F5E9;
+    border: 1px solid #C8E6C9;
+
     color: #2E7D32;
-    font-size: 11px;
+
+    font-size: 10px;
     font-weight: 700;
+
+    letter-spacing: 0.4px;
+}
+
+.graph-status::before {
+    content: "";
+    
+    width: 6px;
+    height: 6px;
+
+    border-radius: 50%;
+
+    background: #43A047;
 }
 
 /* NILAI SENSOR */
 .graph-current-value {
-    margin: 6px 0 8px 34px;
-    color: #16832a;
-    font-size: 27px;
-    font-weight: 700;
+    margin: 8px 0 4px 0;
+
+    color: #145A32;
+
+    font-size: 30px;
+    font-weight: 800;
+
+    line-height: 1.15;
+
+    letter-spacing: -0.5px;
+}
+
+.graph-current-value span {
+    font-size: 12px;
+    font-weight: 600;
+
+    color: #78909C;
 }
 
 .graph-current-value span {
@@ -4743,9 +4814,17 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
 /* AREA GRAFIK */
 .graph-chart-wrapper {
     position: relative;
+
     width: 100%;
-    height: 190px;
+    height: 185px;
+
+    margin-top: 4px;
+
+    border-radius: 12px;
+
+    overflow: hidden;
 }
+
 
 .graph-chart-wrapper canvas {
     width: 100% !important;
@@ -4755,30 +4834,45 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
 /* STATISTIK BAWAH */
 .graph-stat-row {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
     gap: 8px;
-    margin-top: 10px;
+
+    margin-top: 12px;
 }
 
 .graph-stat {
-    border: 1px solid #e6e9e7;
-    border-radius: 9px;
-    padding: 8px 6px;
+    padding: 9px 7px;
+
     text-align: center;
-    background: #fff;
+
+    background: #F8FBF9;
+
+    border: 1px solid #E3ECE5;
+
+    border-radius: 10px;
+
+    transition: background 0.2s ease;
 }
 
 .graph-stat-label {
     display: block;
-    font-size: 11px;
-    color: #555;
-    margin-bottom: 3px;
+
+    margin-bottom: 4px;
+
+    color: #78909C;
+
+    font-size: 10px;
+    font-weight: 600;
 }
 
 .graph-stat-value {
     display: block;
+
     font-size: 13px;
-    font-weight: 700;
+    font-weight: 800;
 }
 
 .graph-stat.min .graph-stat-value {
@@ -4803,6 +4897,10 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
 @media (max-width: 700px) {
     .graph-sensor-grid {
         grid-template-columns: 1fr;
+    }
+
+    .graph-chart-wrapper {
+        height: 180px;
     }
 }
 
@@ -5452,6 +5550,127 @@ body.dark-theme .card h4{
 /* Area umum dashboard */
 body.dark-theme .dashboard-tab-title{
     color:#E8F5E9;
+}
+
+/* =========================================================
+   GRAPH DARK MODE
+   ========================================================= */
+
+body.dark-theme .graph-sensor-card,
+body.dark-theme .history-sensor-card {
+    background: #16221B;
+    border-color: #294235;
+
+    box-shadow:
+        0 6px 20px rgba(0, 0, 0, 0.22);
+}
+
+body.dark-theme .graph-sensor-card:hover,
+body.dark-theme .history-sensor-card:hover {
+    border-color: #3C6B4D;
+
+    box-shadow:
+        0 8px 24px rgba(0, 0, 0, 0.30);
+}
+
+
+/* =========================================================
+   GRAPH HEADER
+   ========================================================= */
+
+body.dark-theme .graph-card-title h3,
+body.dark-theme .history-card-title h3 {
+    color: #A5D6A7;
+}
+
+body.dark-theme .graph-card-icon,
+body.dark-theme .history-card-icon {
+    background: #203A2A;
+}
+
+
+/* =========================================================
+   REALTIME VALUE
+   ========================================================= */
+
+body.dark-theme .graph-current-value {
+    color: #81C784;
+}
+
+body.dark-theme .graph-current-value span {
+    color: #90A49A;
+}
+
+
+/* =========================================================
+   STATUS
+   ========================================================= */
+
+body.dark-theme .graph-status {
+    background: #203A2A;
+    border-color: #356044;
+    color: #81C784;
+}
+
+body.dark-theme .graph-status::before {
+    background: #66BB6A;
+}
+
+
+/* =========================================================
+   GRAPH STATISTICS
+   ========================================================= */
+
+body.dark-theme .graph-stat {
+    background: #1B2B22;
+    border-color: #30483A;
+}
+
+body.dark-theme .graph-stat-label {
+    color: #90A49A;
+}
+
+body.dark-theme .graph-stat.min .graph-stat-value {
+    color: #64B5F6;
+}
+
+body.dark-theme .graph-stat.max .graph-stat-value {
+    color: #EF9A9A;
+}
+
+body.dark-theme .graph-stat.avg .graph-stat-value {
+    color: #81C784;
+}
+
+
+/* =========================================================
+   HISTORY CHART AREA
+   ========================================================= */
+
+body.dark-theme .history-chart-wrapper {
+    background: #142019;
+}
+
+body.dark-theme .history-empty {
+    color: #718279;
+}
+
+
+/* =========================================================
+   HISTORY STATISTICS
+   ========================================================= */
+
+body.dark-theme .history-stat {
+    background: #1B2B22;
+    border-color: #30483A;
+}
+
+body.dark-theme .history-stat span {
+    color: #90A49A;
+}
+
+body.dark-theme .history-stat strong {
+    color: #81C784;
 }
 
 </style>
@@ -7976,118 +8195,290 @@ let chartTDS;
 
 function initRealtimeCharts() {
 
+    // =======================================================
+    // KONFIGURASI UMUM REALTIME CHART
+    // =======================================================
+
+    function createRealtimeChart(
+        canvasId,
+        label,
+        borderColor,
+        fillColor
+    ) {
+
+        const canvas = document.getElementById(canvasId);
+
+        if (!canvas) {
+            console.error(
+                `[GRAPH] Canvas tidak ditemukan: ${canvasId}`
+            );
+            return null;
+        }
+
+        return new Chart(canvas, {
+
+            type: "line",
+
+            data: {
+                labels: [],
+
+                datasets: [{
+                    label: label,
+
+                    data: [],
+
+                    borderColor: borderColor,
+
+                    backgroundColor: function(context) {
+
+                        const chart =
+                            context.chart;
+
+                        const chartArea =
+                            chart.chartArea;
+
+                        if (!chartArea) {
+                            return fillColor;
+                        }
+
+                        const gradient =
+                            chart.ctx.createLinearGradient(
+                                0,
+                                chartArea.top,
+                                0,
+                                chartArea.bottom
+                            );
+
+                        gradient.addColorStop(
+                            0,
+                            fillColor
+                        );
+
+                        gradient.addColorStop(
+                            1,
+                            "rgba(255,255,255,0)"
+                        );
+
+                        return gradient;
+                    },
+
+                    borderWidth: 2.5,
+
+                    pointRadius: function(context) {
+
+                        if (
+                            context.dataIndex ===
+                            context.dataset.data.length - 1
+                        ) {
+                            return 4;
+                        }
+
+                        return 0;
+                    },
+
+                    pointHoverRadius: 5,
+
+                    pointBackgroundColor:
+                        borderColor,
+
+                    pointBorderColor:
+                        "#FFFFFF",
+
+                    pointBorderWidth: 2,
+
+                    tension: 0.35,
+
+                    fill: true
+                }]
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                animation: false,
+
+                interaction: {
+                    mode: "index",
+                    intersect: false
+                },
+
+                plugins: {
+
+                    legend: {
+                        display: false
+                    },
+
+                    tooltip: {
+
+                        enabled: true,
+
+                        backgroundColor:
+                            "rgba(20, 90, 50, 0.95)",
+
+                        titleColor: "#FFFFFF",
+
+                        bodyColor: "#FFFFFF",
+
+                        borderColor:
+                            "rgba(255,255,255,0.15)",
+
+                        borderWidth: 1,
+
+                        padding: 10,
+
+                        displayColors: false,
+
+                        callbacks: {
+
+                            label: function(context) {
+
+                                const value =
+                                    Number(
+                                        context.parsed.y
+                                    );
+
+                                return (
+                                    label +
+                                    ": " +
+                                    value
+                                );
+                            }
+                        }
+                    }
+                },
+
+                scales: {
+
+                    x: {
+
+                        grid: {
+                            display: false
+                        },
+
+                        border: {
+                            display: false
+                        },
+
+                        ticks: {
+
+                            color: "#90A49A",
+
+                            font: {
+                                size: 10
+                            },
+
+                            maxTicksLimit: 6,
+
+                            autoSkip: true
+                        }
+                    },
+
+                    y: {
+
+                        beginAtZero: false,
+
+                        grid: {
+
+                            color:
+                                "rgba(120, 144, 128, 0.10)",
+
+                            drawTicks: false
+                        },
+
+                        border: {
+                            display: false
+                        },
+
+                        ticks: {
+
+                            color: "#90A49A",
+
+                            font: {
+                                size: 10
+                            },
+
+                            padding: 6,
+
+                            maxTicksLimit: 5
+                        }
+                    }
+                },
+
+                elements: {
+
+                    line: {
+                        capBezierPoints: true
+                    },
+
+                    point: {
+                        hitRadius: 10
+                    }
+                }
+            }
+        });
+    }
+
+
+    // =======================================================
     // SUHU AIR
-    chartWaterTemp = new Chart(
-        document.getElementById("chartWaterTemp"),
-        {
-            type: "line",
-            data: {
-                labels: [],
-                datasets: [{
-                    label: "Suhu Air (°C)",
-                    data: [],
-                    tension: 0.3,
-                    fill: false
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                animation: false
-            }
-        }
+    // =======================================================
+
+    chartWaterTemp = createRealtimeChart(
+        "chartWaterTemp",
+        "Suhu Air (°C)",
+        "#2196F3",
+        "rgba(33, 150, 243, 0.18)"
     );
 
 
+    // =======================================================
     // SUHU UDARA
-    chartAirTemp = new Chart(
-        document.getElementById("chartAirTemp"),
-        {
-            type: "line",
-            data: {
-                labels: [],
-                datasets: [{
-                    label: "Suhu Udara (°C)",
-                    data: [],
-                    tension: 0.3,
-                    fill: false
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                animation: false
-            }
-        }
+    // =======================================================
+
+    chartAirTemp = createRealtimeChart(
+        "chartAirTemp",
+        "Suhu Udara (°C)",
+        "#7E57C2",
+        "rgba(126, 87, 194, 0.16)"
     );
 
 
+    // =======================================================
     // KELEMBAPAN
-    chartHumidity = new Chart(
-        document.getElementById("chartHumidity"),
-        {
-            type: "line",
-            data: {
-                labels: [],
-                datasets: [{
-                    label: "Kelembapan (%)",
-                    data: [],
-                    tension: 0.3,
-                    fill: false
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                animation: false
-            }
-        }
+    // =======================================================
+
+    chartHumidity = createRealtimeChart(
+        "chartHumidity",
+        "Kelembapan (%)",
+        "#43A047",
+        "rgba(67, 160, 71, 0.16)"
     );
 
 
+    // =======================================================
     // pH
-    chartPH = new Chart(
-        document.getElementById("chartPH"),
-        {
-            type: "line",
-            data: {
-                labels: [],
-                datasets: [{
-                    label: "pH",
-                    data: [],
-                    tension: 0.3,
-                    fill: false
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                animation: false
-            }
-        }
+    // =======================================================
+
+    chartPH = createRealtimeChart(
+        "chartPH",
+        "pH",
+        "#E65100",
+        "rgba(230, 81, 0, 0.16)"
     );
 
 
+    // =======================================================
     // TDS / PPM
-    chartTDS = new Chart(
-        document.getElementById("chartTDS"),
-        {
-            type: "line",
-            data: {
-                labels: [],
-                datasets: [{
-                    label: "TDS / PPM",
-                    data: [],
-                    tension: 0.3,
-                    fill: false
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                animation: false
-            }
-        }
+    // =======================================================
+
+    chartTDS = createRealtimeChart(
+        "chartTDS",
+        "TDS / PPM",
+        "#D89B00",
+        "rgba(216, 155, 0, 0.16)"
     );
 }
 
@@ -9108,15 +9499,9 @@ function createHistoryChart(
         return;
     }
 
-    const wrapper = canvas.parentElement;
-const emptyMessage = wrapper
-    ? wrapper.querySelector(".history-empty")
-    : null;
-
-if (emptyMessage) {
-    emptyMessage.style.display =
-        data && data.length > 0 ? "none" : "flex";
-}
+    // ===================================================
+    // HAPUS CHART LAMA
+    // ===================================================
 
     const oldChart =
         historyCharts[canvasId];
@@ -9124,6 +9509,30 @@ if (emptyMessage) {
     if (oldChart) {
         oldChart.destroy();
     }
+
+    // ===================================================
+    // EMPTY MESSAGE
+    // ===================================================
+
+    const wrapper =
+        canvas.parentElement;
+
+    const emptyMessage =
+        wrapper
+            ? wrapper.querySelector(".history-empty")
+            : null;
+
+    if (emptyMessage) {
+
+        emptyMessage.style.display =
+            data && data.length > 0
+                ? "none"
+                : "flex";
+    }
+
+    // ===================================================
+    // CHART HISTORY
+    // ===================================================
 
     const chart =
         new Chart(canvas, {
@@ -9135,20 +9544,78 @@ if (emptyMessage) {
                 labels: labels,
 
                 datasets: [{
-                    label: `${label} (${unit})`,
+
+                    label:
+                        `${label} (${unit})`,
+
                     data: data,
 
-                    borderWidth: 2,
+                    borderColor:
+                        "#2E7D32",
 
-                    pointRadius: 0,
+                    backgroundColor:
+                        function(context) {
 
-                    pointHoverRadius: 4,
+                            const chart =
+                                context.chart;
 
-                    tension: 0.25,
+                            const chartArea =
+                                chart.chartArea;
 
-                    fill: false
+                            if (!chartArea) {
+                                return "rgba(46, 125, 50, 0.12)";
+                            }
+
+                            const gradient =
+                                chart.ctx.createLinearGradient(
+                                    0,
+                                    chartArea.top,
+                                    0,
+                                    chartArea.bottom
+                                );
+
+                            gradient.addColorStop(
+                                0,
+                                "rgba(46, 125, 50, 0.20)"
+                            );
+
+                            gradient.addColorStop(
+                                1,
+                                "rgba(46, 125, 50, 0.00)"
+                            );
+
+                            return gradient;
+                        },
+
+                    borderWidth: 2.5,
+
+                    pointRadius:
+                        function(context) {
+
+                            if (
+                                context.dataIndex ===
+                                context.dataset.data.length - 1
+                            ) {
+                                return 4;
+                            }
+
+                            return 0;
+                        },
+
+                    pointHoverRadius: 5,
+
+                    pointBackgroundColor:
+                        "#2E7D32",
+
+                    pointBorderColor:
+                        "#FFFFFF",
+
+                    pointBorderWidth: 2,
+
+                    tension: 0.35,
+
+                    fill: true
                 }]
-
             },
 
             options: {
@@ -9157,48 +9624,149 @@ if (emptyMessage) {
 
                 maintainAspectRatio: false,
 
+                animation: false,
+
                 interaction: {
+
                     mode: "index",
+
                     intersect: false
                 },
 
                 plugins: {
 
                     legend: {
-                        display: true
-                    }
 
+                        display: false
+                    },
+
+                    tooltip: {
+
+                        enabled: true,
+
+                        backgroundColor:
+                            "rgba(20, 90, 50, 0.95)",
+
+                        titleColor:
+                            "#FFFFFF",
+
+                        bodyColor:
+                            "#FFFFFF",
+
+                        borderColor:
+                            "rgba(255,255,255,0.15)",
+
+                        borderWidth: 1,
+
+                        padding: 10,
+
+                        displayColors: false,
+
+                        callbacks: {
+
+                            label:
+                                function(context) {
+
+                                    const value =
+                                        Number(
+                                            context.parsed.y
+                                        );
+
+                                    return (
+                                        label +
+                                        ": " +
+                                        value.toFixed(2) +
+                                        " " +
+                                        unit
+                                    );
+                                }
+                        }
+                    }
                 },
 
                 scales: {
 
                     x: {
 
+                        grid: {
+
+                            display: false
+                        },
+
+                        border: {
+
+                            display: false
+                        },
+
                         ticks: {
-                            maxTicksLimit: 12,
+
+                            color: "#90A49A",
+
+                            font: {
+                                size: 10
+                            },
+
+                            maxTicksLimit: 10,
+
                             autoSkip: true
                         }
-
                     },
 
                     y: {
 
                         beginAtZero: false,
 
+                        grid: {
+
+                            color:
+                                "rgba(120, 144, 128, 0.10)",
+
+                            drawTicks: false
+                        },
+
+                        border: {
+
+                            display: false
+                        },
+
                         ticks: {
+
+                            color: "#90A49A",
+
+                            font: {
+                                size: 10
+                            },
+
+                            padding: 6,
+
+                            maxTicksLimit: 6,
+
                             precision: 2
                         }
-
                     }
+                },
 
+                elements: {
+
+                    line: {
+
+                        capBezierPoints: true
+                    },
+
+                    point: {
+
+                        hitRadius: 10
+                    }
                 }
-
             }
-
         });
 
+    // ===================================================
+    // SIMPAN INSTANCE CHART
+    // ===================================================
 
-    historyCharts[canvasId] = chart;
+    historyCharts[canvasId] =
+        chart;
 }
 
 // =======================================================
