@@ -4411,6 +4411,266 @@ nav .user-info { display: flex; align-items: center; gap: 8px; }
         display: none;
     }
 }
+/* =========================================
+   HISTORY GRAPHIC
+   ========================================= */
+
+.history-graphic-container {
+    display: none;
+    width: 100%;
+}
+
+.history-graphic-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+
+    margin-bottom: 24px;
+    padding: 22px 24px;
+
+    background: #FFFFFF;
+    border: 1px solid #E2EAE4;
+    border-radius: 16px;
+
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.05);
+}
+
+.history-graphic-header h3 {
+    margin: 0 0 5px;
+
+    color: #145A32;
+    font-size: 21px;
+    font-weight: 700;
+}
+
+.history-graphic-header p {
+    margin: 0;
+
+    color: #718078;
+    font-size: 13px;
+}
+
+.history-filter-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.history-filter {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.history-filter label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #607068;
+}
+
+.history-filter select {
+    min-width: 125px;
+
+    height: 40px;
+
+    padding: 0 12px;
+
+    border: 1px solid #CFE0D4;
+    border-radius: 9px;
+
+    background: #FFFFFF;
+    color: #145A32;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    outline: none;
+    cursor: pointer;
+}
+
+.history-filter select:focus {
+    border-color: #218B4B;
+    box-shadow: 0 0 0 3px rgba(33, 139, 75, 0.10);
+}
+
+
+/* HISTORY SENSOR GRID */
+
+.history-sensor-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 22px;
+
+    width: 100%;
+}
+
+
+/* HISTORY CARD */
+
+.history-sensor-card {
+    background: #FFFFFF;
+
+    border: 1px solid #E2EAE4;
+    border-radius: 18px;
+
+    padding: 22px;
+
+    box-shadow:
+        0 6px 20px rgba(0, 0, 0, 0.05);
+}
+
+.history-card-header {
+    display: flex;
+    align-items: center;
+
+    margin-bottom: 15px;
+}
+
+.history-card-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.history-card-icon {
+    font-size: 23px;
+}
+
+.history-card-title h3 {
+    margin: 0;
+
+    color: #145A32;
+
+    font-size: 18px;
+    font-weight: 700;
+}
+
+
+/* CHART */
+
+.history-chart-wrapper {
+    position: relative;
+
+    width: 100%;
+    height: 260px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #FBFDFC;
+
+    border-radius: 12px;
+
+    overflow: hidden;
+}
+
+.history-chart-wrapper canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.history-empty {
+    position: absolute;
+
+    color: #94A29A;
+
+    font-size: 13px;
+    font-weight: 500;
+
+    pointer-events: none;
+}
+
+
+/* STATISTICS */
+
+.history-stat-row {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 8px;
+
+    margin-top: 12px;
+}
+
+.history-stat {
+    padding: 10px 8px;
+
+    text-align: center;
+
+    border: 1px solid #E3EBE5;
+    border-radius: 9px;
+
+    background: #FFFFFF;
+}
+
+.history-stat span {
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: #78857E;
+
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.history-stat strong {
+    color: #145A32;
+
+    font-size: 13px;
+    font-weight: 700;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 800px) {
+
+    .history-graphic-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .history-filter-group {
+        width: 100%;
+    }
+
+    .history-filter {
+        flex: 1;
+    }
+
+    .history-filter select {
+        width: 100%;
+    }
+
+    .history-sensor-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+@media (max-width: 500px) {
+
+    .history-filter-group {
+        flex-direction: column;
+    }
+
+    .history-filter {
+        width: 100%;
+    }
+
+    .history-chart-wrapper {
+        height: 220px;
+    }
+
+}
 
 .graph-sensor-grid {
     display: grid;
@@ -6161,7 +6421,7 @@ body.dark-theme .dashboard-tab-title{
 <!-- ================= GRAFIK ================= -->
 <div id="dashboard-tab-grafik" class="dashboard-tab">
 
-    <h2 class="dashboard-tab-title">
+    <h2 id="graphViewTitle" class="dashboard-tab-title">
     Real Time Graphic
 </h2>
 
@@ -6190,6 +6450,8 @@ body.dark-theme .dashboard-tab-title{
     </button>
 
 </div>
+
+<div id="graphViewRealtime">    
 
 <div class="graph-sensor-grid">
 
@@ -6370,6 +6632,305 @@ body.dark-theme .dashboard-tab-title{
 </div>
 
 </div>
+
+<!-- ================= HISTORY GRAPHIC ================= -->
+
+<div id="graphViewHistory" class="history-graphic-container">
+
+    <!-- ================= HISTORY HEADER ================= -->
+
+    <div class="history-graphic-header">
+
+        <div>
+            <h3>History Graphic</h3>
+            <p>Data historis sensor berdasarkan periode dan interval pengambilan data.</p>
+        </div>
+
+        <div class="history-filter-group">
+
+            <div class="history-filter">
+
+                <label>Periode</label>
+
+                <select id="historyPeriod">
+                    <option value="1">1 Hari</option>
+                    <option value="3">3 Hari</option>
+                    <option value="7" selected>7 Hari</option>
+                    <option value="30">30 Hari</option>
+                </select>
+
+            </div>
+
+            <div class="history-filter">
+
+                <label>Interval</label>
+
+                <select id="historyInterval">
+                    <option value="1m">1 Menit</option>
+                    <option value="5m">5 Menit</option>
+                    <option value="10m" selected>10 Menit</option>
+                    <option value="30m">30 Menit</option>
+                    <option value="1h">1 Jam</option>
+                </select>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= HISTORY SENSOR GRID ================= -->
+
+    <div class="history-sensor-grid">
+
+
+        <!-- pH -->
+
+        <div class="history-sensor-card">
+
+            <div class="history-card-header">
+
+                <div class="history-card-title">
+
+                    <span class="history-card-icon">🧪</span>
+
+                    <h3>pH Air</h3>
+
+                </div>
+
+            </div>
+
+            <div class="history-chart-wrapper">
+
+                <canvas id="historyChartPH"></canvas>
+
+                <div class="history-empty">
+                    Belum ada data historis
+                </div>
+
+            </div>
+
+            <div class="history-stat-row">
+
+                <div class="history-stat">
+                    <span>Min</span>
+                    <strong id="historyPHMin">--</strong>
+                </div>
+
+                <div class="history-stat">
+                    <span>Maks</span>
+                    <strong id="historyPHMax">--</strong>
+                </div>
+
+                <div class="history-stat">
+                    <span>Rata-rata</span>
+                    <strong id="historyPHAvg">--</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- TDS -->
+
+        <div class="history-sensor-card">
+
+            <div class="history-card-header">
+
+                <div class="history-card-title">
+
+                    <span class="history-card-icon">💧</span>
+
+                    <h3>PPM / TDS</h3>
+
+                </div>
+
+            </div>
+
+            <div class="history-chart-wrapper">
+
+                <canvas id="historyChartTDS"></canvas>
+
+                <div class="history-empty">
+                    Belum ada data historis
+                </div>
+
+            </div>
+
+            <div class="history-stat-row">
+
+                <div class="history-stat">
+                    <span>Min</span>
+                    <strong id="historyTDSMin">--</strong>
+                </div>
+
+                <div class="history-stat">
+                    <span>Maks</span>
+                    <strong id="historyTDSMax">--</strong>
+                </div>
+
+                <div class="history-stat">
+                    <span>Rata-rata</span>
+                    <strong id="historyTDSAvg">--</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- SUHU AIR -->
+
+        <div class="history-sensor-card">
+
+            <div class="history-card-header">
+
+                <div class="history-card-title">
+
+                    <span class="history-card-icon">🌡️</span>
+
+                    <h3>Suhu Air</h3>
+
+                </div>
+
+            </div>
+
+            <div class="history-chart-wrapper">
+
+                <canvas id="historyChartWaterTemp"></canvas>
+
+                <div class="history-empty">
+                    Belum ada data historis
+                </div>
+
+            </div>
+
+            <div class="history-stat-row">
+
+                <div class="history-stat">
+                    <span>Min</span>
+                    <strong id="historyWaterTempMin">--</strong>
+                </div>
+
+                <div class="history-stat">
+                    <span>Maks</span>
+                    <strong id="historyWaterTempMax">--</strong>
+                </div>
+
+                <div class="history-stat">
+                    <span>Rata-rata</span>
+                    <strong id="historyWaterTempAvg">--</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- SUHU UDARA -->
+
+        <div class="history-sensor-card">
+
+            <div class="history-card-header">
+
+                <div class="history-card-title">
+
+                    <span class="history-card-icon">🌡️</span>
+
+                    <h3>Suhu Udara</h3>
+
+                </div>
+
+            </div>
+
+            <div class="history-chart-wrapper">
+
+                <canvas id="historyChartAirTemp"></canvas>
+
+                <div class="history-empty">
+                    Belum ada data historis
+                </div>
+
+            </div>
+
+            <div class="history-stat-row">
+
+                <div class="history-stat">
+                    <span>Min</span>
+                    <strong id="historyAirTempMin">--</strong>
+                </div>
+
+                <div class="history-stat">
+                    <span>Maks</span>
+                    <strong id="historyAirTempMax">--</strong>
+                </div>
+
+                <div class="history-stat">
+                    <span>Rata-rata</span>
+                    <strong id="historyAirTempAvg">--</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- KELEMBAPAN -->
+
+        <div class="history-sensor-card">
+
+            <div class="history-card-header">
+
+                <div class="history-card-title">
+
+                    <span class="history-card-icon">💧</span>
+
+                    <h3>Kelembapan</h3>
+
+                </div>
+
+            </div>
+
+            <div class="history-chart-wrapper">
+
+                <canvas id="historyChartHumidity"></canvas>
+
+                <div class="history-empty">
+                    Belum ada data historis
+                </div>
+
+            </div>
+
+            <div class="history-stat-row">
+
+                <div class="history-stat">
+                    <span>Min</span>
+                    <strong id="historyHumidityMin">--</strong>
+                </div>
+
+                <div class="history-stat">
+                    <span>Maks</span>
+                    <strong id="historyHumidityMax">--</strong>
+                </div>
+
+                <div class="history-stat">
+                    <span>Rata-rata</span>
+                    <strong id="historyHumidityAvg">--</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+</div>
+
 <!-- ================= CAMERA ================= -->
 <div id="dashboard-tab-camera" class="dashboard-tab">
 
@@ -8226,9 +8787,17 @@ if (sidebar) {
 // GRAPH VIEW TAB
 // =========================================================
 
+// =========================================================
+// GRAPH VIEW TAB
+// =========================================================
+
 function showGraphView(view) {
 
     const tabs = document.querySelectorAll(".graph-view-tab");
+
+    const realtimeView = document.getElementById("graphViewRealtime");
+    const historyView = document.getElementById("graphViewHistory");
+    const title = document.getElementById("graphViewTitle");
 
     tabs.forEach(function(tab) {
         tab.classList.remove("active");
@@ -8238,15 +8807,20 @@ function showGraphView(view) {
 
         tabs[0].classList.add("active");
 
+        realtimeView.style.display = "block";
+        historyView.style.display = "none";
+
+        title.textContent = "Real Time Graphic";
+
     } else if (view === "history") {
 
         tabs[1].classList.add("active");
 
-        alert("History Graphic sedang dalam tahap pengembangan.");
+        realtimeView.style.display = "none";
+        historyView.style.display = "block";
 
-        // Untuk sementara kembali ke realtime
-        tabs[0].classList.add("active");
-        tabs[1].classList.remove("active");
+        title.textContent = "History Graphic";
+
     }
 }
 
