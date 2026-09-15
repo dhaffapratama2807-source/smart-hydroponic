@@ -1193,6 +1193,36 @@ section{
     transition: color .25s ease, text-shadow .25s ease;
 }
 
+/* SENSOR WARNING */
+.professional-sensor-status span.sensor-warning {
+    color:#E67E00;
+    text-shadow:0 0 6px rgba(230,126,0,.30);
+}
+
+.professional-sensor-status span.sensor-warning::first-letter {
+    color:#F39C12;
+}
+
+/* BADGE WARNING */
+.professional-sensor-card.sensor-card-warning
+.professional-sensor-status b {
+    background:#FFF4E5;
+    color:#E67E00;
+}
+
+/* CARD WARNING */
+.professional-sensor-card.sensor-card-warning {
+    border-top-color:#F39C12;
+    box-shadow:
+        0 6px 18px rgba(243,156,18,.12);
+}
+
+/* ICON WARNING */
+.professional-sensor-card.sensor-card-warning
+.professional-sensor-icon {
+    animation:none;
+}
+
 /* SENSOR ACTIVE */
 .professional-sensor-status span.sensor-online {
     color:#188038;
@@ -8084,35 +8114,87 @@ if (online && role === "admin") {
     });
 }
 
-function setSingleSensorStatus(sensorId, online) {
+function setSingleSensorStatus(sensorId, status) {
 
     const element = document.getElementById(sensorId);
 
     if (!element) return;
 
-    const card = element.closest(".professional-sensor-card");
+    const card =
+        element.closest(".professional-sensor-card");
 
-    if (online) {
+    const statusBadge =
+        card?.querySelector(".professional-sensor-status b");
+
+    if (status === "normal") {
 
         element.textContent = "● Active";
 
-        element.classList.remove("sensor-offline");
+        element.classList.remove(
+            "sensor-offline",
+            "sensor-warning"
+        );
+
         element.classList.add("sensor-online");
 
+        if (statusBadge) {
+            statusBadge.textContent = "NORMAL";
+        }
+
         if (card) {
-            card.classList.remove("sensor-card-offline");
+            card.classList.remove(
+                "sensor-card-offline",
+                "sensor-card-warning"
+            );
+
             card.classList.add("sensor-card-active");
+        }
+
+    } else if (status === "warning") {
+
+        element.textContent = "● Active";
+
+        element.classList.remove(
+            "sensor-offline",
+            "sensor-online"
+        );
+
+        element.classList.add("sensor-warning");
+
+        if (statusBadge) {
+            statusBadge.textContent = "WARNING";
+        }
+
+        if (card) {
+            card.classList.remove(
+                "sensor-card-offline",
+                "sensor-card-active"
+            );
+
+            card.classList.add("sensor-card-warning");
         }
 
     } else {
 
         element.textContent = "● Offline";
 
-        element.classList.remove("sensor-online");
+        element.classList.remove(
+            "sensor-online",
+            "sensor-warning"
+        );
+
         element.classList.add("sensor-offline");
 
+        if (statusBadge) {
+            statusBadge.textContent = "OFFLINE";
+        }
+
         if (card) {
-            card.classList.remove("sensor-card-active");
+            card.classList.remove(
+                "sensor-card-active",
+                "sensor-card-warning"
+            );
+
             card.classList.add("sensor-card-offline");
         }
     }
@@ -9134,16 +9216,23 @@ if (data.water_temp !== undefined) {
         document.getElementById("overviewWaterTemp").textContent =
             value.toFixed(2) + "°C";
 
-        setSingleSensorStatus(
-            "sensorStatusWaterTemp",
-            true
-        );
+        const sensorStatus =
+    getSensorRangeStatus(
+        value,
+        "thresholdWaterTempMin",
+        "thresholdWaterTempMax"
+    );
+
+setSingleSensorStatus(
+    "sensorStatusWaterTemp",
+    sensorStatus
+);
 
     } else {
 
         setSingleSensorStatus(
             "sensorStatusWaterTemp",
-            false
+            "offline"
         );
     }
 }
@@ -9162,16 +9251,23 @@ if (data.env_temp !== undefined) {
         document.getElementById("overviewAirTemp").textContent =
             Math.round(value) + "°C";
 
-        setSingleSensorStatus(
-            "sensorStatusAirTemp",
-            true
-        );
+        const sensorStatus =
+    getSensorRangeStatus(
+        value,
+        "thresholdAirTempMin",
+        "thresholdAirTempMax"
+    );
+
+setSingleSensorStatus(
+    "sensorStatusAirTemp",
+    sensorStatus
+);
 
     } else {
 
         setSingleSensorStatus(
             "sensorStatusAirTemp",
-            false
+            "offline"
         );
     }
 }
@@ -9188,16 +9284,23 @@ if (data.humidity !== undefined) {
         document.getElementById("humidity").textContent =
             value.toFixed(0) + "%";
 
-        setSingleSensorStatus(
-            "sensorStatusHumidity",
-            true
-        );
+        const sensorStatus =
+    getSensorRangeStatus(
+        value,
+        "thresholdHumidityMin",
+        "thresholdHumidityMax"
+    );
+
+setSingleSensorStatus(
+    "sensorStatusHumidity",
+    sensorStatus
+);
 
     } else {
 
         setSingleSensorStatus(
             "sensorStatusHumidity",
-            false
+            "offline"
         );
     }
 }
@@ -9216,16 +9319,23 @@ if (data.ph !== undefined) {
         document.getElementById("overviewPH").textContent =
             value.toFixed(2);
 
-        setSingleSensorStatus(
-            "sensorStatusPH",
-            true
-        );
+        const sensorStatus =
+    getSensorRangeStatus(
+        value,
+        "thresholdPhMin",
+        "thresholdPhMax"
+    );
+
+setSingleSensorStatus(
+    "sensorStatusPH",
+    sensorStatus
+);
 
     } else {
 
         setSingleSensorStatus(
             "sensorStatusPH",
-            false
+            "offline"
         );
     }
 }
@@ -9245,16 +9355,23 @@ if (data.tds !== undefined) {
         document.getElementById("overviewTDS").textContent =
             value.toFixed(0) + " ppm";
 
-        setSingleSensorStatus(
-            "sensorStatusTDS",
-            true
-        );
+        const sensorStatus =
+    getSensorRangeStatus(
+        value,
+        "thresholdTdsMin",
+        "thresholdTdsMax"
+    );
+
+setSingleSensorStatus(
+    "sensorStatusTDS",
+    sensorStatus
+);
 
     } else {
 
         setSingleSensorStatus(
             "sensorStatusTDS",
-            false
+            "offline"
         );
     }
 }
@@ -9280,7 +9397,7 @@ if (data.tank_status !== undefined) {
 
         setSingleSensorStatus(
             "sensorStatusLevel",
-            false
+            "offline"
         );
     }
 }
