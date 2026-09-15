@@ -10746,14 +10746,11 @@ function initDashboard() {
     const titleElement =
         document.getElementById("sidebar-user-title");
 
-    const roleElement =
-        document.getElementById("sidebar-role");
-
     const settingsRoleElement =
         document.getElementById("settingsRole");
 
-    if (!usernameElement || !titleElement || !roleElement) {
-        return;
+    if (!usernameElement || !titleElement) {
+    return;
     }
     usernameElement.textContent = username;
 
@@ -10761,33 +10758,21 @@ function initDashboard() {
 
     titleElement.textContent = "Administrator";
 
-    roleElement.textContent = "ADMIN";
-
     if (settingsRoleElement) {
         settingsRoleElement.textContent = "ADMIN";
     }
 
-    roleElement.classList.add("role-admin");
-    roleElement.classList.remove("role-user");
-
-    } else if (role === "user") {
+} else if (role === "user") {
 
     titleElement.textContent = "Monitoring User";
-
-    roleElement.textContent = "USER";
 
     if (settingsRoleElement) {
         settingsRoleElement.textContent = "USER";
     }
 
-    roleElement.classList.add("role-user");
-    roleElement.classList.remove("role-admin");
-
-    } else {
+} else {
 
     titleElement.textContent = "Unknown";
-
-    roleElement.textContent = "-";
 
     if (settingsRoleElement) {
         settingsRoleElement.textContent = "-";
