@@ -2870,6 +2870,274 @@ section{
     transform:translateY(-1px);
 }
 
+/* =========================================
+   NOTIFICATION BADGE
+   ========================================= */
+
+.top-action-btn{
+    position:relative;
+}
+
+.notification-badge{
+    position:absolute;
+
+    top:-2px;
+    right:-2px;
+
+    min-width:16px;
+    height:16px;
+
+    padding:0 4px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:#E53935;
+    color:#FFFFFF;
+
+    border-radius:10px;
+
+    font-size:9px;
+    font-weight:700;
+    line-height:1;
+
+    border:2px solid #0F5C35;
+
+    box-sizing:border-box;
+}
+
+
+/* =========================================
+   NOTIFICATION PANEL
+   ========================================= */
+
+.notification-panel{
+    position:fixed;
+
+    top:72px;
+    right:25px;
+
+    width:360px;
+    max-width:calc(100vw - 30px);
+
+    background:#FFFFFF;
+
+    border-radius:14px;
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.18);
+
+    border:1px solid #E5E7EB;
+
+    z-index:10000;
+
+    display:none;
+
+    overflow:hidden;
+}
+
+.notification-panel.show{
+    display:block;
+}
+
+
+/* HEADER */
+
+.notification-panel-header{
+    display:flex;
+
+    align-items:center;
+    justify-content:space-between;
+
+    padding:16px 18px;
+
+    border-bottom:1px solid #E5E7EB;
+
+    background:#FFFFFF;
+}
+
+.notification-panel-title{
+    display:flex;
+
+    align-items:center;
+
+    gap:9px;
+
+    color:#1B5E20;
+
+    font-size:17px;
+    font-weight:700;
+}
+
+.notification-panel-title i{
+    color:#43A047;
+}
+
+.notification-clear-btn{
+    border:none;
+
+    background:transparent;
+
+    color:#78909C;
+
+    font-size:12px;
+    font-weight:600;
+
+    cursor:pointer;
+
+    padding:5px 7px;
+
+    border-radius:6px;
+}
+
+.notification-clear-btn:hover{
+    background:#F1F8E9;
+    color:#1B5E20;
+}
+
+
+/* CONTENT */
+
+.notification-panel-body{
+    max-height:420px;
+
+    overflow-y:auto;
+}
+
+.notification-empty{
+    padding:38px 20px;
+
+    text-align:center;
+
+    color:#90A4AE;
+
+    font-size:14px;
+}
+
+.notification-empty i{
+    display:block;
+
+    margin-bottom:10px;
+
+    font-size:32px;
+
+    color:#B0BEC5;
+}
+
+
+/* ITEM */
+
+.notification-item{
+    display:flex;
+
+    gap:12px;
+
+    padding:14px 18px;
+
+    border-bottom:1px solid #F0F2F3;
+
+    cursor:pointer;
+
+    transition:background .2s ease;
+}
+
+.notification-item:hover{
+    background:#F8FBF9;
+}
+
+.notification-item:last-child{
+    border-bottom:none;
+}
+
+.notification-item-icon{
+    width:36px;
+    height:36px;
+
+    min-width:36px;
+
+    border-radius:50%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:15px;
+}
+
+.notification-item-content{
+    min-width:0;
+    flex:1;
+}
+
+.notification-item-title{
+    color:#263238;
+
+    font-size:14px;
+    font-weight:700;
+
+    margin-bottom:4px;
+}
+
+.notification-item-message{
+    color:#78909C;
+
+    font-size:12px;
+
+    line-height:1.4;
+}
+
+.notification-item-time{
+    color:#A0ADB4;
+
+    font-size:10px;
+
+    margin-top:5px;
+}
+
+
+/* WARNING */
+
+.notification-item.warning .notification-item-icon{
+    background:#FFF3E0;
+    color:#EF6C00;
+}
+
+
+/* DANGER */
+
+.notification-item.danger .notification-item-icon{
+    background:#FFEBEE;
+    color:#E53935;
+}
+
+
+/* SUCCESS */
+
+.notification-item.success
+.notification-item-icon{
+    background:#E8F5E9;
+    color:#43A047;
+}
+
+
+/* MOBILE */
+
+@media (max-width:600px){
+
+    .notification-panel{
+        top:65px;
+
+        right:15px;
+        left:15px;
+
+        width:auto;
+
+        max-width:none;
+    }
+
+}
+
 .top-divider{
     width:1px;
 
@@ -6052,7 +6320,7 @@ body.dark-theme .history-stat strong {
         </div>
 
         <!-- CONTROLLER STATUS -->
-        <div id="controllerStatus" class="system-status offline">
+                <div id="controllerStatus" class="system-status offline">
 
             <span id="statusDot" class="status-dot"></span>
 
@@ -6063,6 +6331,55 @@ body.dark-theme .history-stat strong {
         </div>
 
     </div>
+
+
+    <!-- =========================================
+         NOTIFICATION PANEL
+         ========================================= -->
+
+    <div
+        id="notificationPanel"
+        class="notification-panel">
+
+        <div class="notification-panel-header">
+
+            <div class="notification-panel-title">
+                <i class="fa-solid fa-bell"></i>
+                <span>Notifications</span>
+            </div>
+
+            <button
+                type="button"
+                class="notification-clear-btn"
+                onclick="clearNotifications()">
+
+                Clear All
+
+            </button>
+
+        </div>
+
+
+        <div
+            id="notificationPanelBody"
+            class="notification-panel-body">
+
+            <div
+                id="notificationEmpty"
+                class="notification-empty">
+
+                <i class="fa-regular fa-bell-slash"></i>
+
+                <div>
+                    Tidak ada notifikasi
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
 
 </div>
 
@@ -7488,9 +7805,10 @@ body.dark-theme .history-stat strong {
                 <label class="setting-switch">
 
                     <input
-                        type="checkbox"
-                        id="settingCompact"
-                        checked>
+    type="checkbox"
+    id="settingBrowserNotification"
+    checked
+    onchange="handleBrowserNotificationSetting(this)">
 
                     <span></span>
 
@@ -9215,6 +9533,12 @@ if (
     lastControllerMessage = Date.now();
 
     setControllerStatus(true);
+
+    addOfflineNotification(
+        "controller",
+        "Controller",
+        false
+  );
 }
 
     // ===================== SENSOR DATA =====================
@@ -9270,6 +9594,12 @@ if (data.water_temp !== undefined) {
 
         sensorLastMessage.waterTemp = Date.now();
 
+        addOfflineNotification(
+            "waterTemp",
+            "Suhu Air",
+            false
+        );
+
         document.getElementById("waterTemp").textContent =
             value.toFixed(2) + "°C";
 
@@ -9286,6 +9616,15 @@ if (data.water_temp !== undefined) {
 setSingleSensorStatus(
     "sensorStatusWaterTemp",
     sensorStatus
+);
+
+addSensorNotification(
+    "waterTemp",
+    "Suhu Air",
+    value,
+    Number(document.getElementById("thresholdWaterTempMin")?.value),
+    Number(document.getElementById("thresholdWaterTempMax")?.value),
+    "°C"
 );
 
     } else {
@@ -9305,6 +9644,12 @@ if (data.env_temp !== undefined) {
 
         sensorLastMessage.airTemp = Date.now();
 
+        addOfflineNotification(
+            "airTemp",
+            "Suhu Udara",
+            false
+        );
+
         document.getElementById("airTemp").textContent =
             Math.round(value) + "°C";
 
@@ -9321,6 +9666,15 @@ if (data.env_temp !== undefined) {
 setSingleSensorStatus(
     "sensorStatusAirTemp",
     sensorStatus
+);
+
+addSensorNotification(
+    "airTemp",
+    "Suhu Udara",
+    value,
+    Number(document.getElementById("thresholdAirTempMin")?.value),
+    Number(document.getElementById("thresholdAirTempMax")?.value),
+    "°C"
 );
 
     } else {
@@ -9341,6 +9695,12 @@ if (data.humidity !== undefined) {
 
         sensorLastMessage.humidity = Date.now();
 
+        addOfflineNotification(
+            "humidity",
+            "Humidity",
+            false
+        );
+
         document.getElementById("humidity").textContent =
             value.toFixed(0) + "%";
 
@@ -9354,6 +9714,15 @@ if (data.humidity !== undefined) {
 setSingleSensorStatus(
     "sensorStatusHumidity",
     sensorStatus
+);
+
+addSensorNotification(
+    "humidity",
+    "Humidity",
+    value,
+    Number(document.getElementById("thresholdHumidityMin")?.value),
+    Number(document.getElementById("thresholdHumidityMax")?.value),
+    "%"
 );
 
     } else {
@@ -9373,6 +9742,12 @@ if (data.ph !== undefined) {
 
         sensorLastMessage.ph = Date.now();
 
+        addOfflineNotification(
+            "ph",
+            "pH",
+            false
+        );
+
         document.getElementById("ph").textContent =
             value.toFixed(2);
 
@@ -9389,6 +9764,15 @@ if (data.ph !== undefined) {
 setSingleSensorStatus(
     "sensorStatusPH",
     sensorStatus
+);
+
+addSensorNotification(
+    "ph",
+    "pH",
+    value,
+    Number(document.getElementById("thresholdPhMin")?.value),
+    Number(document.getElementById("thresholdPhMax")?.value),
+    ""
 );
 
     } else {
@@ -9409,6 +9793,12 @@ if (data.tds !== undefined) {
 
         sensorLastMessage.tds = Date.now();
 
+        addOfflineNotification(
+            "tds",
+            "TDS",
+            false
+        );
+
         document.getElementById("tds").textContent =
             value.toFixed(0) + " ppm";
 
@@ -9425,6 +9815,15 @@ if (data.tds !== undefined) {
 setSingleSensorStatus(
     "sensorStatusTDS",
     sensorStatus
+);
+
+addSensorNotification(
+    "tds",
+    "TDS",
+    value,
+    Number(document.getElementById("thresholdTdsMin")?.value),
+    Number(document.getElementById("thresholdTdsMax")?.value),
+    " ppm"
 );
 
     } else {
@@ -9444,6 +9843,12 @@ if (data.tank_status !== undefined) {
     if (value !== "") {
 
         sensorLastMessage.level = Date.now();
+
+        addOfflineNotification(
+            "level",
+            "Water Level",
+            false
+        );
 
         document.getElementById("level").textContent =
             value;
@@ -9659,8 +10064,16 @@ setInterval(function() {
     const elapsed = Date.now() - lastControllerMessage;
 
     if (elapsed > CONTROLLER_TIMEOUT) {
-        setControllerStatus(false);
-    }
+
+    setControllerStatus(false);
+
+    addOfflineNotification(
+        "controller",
+        "Controller",
+        true
+    );
+
+}
 
 }, 1000);
 
@@ -9676,6 +10089,12 @@ setInterval(function() {
             "sensorStatusWaterTemp",
             false
         );
+
+        addOfflineNotification(
+           "waterTemp",
+            "Suhu Air",
+            true
+);
     }
 
     if (
@@ -9685,6 +10104,12 @@ setInterval(function() {
         setSingleSensorStatus(
             "sensorStatusAirTemp",
             false
+        );
+
+        addOfflineNotification(
+            "airTemp",
+            "Suhu Udara",
+            true
         );
     }
 
@@ -9696,6 +10121,12 @@ setInterval(function() {
             "sensorStatusHumidity",
             false
         );
+
+        addOfflineNotification(
+            "humidity",
+            "Humidity",
+            true
+        );
     }
 
     if (
@@ -9706,6 +10137,13 @@ setInterval(function() {
             "sensorStatusPH",
             false
         );
+
+        addOfflineNotification(
+            "ph",
+            "pH",
+            true
+        );
+
     }
 
     if (
@@ -9716,6 +10154,11 @@ setInterval(function() {
             "sensorStatusTDS",
             false
         );
+        addOfflineNotification(
+            "tds",
+            "TDS",
+            true
+        );
     }
 
     if (
@@ -9725,6 +10168,11 @@ setInterval(function() {
         setSingleSensorStatus(
             "sensorStatusLevel",
             false
+        );
+        addOfflineNotification(
+            "level",
+            "Water Level",
+            true
         );
     }
 
@@ -10725,6 +11173,71 @@ function applyLanguage() {
 
 }
 
+async function handleBrowserNotificationSetting(
+    checkbox
+) {
+
+    if (!checkbox.checked) {
+        return;
+    }
+
+    if (
+        !("Notification" in window)
+    ) {
+        alert(
+            "Browser Anda tidak mendukung Browser Notification."
+        );
+
+        checkbox.checked = false;
+
+        return;
+    }
+
+    if (
+        Notification.permission === "granted"
+    ) {
+        return;
+    }
+
+    if (
+        Notification.permission === "denied"
+    ) {
+        alert(
+            "Izin Browser Notification sebelumnya ditolak. Silakan aktifkan izin notifikasi dari pengaturan browser."
+        );
+
+        checkbox.checked = false;
+
+        return;
+    }
+
+    try {
+
+        const permission =
+            await Notification.requestPermission();
+
+        if (
+            permission !== "granted"
+        ) {
+
+            checkbox.checked = false;
+
+            alert(
+                "Izin Browser Notification belum diberikan."
+            );
+        }
+
+    } catch (error) {
+
+        console.warn(
+            "[NOTIFICATION] Permission gagal:",
+            error
+        );
+
+        checkbox.checked = false;
+    }
+}
+
 function saveSettings() {
 
     if (localStorage.getItem("role") !== "admin") {
@@ -11351,6 +11864,472 @@ function applyControlRole() {
     }
 
 }
+
+// =========================================================
+// AUTOMATIC SENSOR NOTIFICATION
+// =========================================================
+
+const notificationStates = {
+    ph: "normal",
+    tds: "normal",
+    waterTemp: "normal",
+    airTemp: "normal",
+    humidity: "normal"
+};
+
+const offlineNotificationStates = {
+    controller: "online",
+    waterTemp: "online",
+    airTemp: "online",
+    humidity: "online",
+    ph: "online",
+    tds: "online",
+    level: "online"
+};
+
+let notificationCount = 0;
+
+let notificationAudioContext = null;
+
+function showBrowserNotification(
+    title,
+    message
+) {
+
+    const notificationSetting =
+        document.getElementById(
+            "settingNotification"
+        );
+
+    const browserSetting =
+        document.getElementById(
+            "settingBrowserNotification"
+        );
+
+    if (
+        !notificationSetting ||
+        !notificationSetting.checked
+    ) {
+        return;
+    }
+
+    if (
+        !browserSetting ||
+        !browserSetting.checked
+    ) {
+        return;
+    }
+
+    if (
+        !("Notification" in window)
+    ) {
+        console.warn(
+            "[NOTIFICATION] Browser tidak mendukung Notification API."
+        );
+        return;
+    }
+
+    if (
+        Notification.permission !== "granted"
+    ) {
+        return;
+    }
+
+    try {
+
+        new Notification(
+            title,
+            {
+                body: message,
+                icon: "/favicon.ico"
+            }
+        );
+
+    } catch (error) {
+
+        console.warn(
+            "[NOTIFICATION] Browser notification gagal:",
+            error
+        );
+
+    }
+}
+
+function playNotificationSound() {
+
+    const soundSetting =
+        document.getElementById(
+            "settingSound"
+        );
+
+    if (
+        !soundSetting ||
+        !soundSetting.checked
+    ) {
+        return;
+    }
+
+    try {
+
+        const AudioContext =
+            window.AudioContext ||
+            window.webkitAudioContext;
+
+        if (!AudioContext) {
+            return;
+        }
+
+        if (!notificationAudioContext) {
+            notificationAudioContext =
+                new AudioContext();
+        }
+
+        if (
+            notificationAudioContext.state ===
+            "suspended"
+        ) {
+            notificationAudioContext.resume();
+        }
+
+        const oscillator =
+            notificationAudioContext.createOscillator();
+
+        const gainNode =
+            notificationAudioContext.createGain();
+
+        oscillator.type = "sine";
+
+        oscillator.frequency.value = 880;
+
+        gainNode.gain.setValueAtTime(
+            0.0001,
+            notificationAudioContext.currentTime
+        );
+
+        gainNode.gain.exponentialRampToValueAtTime(
+            0.15,
+            notificationAudioContext.currentTime + 0.01
+        );
+
+        gainNode.gain.exponentialRampToValueAtTime(
+            0.0001,
+            notificationAudioContext.currentTime + 0.25
+        );
+
+        oscillator.connect(gainNode);
+
+        gainNode.connect(
+            notificationAudioContext.destination
+        );
+
+        oscillator.start();
+
+        oscillator.stop(
+            notificationAudioContext.currentTime +
+            0.25
+        );
+
+    } catch (error) {
+
+        console.warn(
+            "[NOTIFICATION] Sound gagal:",
+            error
+        );
+
+    }
+}
+
+function addOfflineNotification(
+    sensorKey,
+    sensorName,
+    isOffline
+) {
+
+    const previousState =
+        offlineNotificationStates[sensorKey];
+
+    const currentState =
+        isOffline
+            ? "offline"
+            : "online";
+
+    offlineNotificationStates[sensorKey] =
+        currentState;
+
+    // Hanya membuat notifikasi
+    // ketika berubah dari ONLINE menjadi OFFLINE
+    if (
+        currentState !== "offline" ||
+        previousState === "offline"
+    ) {
+        return;
+    }
+
+    addNotificationItem(
+        "danger",
+        sensorName + " Offline",
+        sensorName +
+        " tidak mengirimkan data selama lebih dari " +
+        (SENSOR_TIMEOUT / 1000) +
+        " detik."
+    );
+}
+
+function addSensorNotification(
+    sensorKey,
+    sensorName,
+    value,
+    min,
+    max,
+    unit
+) {
+
+    const currentState =
+        value < min || value > max
+            ? "warning"
+            : "normal";
+
+    const previousState =
+        notificationStates[sensorKey];
+
+    notificationStates[sensorKey] =
+        currentState;
+
+
+    // Hanya membuat notifikasi ketika
+    // sensor berubah dari NORMAL menjadi WARNING
+    if (
+        currentState !== "warning" ||
+        previousState === "warning"
+    ) {
+        return;
+    }
+
+
+    addNotificationItem(
+        "warning",
+        sensorName + " Tidak Normal",
+        "Nilai " +
+        sensorName +
+        " " +
+        value +
+        unit +
+        " berada di luar batas " +
+        min +
+        "–" +
+        max +
+        unit
+    );
+}
+
+
+function addNotificationItem(
+    type,
+    title,
+    message
+) {
+
+    const notificationSetting =
+        document.getElementById(
+            "settingNotification"
+        );
+
+    if (
+        notificationSetting &&
+        !notificationSetting.checked
+    ) {
+        return;
+    }
+
+    const body =
+        document.getElementById(
+            "notificationPanelBody"
+        );
+
+    const badge =
+        document.getElementById(
+            "notificationBadge"
+        );
+
+    const empty =
+        document.getElementById(
+            "notificationEmpty"
+        );
+
+
+    if (!body) {
+        return;
+    }
+
+
+    if (empty) {
+        empty.remove();
+    }
+
+
+    notificationCount++;
+
+
+    const item =
+        document.createElement("div");
+
+    item.className =
+        "notification-item " + type;
+
+
+    item.innerHTML = `
+
+        <div class="notification-item-icon">
+
+            <i class="fa-solid fa-triangle-exclamation"></i>
+
+        </div>
+
+
+        <div class="notification-item-content">
+
+            <div class="notification-item-title">
+                ${title}
+            </div>
+
+            <div class="notification-item-message">
+                ${message}
+            </div>
+
+            <div class="notification-item-time">
+                Baru saja
+            </div>
+
+        </div>
+
+    `;
+
+
+    body.prepend(item);
+
+    playNotificationSound();
+
+    showBrowserNotification(
+        title,
+        message
+    );
+
+    // Batasi jumlah notification
+    // agar panel tidak terlalu panjang
+    while (
+        body.querySelectorAll(
+            ".notification-item"
+        ).length > 20
+    ) {
+
+        const items =
+            body.querySelectorAll(
+                ".notification-item"
+            );
+
+        items[items.length - 1].remove();
+    }
+
+
+    if (badge) {
+
+        badge.textContent =
+            notificationCount > 99
+                ? "99+"
+                : notificationCount;
+
+    }
+}
+
+// =========================================================
+// NOTIFICATION PANEL
+// =========================================================
+
+function toggleNotificationPanel() {
+
+    const panel =
+        document.getElementById("notificationPanel");
+
+    if (!panel) {
+        console.warn(
+            "[NOTIFICATION] Panel tidak ditemukan."
+        );
+        return;
+    }
+
+    panel.classList.toggle("show");
+}
+
+
+// =========================================================
+// CLEAR ALL NOTIFICATIONS
+// =========================================================
+
+function clearNotifications() {
+
+    const body =
+        document.getElementById("notificationPanelBody");
+
+    const badge =
+        document.getElementById("notificationBadge");
+
+    if (!body) return;
+
+
+    body.innerHTML = `
+        <div
+            id="notificationEmpty"
+            class="notification-empty">
+
+            <i class="fa-regular fa-bell-slash"></i>
+
+            <div>
+                Tidak ada notifikasi
+            </div>
+
+        </div>
+    `;
+
+
+    if (badge) {
+        badge.textContent = "0";
+    }
+    notificationCount = 0;
+}
+
+
+// =========================================================
+// CLOSE NOTIFICATION WHEN CLICKING OUTSIDE
+// =========================================================
+
+document.addEventListener(
+    "click",
+    function(event) {
+
+        const panel =
+            document.getElementById(
+                "notificationPanel"
+            );
+
+        const notificationButton =
+            event.target.closest(
+                '.top-action-btn[aria-label="Notifikasi"]'
+            );
+
+        if (!panel) return;
+
+        if (
+            panel.classList.contains("show") &&
+            !panel.contains(event.target) &&
+            !notificationButton
+        ) {
+
+            panel.classList.remove("show");
+
+        }
+
+    }
+);
 
 function initDashboard() {
 
