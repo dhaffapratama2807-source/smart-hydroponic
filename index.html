@@ -8602,9 +8602,9 @@ function initRealtimeCharts() {
                                 size: 10
                             },
 
-                            maxTicksLimit: 6,
+                            maxTicksLimit: 100,
 
-                            autoSkip: true
+                            autoSkip: false,
                         }
                     },
 
@@ -8713,7 +8713,7 @@ function initRealtimeCharts() {
     "rgba(216, 155, 0, 0.16)"
 );
 
-// Ambil 20 titik terakhir dari VPS
+// Ambil seluruh data realtime dari VPS
 loadRealtimeGraphData();
 
 }
@@ -8723,6 +8723,7 @@ loadRealtimeGraphData();
 // =======================================================
 
 const GRAPH_INTERVAL = 10 * 60 * 1000; // 10 menit
+const MAX_REALTIME_POINTS = 10;
 let lastGraphUpdate = 0;
 
 // =======================================================
@@ -8758,9 +8759,8 @@ async function loadRealtimeGraphData() {
             );
         }
 
-        // Ambil maksimal 20 data terakhir
-        const data = result.data
-            .slice(-20);
+        // Ambil 10 data realtime terbaru dari VPS
+        const data = result.data.slice(-10);
 
         if (data.length === 0) {
 
@@ -9026,31 +9026,36 @@ if (data.tds !== undefined && chartTDS) {
         value.toFixed(0) + ' <span>ppm</span>';
 }
 
+// =======================================================
+// BATASI REALTIME GRAPH MENJADI 10 TITIK TERBARU
+// =======================================================
+
+[
+    chartWaterTemp,
+    chartAirTemp,
+    chartHumidity,
+    chartPH,
+    chartTDS
+].forEach(function(chart) {
+
+    if (!chart) return;
+
+    while (
+        chart.data.labels.length >
+        MAX_REALTIME_POINTS
+    ) {
+        chart.data.labels.shift();
+
+        chart.data.datasets.forEach(function(dataset) {
+            dataset.data.shift();
+        });
+    }
+});
+
 if (shouldUpdateGraph) {
 
     lastGraphUpdate = nowMs;
 }
-
-    // Batasi jumlah titik yang tampil
-    const maxPoints = 20;
-
-    [
-        chartWaterTemp,
-        chartAirTemp,
-        chartHumidity,
-        chartPH,
-        chartTDS
-    ].forEach(chart => {
-
-        if (!chart) return;
-
-        while (chart.data.labels.length > maxPoints) {
-            chart.data.labels.shift();
-            chart.data.datasets[0].data.shift();
-        }
-
-        chart.update("none");
-    });
 
     // =======================================================
 // HITUNG MIN / MAKS / RATA-RATA
