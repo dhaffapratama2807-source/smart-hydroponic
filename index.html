@@ -717,12 +717,6 @@ section{
     font-size:24px;
 }
 
-.level-icon{
-    background:#E3F2FD;
-    color:#2196F3;
-    font-size:34px;
-}
-
 .sensor-content{
     min-width:0;
     flex:1;
@@ -1123,11 +1117,6 @@ section{
     font-size:20px;
 }
 
-.professional-sensor-icon.level-icon{
-    background:#E3F2FD;
-    color:#2196F3;
-}
-
 
 /* INFORMASI SENSOR */
 
@@ -1286,10 +1275,6 @@ section{
 
 .tds-chart{
     color:#D89B00;
-}
-
-.level-chart{
-    color:#2196F3;
 }
 
 
@@ -6055,7 +6040,7 @@ body.dark-theme .history-stat strong {
         <h1>Smart Hydroponics Monitoring</h1>
         <p>
             Sistem monitoring hidroponik berbasis IoT untuk memantau suhu,
-            kelembapan, pH air, TDS, water level, serta mengontrol pompa
+            kelembapan, pH air, TDS, serta mengontrol pompa
             nutrisi secara real-time.
         </p>
         <div class="buttons">
@@ -6078,7 +6063,6 @@ body.dark-theme .history-stat strong {
         <div class="card"><h3>💧 Kelembapan</h3><p>Menampilkan kelembapan udara secara real-time.</p></div>
         <div class="card"><h3>🧪 pH Air</h3><p>Mengukur tingkat keasaman air untuk menjaga kondisi tanaman.</p></div>
         <div class="card"><h3>⚡ TDS</h3><p>Monitoring kadar nutrisi menggunakan sensor TDS.</p></div>
-        <div class="card"><h3>🚰 Water Level</h3><p>Monitoring tinggi air pada reservoir hidroponik.</p></div>
     </div>
 </section>
 
@@ -6108,7 +6092,7 @@ body.dark-theme .history-stat strong {
         Smart Hydroponic Monitoring System merupakan aplikasi berbasis web
         yang digunakan untuk memonitor kondisi tanaman hidroponik secara
         real-time menggunakan sensor IoT seperti DHT22, DS18B20,
-        Sensor pH, TDS, Water Level Float serta kontrol pompa otomatis.
+        Sensor pH, TDS, serta kontrol pompa otomatis.
     </p>
 </section>
 
@@ -6633,23 +6617,10 @@ body.dark-theme .history-stat strong {
     </svg>
 </div>
 
-        </div>
-
-            <div class="sensor-mini-chart level-chart">
-    <svg viewBox="0 0 120 45" preserveAspectRatio="none">
-        <polyline
-            points="0,29 12,17 24,25 36,18 48,26 60,20 72,27 84,16 96,23 108,18 120,24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"/>
-    </svg>
 </div>
 
 </div>
 
-</div>
 
         <section class="dashboard-section pump-section">
 
@@ -7982,33 +7953,6 @@ body.dark-theme .history-stat strong {
 
             </div>
 
-
-            <div class="threshold-card">
-
-                <div class="threshold-header">
-                    <strong>Water Level</strong>
-
-                    <span>
-                        <i class="fa-solid fa-water"></i>
-                    </span>
-                </div>
-
-                <div class="threshold-inputs">
-
-                    <label>
-                        Minimum
-                        <input
-                            id="thresholdWaterLevelMin"
-                            type="number"
-                            value="20">
-                    </label>
-
-                </div>
-
-            </div>
-
-        </div>
-
     </section>
 
 
@@ -8336,10 +8280,8 @@ const sensorLastMessage = {
     airTemp: 0,
     humidity: 0,
     ph: 0,
-    tds: 0,
-    level: 0
+    tds: 0
 };
-
 // =========================================
 // UPDATE STATUS CONTROLLER
 // =========================================
@@ -9811,38 +9753,6 @@ addSensorNotification(
     }
 }
 
-// WATER FLOAT
-if (data.tank_status !== undefined) {
-
-    const value = String(data.tank_status).trim();
-
-    if (value !== "") {
-
-        sensorLastMessage.level = Date.now();
-
-        addOfflineNotification(
-            "level",
-            "Water Level",
-            false
-        );
-
-        document.getElementById("level").textContent =
-            value;
-
-        setSingleSensorStatus(
-    "sensorStatusLevel",
-    "true"
-);
-
-    } else {
-
-        setSingleSensorStatus(
-            "sensorStatusLevel",
-            "offline"
-        );
-    }
-}
-
         } catch (error) {
 
             console.error("[MQTT] JSON Parse Error:", error);
@@ -10137,20 +10047,6 @@ setInterval(function() {
         );
     }
 
-    if (
-        sensorLastMessage.level !== 0 &&
-        now - sensorLastMessage.level > SENSOR_TIMEOUT
-    ) {
-        setSingleSensorStatus(
-            "sensorStatusLevel",
-            false
-        );
-        addOfflineNotification(
-            "level",
-            "Water Level",
-            true
-        );
-    }
 
 }, 1000);
 
@@ -11253,8 +11149,6 @@ function saveSettings() {
         humidityMin: document.getElementById("thresholdHumidityMin")?.value || "50",
         humidityMax: document.getElementById("thresholdHumidityMax")?.value || "90",
 
-        // Water Level
-        waterLevelMin: document.getElementById("thresholdWaterLevelMin")?.value || "20"
     };
 
     localStorage.setItem(
@@ -11419,16 +11313,6 @@ function loadSettings() {
         "90"
     );
 
-
-    // =========================
-    // WATER LEVEL
-    // =========================
-
-    setSettingValue(
-        "thresholdWaterLevelMin",
-        settings.waterLevelMin,
-        "20"
-    );
 }
 
 function resetSettings() {
@@ -11465,8 +11349,6 @@ function resetSettings() {
         humidityMin: "50",
         humidityMax: "90",
 
-        // Water Level
-        waterLevelMin: "20"
     };
 
     const confirmReset = confirm(
@@ -11859,8 +11741,7 @@ const offlineNotificationStates = {
     airTemp: "online",
     humidity: "online",
     ph: "online",
-    tds: "online",
-    level: "online"
+    tds: "online"
 };
 
 let notificationCount = 0;
@@ -12374,7 +12255,6 @@ function initDashboard() {
     document.getElementById("humidity").innerHTML = "0%";
     document.getElementById("ph").innerHTML = "0";
     document.getElementById("tds").innerHTML = "0 ppm";
-    document.getElementById("level").innerHTML = "-";
 
     updatePumpStatus("pumpA", false);
     updatePumpStatus("pumpB", false);
