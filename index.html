@@ -6619,6 +6619,41 @@ body.dark-theme .history-stat strong {
 
 </div>
 
+<!-- WATER FLOAT -->
+<div class="professional-sensor-card" id="waterFloatCard">
+
+    <div class="professional-sensor-icon water-icon">
+        🌊
+    </div>
+
+    <div class="professional-sensor-info">
+        <h3>Water Float</h3>
+        <strong id="waterFloatValue">UNKNOWN</strong>
+        <span>Water Level Switch</span>
+    </div>
+
+    <div class="professional-sensor-status">
+        <b id="waterFloatBadge">UNKNOWN</b>
+        <span id="sensorStatusWaterFloat"
+              class="sensor-online-status">
+            ● Offline
+        </span>
+    </div>
+
+    <div class="sensor-mini-chart water-chart">
+        <svg viewBox="0 0 120 45" preserveAspectRatio="none">
+            <polyline
+                points="0,30 12,18 24,22 36,16 48,25 60,20 72,27 84,15 96,22 108,17 120,24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"/>
+        </svg>
+    </div>
+
+</div>
+
 </div>
 
 
@@ -8281,6 +8316,7 @@ const sensorLastMessage = {
     humidity: 0,
     ph: 0,
     tds: 0
+    waterFloat: 0,
 };
 // =========================================
 // UPDATE STATUS CONTROLLER
@@ -8435,6 +8471,65 @@ function setSingleSensorStatus(sensorId, status) {
         }
     }
 }
+
+function updateWaterFloatStatus(status) {
+
+    const valueElement =
+        document.getElementById("waterFloatValue");
+
+    const badgeElement =
+        document.getElementById("waterFloatBadge");
+
+    const onlineElement =
+        document.getElementById("sensorStatusWaterFloat");
+
+    const card =
+        document.getElementById("waterFloatCard");
+
+    if (!valueElement || !badgeElement ||
+        !onlineElement || !card) return;
+
+    card.classList.remove(
+        "sensor-card-active",
+        "sensor-card-warning",
+        "sensor-card-offline"
+    );
+
+    onlineElement.classList.remove(
+        "sensor-online",
+        "sensor-warning",
+        "sensor-offline"
+    );
+
+    if (status === "SAFE") {
+
+        valueElement.textContent = "SAFE";
+        badgeElement.textContent = "SAFE";
+        onlineElement.textContent = "● Active";
+
+        onlineElement.classList.add("sensor-online");
+        card.classList.add("sensor-card-active");
+
+    } else if (status === "UNSAFE") {
+
+        valueElement.textContent = "UNSAFE";
+        badgeElement.textContent = "UNSAFE";
+        onlineElement.textContent = "● Active";
+
+        onlineElement.classList.add("sensor-warning");
+        card.classList.add("sensor-card-warning");
+
+    } else {
+
+        valueElement.textContent = "UNKNOWN";
+        badgeElement.textContent = "OFFLINE";
+        onlineElement.textContent = "● Offline";
+
+        onlineElement.classList.add("sensor-offline");
+        card.classList.add("sensor-card-offline");
+    }
+}
+
 
 function getSensorRangeStatus(value, minId, maxId) {
 
@@ -9753,6 +9848,31 @@ addSensorNotification(
     }
 }
 
+// WATER FLOAT
+if (data.tank_status !== undefined) {
+
+    const status = String(data.tank_status)
+        .trim()
+        .toUpperCase();
+
+    if (status === "AMAN" || status === "TIDAK AMAN") {
+
+        sensorLastMessage.waterFloat = Date.now();
+
+        updateWaterFloatStatus(status);
+
+        console.log(
+            "[WATER FLOAT] Status:",
+            status
+        );
+
+    } else {
+
+        updateWaterFloatStatus("UNKNOWN");
+
+    }
+}
+
         } catch (error) {
 
             console.error("[MQTT] JSON Parse Error:", error);
@@ -10046,6 +10166,22 @@ setInterval(function() {
             true
         );
     }
+
+    // WATER FLOAT CONNECTION TIMEOUT
+if (
+    sensorLastMessage.waterFloat !== 0 &&
+    now - sensorLastMessage.waterFloat > SENSOR_TIMEOUT
+) {
+
+    updateWaterFloatStatus("OFFLINE");
+
+    addOfflineNotification(
+        "waterFloat",
+        "Water Float",
+        true
+    );
+
+}
 
 
 }, 1000);
