@@ -8308,7 +8308,7 @@ let lastControllerMessage = 0;
 let controllerOnline = false;
 const CONTROLLER_TIMEOUT = 10000;
 
-const SENSOR_TIMEOUT = 10000;
+const SENSOR_TIMEOUT = 20000;
 
 const sensorLastMessage = {
     waterTemp: 0,
@@ -9851,27 +9851,56 @@ addSensorNotification(
 // WATER FLOAT
 if (data.tank_status !== undefined) {
 
-    const status = String(data.tank_status)
+    const rawStatus = String(data.tank_status)
         .trim()
         .toUpperCase();
 
-    if (status === "AMAN" || status === "TIDAK AMAN") {
+    let status = "UNKNOWN";
+
+    if (rawStatus === "AMAN" || rawStatus === "SAFE") {
+
+        status = "SAFE";
+
+    } else if (
+        rawStatus === "TIDAK AMAN" ||
+        rawStatus === "TIDAK_AMAN" ||
+        rawStatus === "UNSAFE"
+    ) {
+
+        status = "UNSAFE";
+
+    }
+
+    if (status !== "UNKNOWN") {
 
         sensorLastMessage.waterFloat = Date.now();
+
+        addOfflineNotification(
+            "waterFloat",
+            "Water Float",
+            false
+        );
 
         updateWaterFloatStatus(status);
 
         console.log(
-            "[WATER FLOAT] Status:",
+            "[WATER FLOAT] Data diterima:",
+            rawStatus,
+            "| Dashboard:",
             status
         );
 
     } else {
 
-        updateWaterFloatStatus("UNKNOWN");
+        console.warn(
+            "[WATER FLOAT] Status tidak dikenali:",
+            rawStatus
+        );
 
+        updateWaterFloatStatus("UNKNOWN");
     }
 }
+
 
         } catch (error) {
 
@@ -11877,7 +11906,8 @@ const offlineNotificationStates = {
     airTemp: "online",
     humidity: "online",
     ph: "online",
-    tds: "online"
+    tds: "online",
+    waterFloat: "online"
 };
 
 let notificationCount = 0;
