@@ -9311,7 +9311,7 @@ const shouldUpdateGraph =
 }
 
     document.getElementById("graphAirTempValue").innerHTML =
-        value.toFixed(0) + ' <span>°C</span>';
+        value.toFixed(1) + ' <span>°C</span>';
 }
 
     // KELEMBAPAN
@@ -9664,10 +9664,10 @@ if (data.env_temp !== undefined) {
         );
 
         document.getElementById("airTemp").textContent =
-            Math.round(value) + "°C";
+            value.toFixed(1) + "°C";
 
         document.getElementById("overviewAirTemp").textContent =
-            Math.round(value) + "°C";
+            value.toFixed(1) + "°C";
 
         const sensorStatus =
     getSensorRangeStatus(
