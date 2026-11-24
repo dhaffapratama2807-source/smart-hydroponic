@@ -6408,7 +6408,7 @@ body.dark-theme .history-stat strong {
         <div class="overview-content">
             <span>PPM</span>
             <strong id="overviewTDS">0 ppm</strong>
-            <small>NORMAL</small>
+            <small id="overviewTDSStatus">NORMAL</small>
         </div>
     </div>
 
@@ -6420,7 +6420,7 @@ body.dark-theme .history-stat strong {
         <div class="overview-content">
             <span>pH</span>
             <strong id="overviewPH">0</strong>
-            <small>NORMAL</small>
+            <small id="overviewPHStatus">NORMAL</small>
         </div>
     </div>
 
@@ -6482,7 +6482,7 @@ body.dark-theme .history-stat strong {
             <div class="professional-sensor-info">
                 <h3>Suhu Udara</h3>
                 <strong id="airTemp">0°C</strong>
-                <span>DHT11</span>
+                <span>DHT22</span>
             </div>
 
             <div class="professional-sensor-status">
@@ -6519,7 +6519,7 @@ body.dark-theme .history-stat strong {
             <div class="professional-sensor-info">
                 <h3>Kelembapan</h3>
                 <strong id="humidity">0%</strong>
-                <span>DHT11</span>
+                <span>DHT22</span>
             </div>
 
             <div class="professional-sensor-status">
@@ -9800,6 +9800,15 @@ setSingleSensorStatus(
     sensorStatus
 );
 
+// SAMAKAN STATUS SYSTEM OVERVIEW pH
+const overviewPHStatus =
+    document.getElementById("overviewPHStatus");
+
+if (overviewPHStatus) {
+    overviewPHStatus.textContent =
+        sensorStatus === "warning" ? "WARNING" : "NORMAL";
+}
+
 addSensorNotification(
     "ph",
     "pH",
@@ -9850,6 +9859,15 @@ setSingleSensorStatus(
     "sensorStatusTDS",
     sensorStatus
 );
+
+// SAMAKAN STATUS SYSTEM OVERVIEW TDS
+const overviewTDSStatus =
+    document.getElementById("overviewTDSStatus");
+
+if (overviewTDSStatus) {
+    overviewTDSStatus.textContent =
+        sensorStatus === "warning" ? "WARNING" : "NORMAL";
+}
 
 addSensorNotification(
     "tds",
